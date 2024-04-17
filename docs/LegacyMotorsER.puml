@@ -1,0 +1,149 @@
+@startuml LegacyMotorsModel_ER
+
+entity "Customer" {
+  + customer_id [PK]
+  --
+  email
+  name
+  surname
+  phone
+  address
+  dni
+  login_id [FK]
+}
+
+entity "Employee" {
+  + admin_id [PK]
+  --
+  name
+  surname
+  login_id [FK]
+}
+
+entity "Provider" {
+  + provider_id [PK]
+  --
+  name
+  email
+  dni
+  cif
+  address
+}
+
+entity "Login" {
+  + login_id [PK]
+  --
+  username
+  password
+  role
+}
+
+entity "Vehicle" {
+  + vehicle_id [PK]
+  --
+  plate
+  fuel
+  color
+  price_per_day
+  available
+  doors
+  capacity
+  transmission
+  brand_id [FK]
+  provider_id [FK]
+  type_id [FK]
+}
+
+entity "Brand" {
+  + brand_id [PK]
+  --
+  name
+}
+
+entity "Model" {
+  + model_id [PK]
+  --
+  name
+  description
+  year
+  brand_id [FK]
+}
+
+entity "Reservation" {
+  + reservation_id [PK]
+  --
+  start_date
+  end_date
+  total_price
+  status
+  customer_id [FK]
+  payment_id [FK]
+}
+
+entity "Payment_Details" {
+  + payment_id [PK]
+  --
+  payment_method
+  card_number
+  expiry_date
+  cvv
+}
+
+entity "Review" {
+  + review_id [PK]
+  --
+  rating
+  comment
+  date
+  reservation_id [FK]
+}
+
+entity "Vehicle_Type" {
+  + type_id [PK]
+  --
+  type_name
+  description
+  category
+}
+
+entity "Cart" {
+  + cart_id [PK]
+  --
+  quantity
+  vehicle_id [FK]
+  customer_id [FK]
+  invoice_id [FK]
+}
+
+entity "Image" {
+  + image_id [PK]
+  --
+  file_name
+  vehicle_id [FK]
+}
+
+entity "Invoice" {
+  + invoice_id [PK]
+  --
+  number
+  price
+  date
+  customer_id [FK]
+}
+
+Customer --|{ Login : "1" -- "1"
+Employee --|{ Login : "1" -- "1"
+Provider --|{ Vehicle : "1" -- "N"
+Vehicle --|{ Brand : "N" -- "1"
+Brand --|{ Model : "1" -- "N"
+Vehicle --|{ Vehicle_Type : "N" -- "1"
+Reservation }|--{ Customer : "N" -- "1"
+Reservation }|--{ Payment_Details : "1" -- "1"
+Reservation }|--{ Review : "1" -- "N"
+Cart }|--{ Customer : "1" -- "1"
+Cart }|--{ Invoice : "1" -- "1"
+Vehicle }|--{ Reservation : "1" -- "N"
+Image }|--{ Vehicle : "N" -- "1"
+Invoice }|--{ Customer : "1" -- "N"
+
+@enduml
