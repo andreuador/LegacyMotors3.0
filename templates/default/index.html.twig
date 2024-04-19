@@ -1,9 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Legacy Motors - Home{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
 
-
+    <div class="container-fluid mb-5">
+        <div class="row">
+            <div class="col-12">
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="{{ asset('images/duotone.png') }}" class="d-block w-100 img-fluid" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="{{ asset('images/duotone.png') }}" class="d-block w-100 img-fluid" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/duotone.png') }}" class="d-block w-100 img-fluid" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 text-center">
+                <img src="{{ asset('images/duotone2.png') }}" class="rounded-circle w-50 h-50 mx-auto d-block"
+                     alt="Hola">
+                <h2>Hola</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+                    vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
+                    cursus magna.</p>
+                <p>
+                    <a class="btn btn-secondary" href="#" role="button">Veure detalls</a>
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <img src="{{ asset('images/duotone2.png') }}" class="rounded-circle w-50 h-50 mx-auto d-block"
+                     alt="Hola">
+                <h2>Hola</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+                    vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
+                    cursus magna.</p>
+                <p>
+                    <a class="btn btn-secondary" href="#" role="button">Veure detalls</a>
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <img src="{{ asset('images/duotone2.png') }}" class="rounded-circle w-50 h-50 mx-auto d-block"
+                     alt="Hola">
+                <h2>Hola</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+                    vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
+                    cursus magna.</p>
+                <p>
+                    <a class="btn btn-secondary" href="#" role="button">Veure detalls</a>
+                </p>
+            </div>
+        </div>
+        <hr class="my-5">
+        <div class="row">
+            <div class="col-md-7">
+                <h2 class="fs-2">Lamborghini Countach</h2>
+                <p class="fs-5 fw-light">
+                    El Lamborghini Countach es un legendario superdeportivo italiano, producido entre 1974 y 1990.
+                    Destaca por su diseño angular y sus puertas de tijera, convirtiéndose en un ícono de la cultura
+                    automotriz de los años 80. Equipado con potentes motores V12, el Countach es admirado por su
+                    rendimiento y estilo distintivo.
+                </p>
+            </div>
+            <div class="col-md-5">
+                <img src="{{ asset('images/duotone3.png') }}" class="d-block" alt="Countach" width="650px" height="500px">
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
