@@ -5,3 +5,7 @@ body {
 .nav-header {
     color: #F6B21E;
 }
+
+.adjusted-height-img {
+    height: 50vh;
+}
