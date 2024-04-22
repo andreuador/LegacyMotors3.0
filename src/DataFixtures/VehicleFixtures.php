@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Brand;
 use App\Entity\Model;
 use App\Entity\Vehicle;
+use App\Entity\VehicleType;
 use App\Repository\ProviderRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -28,7 +29,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
         $brands = [];
         $models = [];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $vehicleArray = $this->faker->vehicleArray;
             $brandName = $vehicleArray['brand'];
 
@@ -61,6 +62,13 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
         }
 
         for ($i = 0; $i < 20; $i++) {
+            // Load Vehicle Type
+            $vehicleType = new VehicleType();
+            $vehicleType->setTypeName($this->faker->randomElement(['gasolina', 'gasoil', 'electic']));
+            $vehicleType->setDescription('funciona');
+            $vehicleType->setCategory('caca');
+            $manager->persist($vehicleType);
+
             $vehicle = new Vehicle();
             $vehicle->setPlate($this->faker->vehicleRegistration('[0-9]{4}[A-Z]{3}'));
             $vehicle->setFuel($this->faker->vehicleFuelType);
@@ -71,8 +79,12 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setCapacity($this->faker->numberBetween(2, 8));
             $vehicle->setTransmission($this->faker->randomElement(['automatic', 'manual']));
 
-            $providers = $this->providerRepository->findAll();
+            $vehicle->setVehicleType($vehicleType);
 
+            $brand = $brands[array_rand($brands)];
+            $vehicle->setBrand($brand);
+
+            $providers = $this->providerRepository->findAll();
             $provider = $providers[array_rand($providers)];
             $vehicle->setProvider($provider);
 
