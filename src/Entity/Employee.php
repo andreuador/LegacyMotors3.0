@@ -16,11 +16,10 @@ class Employee
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    #[ORM\Column(length: 100)]
+    private ?string $lastname = null;
 
     #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 
     public function getId(): ?int
@@ -40,14 +39,14 @@ class Employee
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastname(): ?string
     {
-        return $this->surname;
+        return $this->lastname;
     }
 
-    public function setSurname(string $surname): static
+    public function setLastname(string $lastname): static
     {
-        $this->surname = $surname;
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -57,7 +56,7 @@ class Employee
         return $this->login;
     }
 
-    public function setLogin(Login $login): static
+    public function setLogin(?Login $login): static
     {
         $this->login = $login;
 

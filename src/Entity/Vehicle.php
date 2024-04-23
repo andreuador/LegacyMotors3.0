@@ -15,17 +15,17 @@ class Vehicle
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 20)]
     private ?string $plate = null;
 
     #[ORM\Column(length: 50)]
     private ?string $fuel = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $color = null;
 
     #[ORM\Column]
-    private ?float $price_per_day = null;
+    private ?int $price_per_day = null;
 
     #[ORM\Column]
     private ?bool $available = null;
@@ -39,14 +39,17 @@ class Vehicle
     #[ORM\Column(length: 50)]
     private ?string $transmission = null;
 
-    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vehicle')]
     private ?Provider $provider = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Brand $brand = null;
-
-    #[ORM\ManyToOne(inversedBy: 'vehicles')]
-    private ?VehicleType $vehicleType = null;
 
     /**
      * @var Collection<int, Reservation>
@@ -61,17 +64,18 @@ class Vehicle
     private Collection $images;
 
     /**
-     * @var Collection<int, Cart>
+     * @var Collection<int, Order>
      */
-    #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'vehicle')]
-    private Collection $carts;
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'vehicle')]
+    private Collection $orders;
 
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->carts = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -114,12 +118,12 @@ class Vehicle
         return $this;
     }
 
-    public function getPricePerDay(): ?float
+    public function getPricePerDay(): ?int
     {
         return $this->price_per_day;
     }
 
-    public function setPricePerDay(float $price_per_day): static
+    public function setPricePerDay(int $price_per_day): static
     {
         $this->price_per_day = $price_per_day;
 
@@ -174,6 +178,30 @@ class Vehicle
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
     public function getProvider(): ?Provider
     {
         return $this->provider;
@@ -194,18 +222,6 @@ class Vehicle
     public function setBrand(?Brand $brand): static
     {
         $this->brand = $brand;
-
-        return $this;
-    }
-
-    public function getVehicleType(): ?VehicleType
-    {
-        return $this->vehicleType;
-    }
-
-    public function setVehicleType(?VehicleType $vehicleType): static
-    {
-        $this->vehicleType = $vehicleType;
 
         return $this;
     }
@@ -271,29 +287,29 @@ class Vehicle
     }
 
     /**
-     * @return Collection<int, Cart>
+     * @return Collection<int, Order>
      */
-    public function getCarts(): Collection
+    public function getOrders(): Collection
     {
-        return $this->carts;
+        return $this->orders;
     }
 
-    public function addCart(Cart $cart): static
+    public function addOrder(Order $order): static
     {
-        if (!$this->carts->contains($cart)) {
-            $this->carts->add($cart);
-            $cart->setVehicle($this);
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setVehicle($this);
         }
 
         return $this;
     }
 
-    public function removeCart(Cart $cart): static
+    public function removeOrder(Order $order): static
     {
-        if ($this->carts->removeElement($cart)) {
+        if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($cart->getVehicle() === $this) {
-                $cart->setVehicle(null);
+            if ($order->getVehicle() === $this) {
+                $order->setVehicle(null);
             }
         }
 

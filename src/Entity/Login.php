@@ -6,7 +6,7 @@ use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class Login
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,12 +16,17 @@ class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticat
     #[ORM\Column(length: 100)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
     private ?string $role = null;
 
+    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
+    private ?Customer $customer = null;
+
+    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
+    private ?Employee $employee = null;
 
     public function getId(): ?int
     {
@@ -91,10 +96,15 @@ class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticat
         return $this->employee;
     }
 
-    public function setEmployee(Employee $employee): static
+    public function setEmployee(?Employee $employee): static
     {
+        // unset the owning side of the relation if necessary
+        if ($employee === null && $this->employee !== null) {
+            $this->employee->setLogin(null);
+        }
+
         // set the owning side of the relation if necessary
-        if ($employee->getLogin() !== $this) {
+        if ($employee !== null && $employee->getLogin() !== $this) {
             $employee->setLogin($this);
         }
 

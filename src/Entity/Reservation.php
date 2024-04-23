@@ -25,7 +25,7 @@ class Reservation
     #[ORM\Column]
     private ?int $total_price = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 50)]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -34,14 +34,14 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Vehicle $vehicle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?PaymentDetails $paymentDetails = null;
-
     /**
      * @var Collection<int, Review>
      */
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'reservation')]
     private Collection $reviews;
+
+    #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
+    private ?PaymentDetails $paymentDetails = null;
 
     public function __construct()
     {
@@ -125,18 +125,6 @@ class Reservation
         return $this;
     }
 
-    public function getPaymentDetails(): ?PaymentDetails
-    {
-        return $this->paymentDetails;
-    }
-
-    public function setPaymentDetails(?PaymentDetails $paymentDetails): static
-    {
-        $this->paymentDetails = $paymentDetails;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Review>
      */
@@ -163,6 +151,18 @@ class Reservation
                 $review->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaymentDetails(): ?PaymentDetails
+    {
+        return $this->paymentDetails;
+    }
+
+    public function setPaymentDetails(?PaymentDetails $paymentDetails): static
+    {
+        $this->paymentDetails = $paymentDetails;
 
         return $this;
     }

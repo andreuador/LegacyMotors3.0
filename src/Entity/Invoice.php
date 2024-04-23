@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,7 +14,7 @@ class Invoice
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 20)]
     private ?string $number = null;
 
     #[ORM\Column]
@@ -28,16 +26,8 @@ class Invoice
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Customer $customer = null;
 
-    /**
-     * @var Collection<int, Cart>
-     */
-    #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'invoice')]
-    private Collection $carts;
-
-    public function __construct()
-    {
-        $this->carts = new ArrayCollection();
-    }
+    #[ORM\OneToOne(inversedBy: 'invoice', cascade: ['persist', 'remove'])]
+    private ?Order $orders = null;
 
     public function getId(): ?int
     {
@@ -92,32 +82,14 @@ class Invoice
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cart>
-     */
-    public function getCarts(): Collection
+    public function getOrders(): ?Order
     {
-        return $this->carts;
+        return $this->orders;
     }
 
-    public function addCart(Cart $cart): static
+    public function setOrders(?Order $orders): static
     {
-        if (!$this->carts->contains($cart)) {
-            $this->carts->add($cart);
-            $cart->setInvoice($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCart(Cart $cart): static
-    {
-        if ($this->carts->removeElement($cart)) {
-            // set the owning side to null (unless already changed)
-            if ($cart->getInvoice() === $this) {
-                $cart->setInvoice(null);
-            }
-        }
+        $this->orders = $orders;
 
         return $this;
     }

@@ -16,21 +16,21 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 50)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 20)]
     private ?string $dni = null;
 
     #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
@@ -43,27 +43,39 @@ class Customer
     private Collection $reservations;
 
     /**
-     * @var Collection<int, Cart>
-     */
-    #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'customer')]
-    private Collection $carts;
-
-    /**
      * @var Collection<int, Invoice>
      */
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer')]
     private Collection $invoices;
 
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
-        $this->carts = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -78,26 +90,14 @@ class Customer
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastname(): ?string
     {
-        return $this->surname;
+        return $this->lastname;
     }
 
-    public function setSurname(string $surname): static
+    public function setLastname(string $lastname): static
     {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -181,36 +181,6 @@ class Customer
     }
 
     /**
-     * @return Collection<int, Cart>
-     */
-    public function getCarts(): Collection
-    {
-        return $this->carts;
-    }
-
-    public function addCart(Cart $cart): static
-    {
-        if (!$this->carts->contains($cart)) {
-            $this->carts->add($cart);
-            $cart->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCart(Cart $cart): static
-    {
-        if ($this->carts->removeElement($cart)) {
-            // set the owning side to null (unless already changed)
-            if ($cart->getCustomer() === $this) {
-                $cart->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Invoice>
      */
     public function getInvoices(): Collection
@@ -234,6 +204,36 @@ class Customer
             // set the owning side to null (unless already changed)
             if ($invoice->getCustomer() === $this) {
                 $invoice->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
             }
         }
 

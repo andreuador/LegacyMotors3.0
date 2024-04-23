@@ -1,149 +1,130 @@
-@startuml LegacyMotorsModel_ER
+@startuml LegacyMotorsER
 
 entity "Customer" {
-  + customer_id [PK]
+  * customer_id : int
   --
-  email
-  name
-  surname
-  phone
-  address
-  dni
-  login_id [FK]
+  email : string
+  name : string
+  surname : string
+  phone : string
+  address : string
+  dni : string
 }
 
 entity "Employee" {
-  + admin_id [PK]
+  * admin_id : int
   --
-  name
-  surname
-  login_id [FK]
+  name : string
+  surname : string
 }
 
 entity "Provider" {
-  + provider_id [PK]
+  * provider_id : int
   --
-  name
-  email
-  dni
-  cif
-  address
+  name : string
+  email : string
+  dni : string
+  cif : string
+  address : string
 }
 
 entity "Login" {
-  + login_id [PK]
+  * login_id : int
   --
-  username
-  password
-  role
+  username : string
+  password : string
+  role : string
 }
 
 entity "Vehicle" {
-  + vehicle_id [PK]
+  * vehicle_id : int
   --
-  plate
-  fuel
-  color
-  price_per_day
-  available
-  doors
-  capacity
-  transmission
-  brand_id [FK]
-  provider_id [FK]
-  type_id [FK]
+  plate : string
+  fuel : string
+  color : string
+  price_per_day : decimal
+  available : boolean
+  doors : int
+  capacity : int
+  transmission : string
+  type_name : string
+  description : string
+  category : string
 }
 
 entity "Brand" {
-  + brand_id [PK]
+  * brand_id : int
   --
-  name
+  name : string
 }
 
 entity "Model" {
-  + model_id [PK]
+  * model_id : int
   --
-  name
-  description
-  year
-  brand_id [FK]
+  name : string
+  description : string
+  year : int
 }
 
 entity "Reservation" {
-  + reservation_id [PK]
+  * reservation_id : int
   --
-  start_date
-  end_date
-  total_price
-  status
-  customer_id [FK]
-  payment_id [FK]
+  start_date : date
+  end_date : date
+  total_price : int
+  status : string
 }
 
 entity "Payment_Details" {
-  + payment_id [PK]
+  * payment_id : int
   --
-  payment_method
-  card_number
-  expiry_date
-  cvv
+  payment_method : string
+  card_number : string
+  expiry_date : date
+  cvv : string
 }
 
 entity "Review" {
-  + review_id [PK]
+  * review_id : int
   --
-  rating
-  comment
-  date
-  reservation_id [FK]
+  rating : int
+  comment : string
+  date : date
 }
 
-entity "Vehicle_Type" {
-  + type_id [PK]
+entity "Order" {
+  * order_id : int
   --
-  type_name
-  description
-  category
-}
-
-entity "Cart" {
-  + cart_id [PK]
-  --
-  quantity
-  vehicle_id [FK]
-  customer_id [FK]
-  invoice_id [FK]
+  quantity : int
+  state : string
 }
 
 entity "Image" {
-  + image_id [PK]
+  * image_id : int
   --
-  file_name
-  vehicle_id [FK]
+  file_name : string
 }
 
 entity "Invoice" {
-  + invoice_id [PK]
+  * invoice_id : int
   --
-  number
-  price
-  date
-  customer_id [FK]
+  number : string
+  price : float
+  date : date
 }
 
-Customer --|{ Login : "1" -- "1"
-Employee --|{ Login : "1" -- "1"
-Provider --|{ Vehicle : "1" -- "N"
-Vehicle --|{ Brand : "N" -- "1"
-Brand --|{ Model : "1" -- "N"
-Vehicle --|{ Vehicle_Type : "N" -- "1"
-Reservation }|--{ Customer : "N" -- "1"
-Reservation }|--{ Payment_Details : "1" -- "1"
-Reservation }|--{ Review : "1" -- "N"
-Cart }|--{ Customer : "1" -- "1"
-Cart }|--{ Invoice : "1" -- "1"
-Vehicle }|--{ Reservation : "1" -- "N"
-Image }|--{ Vehicle : "N" -- "1"
-Invoice }|--{ Customer : "1" -- "N"
+Customer ||--o{ Login: "1" -- "1"
+Employee ||--o{ Login: "1" -- "1"
+Provider ||--o{ Vehicle: "1" -- "N"
+Vehicle }|--o{ Brand: "N" -- "1"
+Brand ||--o{ Model: "1" -- "N"
+Reservation ||--o{ Customer: "N" -- "1"
+Reservation ||--o{ Payment_Details: "1" -- "1"
+Reservation ||--o{ Review: "1" -- "N"
+Vehicle ||--o{ Reservation: "1" -- "N"
+Image ||--o{ Vehicle: "N" -- "1"
+Invoice ||--o{ Customer: "1" -- "N"
+Order ||--o{ Vehicle: "1" -- "N"
+Order ||--o{ Invoice: "1" -- "1"
 
 @enduml

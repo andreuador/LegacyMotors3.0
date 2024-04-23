@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PaymentDetailsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,28 +14,20 @@ class PaymentDetails
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 75)]
     private ?string $payment_method = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $card_number = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $expiry_date = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 10)]
     private ?string $cvv = null;
 
-    /**
-     * @var Collection<int, Reservation>
-     */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'paymentDetails')]
-    private Collection $reservations;
-
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-    }
+    #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
+    private ?Reservation $reservation = null;
 
     public function getId(): ?int
     {
@@ -92,32 +82,24 @@ class PaymentDetails
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservations(): Collection
+    public function getReservation(): ?Reservation
     {
-        return $this->reservations;
+        return $this->reservation;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function setReservation(?Reservation $reservation): static
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
+        // unset the owning side of the relation if necessary
+        if ($reservation === null && $this->reservation !== null) {
+            $this->reservation->setPaymentDetails(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($reservation !== null && $reservation->getPaymentDetails() !== $this) {
             $reservation->setPaymentDetails($this);
         }
 
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): static
-    {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getPaymentDetails() === $this) {
-                $reservation->setPaymentDetails(null);
-            }
-        }
+        $this->reservation = $reservation;
 
         return $this;
     }

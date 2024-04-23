@@ -13,7 +13,7 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $file_name = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
