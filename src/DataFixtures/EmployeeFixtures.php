@@ -27,7 +27,7 @@ class EmployeeFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $employee = new Employee();
             $employee->setName($this->faker->name());
-            $employee->setSurname($this->faker->lastName());
+            $employee->setLastname($this->faker->lastName());
 
             $login = new Login();
             $login->setUsername($this->faker->userName());

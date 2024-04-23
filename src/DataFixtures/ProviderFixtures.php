@@ -27,6 +27,7 @@ class ProviderFixtures extends Fixture
             $provider->setEmail($this->faker->companyEmail());
             $provider->setDni($this->faker->dni());
             $provider->setCif($this->faker->regexify('/^[0-9]{8}[A-Z]{1}$/'));
+            $provider->setAddress($this->faker->address());
 
             $providers[] = $provider;
             $manager->persist($provider);

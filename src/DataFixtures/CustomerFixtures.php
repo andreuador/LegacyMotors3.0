@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Customer;
 use App\Entity\Login;
-use App\Repository\ProviderRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -28,7 +27,7 @@ class CustomerFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $customer = new Customer();
             $customer->setName($this->faker->name());
-            $customer->setSurname($this->faker->lastName());
+            $customer->setLastname($this->faker->lastName());
             $customer->setEmail($this->faker->email());
             $customer->setAddress($this->faker->address());
             $customer->setDni($this->faker->regexify('/^[A-Z0-9]{9}$/'));

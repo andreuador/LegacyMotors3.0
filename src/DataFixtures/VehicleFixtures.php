@@ -18,7 +18,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
 
-    public function __construct(private ProviderRepository $providerRepository)
+    public function __construct(private readonly ProviderRepository $providerRepository)
     {
         $this->faker = Factory::create('es_ES');
         $this->faker->addProvider(new Fakecar($this->faker));
@@ -62,13 +62,6 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
         }
 
         for ($i = 0; $i < 20; $i++) {
-            // Load Vehicle Type
-            $vehicleType = new VehicleType();
-            $vehicleType->setTypeName($this->faker->randomElement(['gasolina', 'gasoil', 'electic']));
-            $vehicleType->setDescription('funciona');
-            $vehicleType->setCategory('caca');
-            $manager->persist($vehicleType);
-
             $vehicle = new Vehicle();
             $vehicle->setPlate($this->faker->vehicleRegistration('[0-9]{4}[A-Z]{3}'));
             $vehicle->setFuel($this->faker->vehicleFuelType);
@@ -78,8 +71,8 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setDoors($this->faker->numberBetween(2, 5));
             $vehicle->setCapacity($this->faker->numberBetween(2, 8));
             $vehicle->setTransmission($this->faker->randomElement(['automatic', 'manual']));
-
-            $vehicle->setVehicleType($vehicleType);
+            $vehicle->setDescription('funciona');
+            $vehicle->setCategory($this->faker->randomElement(['gasolina', 'gasoil', 'electic']));
 
             $brand = $brands[array_rand($brands)];
             $vehicle->setBrand($brand);
