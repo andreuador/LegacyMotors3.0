@@ -36,7 +36,7 @@ class CustomerFixtures extends Fixture
 
             $login = new Login();
             $login->setUsername($this->faker->userName);
-            $login->setPassword($this->hasher->hashPassword($login, "1234"));
+            $login->setPassword($this->hasher->hashPassword($login, "private"));
             $login->setRole('ROLE_PRIVATE');
 
             $customer->setLogin($login);

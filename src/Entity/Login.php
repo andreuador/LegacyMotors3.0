@@ -22,11 +22,6 @@ class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticat
     #[ORM\Column(length: 50)]
     private ?string $role = null;
 
-    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Customer $customer = null;
-
-    #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Employee $employee = null;
 
     public function getId(): ?int
     {
