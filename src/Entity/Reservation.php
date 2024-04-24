@@ -26,9 +26,6 @@ class Reservation
     private ?int $total_price = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?Customer $customer = null;
-
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Vehicle $vehicle = null;
 
     /**
@@ -39,6 +36,9 @@ class Reservation
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?PaymentDetails $paymentDetails = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?Customer $customer = null;
 
     public function __construct()
     {
@@ -82,18 +82,6 @@ class Reservation
     public function setTotalPrice(int $total_price): static
     {
         $this->total_price = $total_price;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
 
         return $this;
     }
@@ -148,6 +136,18 @@ class Reservation
     public function setPaymentDetails(?PaymentDetails $paymentDetails): static
     {
         $this->paymentDetails = $paymentDetails;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }

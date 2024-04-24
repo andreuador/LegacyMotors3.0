@@ -6,7 +6,7 @@ use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login
+class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,10 +23,10 @@ class Login
     private ?string $role = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Customer $customer = null;
+    private ?Employee $employee = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Employee $employee = null;
+    private ?Customer $customer = null;
 
     public function getId(): ?int
     {
@@ -69,28 +69,6 @@ class Login
         return $this;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($customer === null && $this->customer !== null) {
-            $this->customer->setLogin(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($customer !== null && $customer->getLogin() !== $this) {
-            $customer->setLogin($this);
-        }
-
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     public function getEmployee(): ?Employee
     {
         return $this->employee;
@@ -109,6 +87,28 @@ class Login
         }
 
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($customer === null && $this->customer !== null) {
+            $this->customer->setLogin(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($customer !== null && $customer->getLogin() !== $this) {
+            $customer->setLogin($this);
+        }
+
+        $this->customer = $customer;
 
         return $this;
     }

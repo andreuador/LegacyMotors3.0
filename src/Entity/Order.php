@@ -19,14 +19,14 @@ class Order
     #[ORM\Column(length: 100)]
     private ?string $state = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?Customer $customer = null;
-
     /**
      * @var Collection<int, Vehicle>
      */
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'vehicleOrder')]
     private Collection $vehicles;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Customer $customer = null;
 
     public function __construct()
     {
@@ -46,18 +46,6 @@ class Order
     public function setState(string $state): static
     {
         $this->state = $state;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
 
         return $this;
     }
@@ -88,6 +76,18 @@ class Order
                 $vehicle->setVehicleOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }

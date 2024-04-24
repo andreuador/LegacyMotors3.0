@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,7 +14,7 @@ class Invoice
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 100)]
     private ?string $number = null;
 
     #[ORM\Column]
@@ -25,20 +23,11 @@ class Invoice
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    /**
-     * @var Collection<int, Customer>
-     */
-    #[ORM\ManyToOne(inversedBy: 'invoice')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Collection $customers;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Order $orders = null;
 
-    public function __construct()
-    {
-        $this->customers = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
+    private ?Customer $customer = null;
 
     public function getId(): ?int
     {
@@ -81,36 +70,6 @@ class Invoice
         return $this;
     }
 
-    /**
-     * @return Collection<int, Customer>
-     */
-    public function getCustomers(): Collection
-    {
-        return $this->customers;
-    }
-
-    public function addCustomer(Customer $customer): static
-    {
-        if (!$this->customers->contains($customer)) {
-            $this->customers->add($customer);
-            $customer->setInvoice($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomer(Customer $customer): static
-    {
-        if ($this->customers->removeElement($customer)) {
-            // set the owning side to null (unless already changed)
-            if ($customer->getInvoice() === $this) {
-                $customer->setInvoice(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getOrders(): ?Order
     {
         return $this->orders;
@@ -119,6 +78,18 @@ class Invoice
     public function setOrders(?Order $orders): static
     {
         $this->orders = $orders;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }

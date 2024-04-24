@@ -33,6 +33,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         // Contador
         $orderCount = 0;
 
+        // Mientras no hayamos alcanzado el limite de 10 ordenes y aun queden vehiculos disponibles
         while ($orderCount < 10 && count($vehicles) > 0) {
             $order = new Order();
             $order->setState($this->faker->randomElement(['In process', 'Completed']));
@@ -42,13 +43,25 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
             $order->addVehicle($vehicle);
 
+            // Eliminar el vehiculo asignado de la lista de vehiculos disponibles
+            unset($vehicles[$randomVehicle]);
+
+            // Asignar un cliente aleatorio a la orden
+            $randomCustomer = array_rand($customers);
+            $customer = $customers[$randomCustomer];
+            $order->setCustomer($customer);
+
+            $manager->persist($order);
+
+            $orderCount++;
+
         }
 
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        // TODO: Implement getDependencies() method.
+        return [VehicleFixtures::class];
     }
 }
