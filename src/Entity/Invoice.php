@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,11 +25,20 @@ class Invoice
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'invoices')]
-    private ?Customer $customer = null;
+    /**
+     * @var Collection<int, Customer>
+     */
+    #[ORM\ManyToOne(inversedBy: 'invoice')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Collection $customers;
 
-    #[ORM\OneToOne(inversedBy: 'invoice', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Order $orders = null;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,14 +81,32 @@ class Invoice
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomers(): Collection
     {
-        return $this->customer;
+        return $this->customers;
     }
 
-    public function setCustomer(?Customer $customer): static
+    public function addCustomer(Customer $customer): static
     {
-        $this->customer = $customer;
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->setInvoice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): static
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getInvoice() === $this) {
+                $customer->setInvoice(null);
+            }
+        }
 
         return $this;
     }

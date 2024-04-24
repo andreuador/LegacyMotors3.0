@@ -24,21 +24,24 @@ class Provider
     #[ORM\Column(length: 20)]
     private ?string $dni = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 20)]
     private ?string $cif = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $phone = null;
+
     /**
      * @var Collection<int, Vehicle>
      */
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'provider')]
-    private Collection $vehicle;
+    private Collection $vehicles;
 
     public function __construct()
     {
-        $this->vehicle = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,18 +109,30 @@ class Provider
         return $this;
     }
 
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Vehicle>
      */
-    public function getVehicle(): Collection
+    public function getVehicles(): Collection
     {
-        return $this->vehicle;
+        return $this->vehicles;
     }
 
     public function addVehicle(Vehicle $vehicle): static
     {
-        if (!$this->vehicle->contains($vehicle)) {
-            $this->vehicle->add($vehicle);
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
             $vehicle->setProvider($this);
         }
 
@@ -126,7 +141,7 @@ class Provider
 
     public function removeVehicle(Vehicle $vehicle): static
     {
-        if ($this->vehicle->removeElement($vehicle)) {
+        if ($this->vehicles->removeElement($vehicle)) {
             // set the owning side to null (unless already changed)
             if ($vehicle->getProvider() === $this) {
                 $vehicle->setProvider(null);

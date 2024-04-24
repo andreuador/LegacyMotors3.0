@@ -6,7 +6,7 @@ use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class Login
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,10 +16,10 @@ class Login implements \Symfony\Component\Security\Core\User\PasswordAuthenticat
     #[ORM\Column(length: 100)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $role = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]

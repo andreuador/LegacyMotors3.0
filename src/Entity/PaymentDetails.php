@@ -14,10 +14,10 @@ class PaymentDetails
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 75)]
+    #[ORM\Column(length: 50)]
     private ?string $payment_method = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $card_number = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -25,9 +25,6 @@ class PaymentDetails
 
     #[ORM\Column(length: 10)]
     private ?string $cvv = null;
-
-    #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
-    private ?Reservation $reservation = null;
 
     public function getId(): ?int
     {
@@ -78,28 +75,6 @@ class PaymentDetails
     public function setCvv(string $cvv): static
     {
         $this->cvv = $cvv;
-
-        return $this;
-    }
-
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(?Reservation $reservation): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($reservation === null && $this->reservation !== null) {
-            $this->reservation->setPaymentDetails(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($reservation !== null && $reservation->getPaymentDetails() !== $this) {
-            $reservation->setPaymentDetails($this);
-        }
-
-        $this->reservation = $reservation;
 
         return $this;
     }

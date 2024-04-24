@@ -21,7 +21,7 @@ class Vehicle
     #[ORM\Column(length: 50)]
     private ?string $fuel = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 50)]
     private ?string $color = null;
 
     #[ORM\Column]
@@ -42,10 +42,10 @@ class Vehicle
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 50)]
     private ?string $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'vehicle')]
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Provider $provider = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
@@ -63,19 +63,14 @@ class Vehicle
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'vehicle')]
     private Collection $images;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'vehicle')]
-    private Collection $orders;
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    private ?Order $vehicleOrder = null;
 
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -286,32 +281,14 @@ class Vehicle
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getVehicleOrder(): ?Order
     {
-        return $this->orders;
+        return $this->vehicleOrder;
     }
 
-    public function addOrder(Order $order): static
+    public function setVehicleOrder(?Order $vehicleOrder): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setVehicle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getVehicle() === $this) {
-                $order->setVehicle(null);
-            }
-        }
+        $this->vehicleOrder = $vehicleOrder;
 
         return $this;
     }

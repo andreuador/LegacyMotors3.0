@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -15,7 +16,7 @@ class Customer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     #[ORM\Column(length: 100)]
@@ -24,13 +25,13 @@ class Customer
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 50)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 30)]
     private ?string $dni = null;
 
     #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
@@ -42,11 +43,8 @@ class Customer
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'customer')]
     private Collection $reservations;
 
-    /**
-     * @var Collection<int, Invoice>
-     */
-    #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer')]
-    private Collection $invoices;
+    #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customers', orphanRemoval: true)]
+    private ?Invoice $invoice = null;
 
     /**
      * @var Collection<int, Order>
@@ -57,7 +55,6 @@ class Customer
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
-        $this->invoices = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
 
@@ -180,32 +177,14 @@ class Customer
         return $this;
     }
 
-    /**
-     * @return Collection<int, Invoice>
-     */
-    public function getInvoices(): Collection
+    public function getInvoice(): ?Invoice
     {
-        return $this->invoices;
+        return $this->invoice;
     }
 
-    public function addInvoice(Invoice $invoice): static
+    public function setInvoice(?Invoice $invoice): static
     {
-        if (!$this->invoices->contains($invoice)) {
-            $this->invoices->add($invoice);
-            $invoice->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): static
-    {
-        if ($this->invoices->removeElement($invoice)) {
-            // set the owning side to null (unless already changed)
-            if ($invoice->getCustomer() === $this) {
-                $invoice->setCustomer(null);
-            }
-        }
+        $this->invoice = $invoice;
 
         return $this;
     }

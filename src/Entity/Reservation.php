@@ -25,9 +25,6 @@ class Reservation
     #[ORM\Column]
     private ?int $total_price = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
-
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Customer $customer = null;
 
@@ -40,7 +37,7 @@ class Reservation
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'reservation')]
     private Collection $reviews;
 
-    #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?PaymentDetails $paymentDetails = null;
 
     public function __construct()
@@ -85,18 +82,6 @@ class Reservation
     public function setTotalPrice(int $total_price): static
     {
         $this->total_price = $total_price;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

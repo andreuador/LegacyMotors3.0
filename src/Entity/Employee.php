@@ -16,7 +16,7 @@ class Employee
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
     #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
