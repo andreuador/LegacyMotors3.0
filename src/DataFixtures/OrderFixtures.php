@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Order;
 use App\Repository\CustomerRepository;
+use App\Repository\InvoiceRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,11 +17,13 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
     private Generator $faker;
     private CustomerRepository $customerRepository;
     private VehicleRepository  $vehicleRepository;
+    private InvoiceRepository $invoiceRepository;
 
-    public function __construct(CustomerRepository $customerRepository, VehicleRepository $vehicleRepository) {
+    public function __construct(CustomerRepository $customerRepository, VehicleRepository $vehicleRepository, InvoiceRepository $invoiceRepository) {
         $this->faker = Factory::create('es_ES');
         $this->customerRepository = $customerRepository;
         $this->vehicleRepository = $vehicleRepository;
+        $this->invoiceRepository = $invoiceRepository;
     }
     public function load(ObjectManager $manager): void
     {
@@ -29,6 +32,9 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
         // Obtener todos los clientes disponibles
         $customers = $this->customerRepository->findAll();
+
+        // Obtener todas las facturas
+        $invoices = $this->invoiceRepository->findAll();
 
         // Contador
         $orderCount = 0;

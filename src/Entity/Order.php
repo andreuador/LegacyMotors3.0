@@ -6,10 +6,11 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
-class Order
+class Order implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,6 +28,9 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Customer $customer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Invoice $invoice = null;
 
     public function __construct()
     {
@@ -88,6 +92,29 @@ class Order
     public function setCustomer(?Customer $customer): static
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'state' => $this->state,
+            /*'discharge' =>$this->discharge,*/
+            'customer' => $this->getCustomer(),
+            'vehicles' => $this->getVehicles()->getIterator()
+        ];
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(?Invoice $invoice): static
+    {
+        $this->invoice = $invoice;
 
         return $this;
     }
