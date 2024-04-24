@@ -47,7 +47,6 @@ entity "Vehicle" {
   doors : int
   capacity : int
   transmission : string
-  type_name : string
   description : string
   category : string
 }
@@ -123,7 +122,7 @@ Reservation ||--o{ Payment_Details: "1" -- "1"
 Reservation ||--o{ Review: "1" -- "N"
 Vehicle ||--o{ Reservation: "1" -- "N"
 Image ||--o{ Vehicle: "N" -- "1"
-Invoice ||--o{ Customer: "1" -- "N"
+Invoice ||--o{ Customer: "N" -- "1"
 Order ||--o{ Vehicle: "1" -- "N"
 Order ||--o{ Invoice: "1" -- "1"
 

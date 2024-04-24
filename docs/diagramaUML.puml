@@ -54,13 +54,12 @@ Table(Vehicle, vehicle) {
     doors: int
     capacity: int
     transmission: string
+    description: string
+    category: string
     brand: Brand
     provider: Provider
     images[]: Image
     reservations[]: Reservation
-    type_name: string
-    description: string
-    category: string
 }
 
 Table(Brand, brand) {
@@ -143,7 +142,7 @@ Reservation "1" -- "1" Payment_Details
 Reservation "1" -- "N" Review
 Vehicle "1" -- "N" Reservation
 Image "N" -- "1" Vehicle
-Invoice "1" -- "N" Customer
+Invoice "N" -- "1" Customer
 Order "1" -- "N" Vehicle
 Order "1" -- "1" Invoice
 
