@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inici de sessió{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 my-5 d-flex justify-content-center">
+                <div class="border border-black border-opacity-25 p-3 rounded-2 d-flex flex-column align-items-center">
+                    <h2>Inici de sessió</h2>
+                    <form method="post" action="{{ path('app_login') }}">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Usuari"
+                                   name="_username">
+                            <label for="username">Usuari</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingInput" placeholder="Contrasenya"
+                                   name="_password">
+                            <label for="password">Contrasenya</label>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">Iniciar sessió</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

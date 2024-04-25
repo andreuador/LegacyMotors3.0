@@ -14,9 +14,10 @@
     </head>
     <body>
         {% include '_header.html.twig' %}
-        {% block body %}
-            <main role="main"></main>
-        {% endblock %}
+        <main role="main">
+            {% block body %}
+            {% endblock %}
+        </main>
         {% include '_footer.html.twig' %}
     </body>
 </html>
