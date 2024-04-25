@@ -73,6 +73,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setTransmission($this->faker->randomElement(['automatic', 'manual']));
             $vehicle->setDescription('funciona');
             $vehicle->setCategory($this->faker->randomElement(['gasolina', 'gasoil', 'electic']));
+            $vehicle->setDeleted(false);
 
             $brand = $brands[array_rand($brands)];
             $vehicle->setBrand($brand);

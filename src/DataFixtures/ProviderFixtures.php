@@ -29,6 +29,7 @@ class ProviderFixtures extends Fixture
             $provider->setCif($this->faker->regexify('/^[0-9]{8}[A-Z]{1}$/'));
             $provider->setAddress($this->faker->address());
             $provider->setPhone($this->faker->phoneNumber());
+            $provider->setDeleted(false);
 
             $providers[] = $provider;
             $manager->persist($provider);

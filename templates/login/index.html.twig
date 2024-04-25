@@ -9,6 +9,7 @@
                 <div class="border border-black border-opacity-25 p-3 rounded-2 d-flex flex-column align-items-center">
                     <h2>Inici de sessió</h2>
                     <form method="post" action="{{ path('app_login') }}">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput" placeholder="Usuari"
                                    name="_username">
@@ -19,6 +20,11 @@
                                    name="_password">
                             <label for="password">Contrasenya</label>
                         </div>
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        {% endif %}
                         <button class="btn btn-primary mt-3" type="submit">Iniciar sessió</button>
                     </form>
                 </div>

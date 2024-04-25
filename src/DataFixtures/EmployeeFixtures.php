@@ -28,6 +28,7 @@ class EmployeeFixtures extends Fixture
             $employee = new Employee();
             $employee->setName($this->faker->name());
             $employee->setLastname($this->faker->lastName());
+            $employee->setDeleted(false);
 
             $login = new Login();
             $login->setUsername($this->faker->userName());
@@ -39,6 +40,21 @@ class EmployeeFixtures extends Fixture
             $manager->persist($login);
             $manager->persist($employee);
         }
+
+        $employeeAdmin = new Employee();
+        $employeeAdmin->setName('employee');
+        $employeeAdmin->setLastname('employee');
+        $employeeAdmin->setDeleted(false);
+
+        $loginAdmin = new Login();
+        $loginAdmin->setUsername('employee');
+        $loginAdmin->setPassword($this->hasher->hashPassword($loginAdmin, 'employee'));
+        $loginAdmin->setRole('ROLE_ADMIN');
+
+        $employeeAdmin->setLogin($loginAdmin);
+        $manager->persist($loginAdmin);
+        $manager->persist($employeeAdmin);
+
         $manager->flush();
     }
 }

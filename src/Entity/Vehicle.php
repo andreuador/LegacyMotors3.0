@@ -66,6 +66,9 @@ class Vehicle
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Order $vehicleOrder = null;
 
+    #[ORM\Column]
+    private ?bool $isDeleted = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -289,6 +292,18 @@ class Vehicle
     public function setVehicleOrder(?Order $vehicleOrder): static
     {
         $this->vehicleOrder = $vehicleOrder;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
