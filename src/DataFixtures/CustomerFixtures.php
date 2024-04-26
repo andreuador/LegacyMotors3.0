@@ -32,6 +32,7 @@ class CustomerFixtures extends Fixture
             $customer->setAddress($this->faker->address());
             $customer->setDni($this->faker->regexify('/^[A-Z0-9]{9}$/'));
             $customer->setPhone($this->faker->phoneNumber());
+            $customer->setDeleted(false);
 
             $login = new Login();
             $login->setUsername($this->faker->userName);
@@ -43,6 +44,26 @@ class CustomerFixtures extends Fixture
             $manager->persist($login);
             $manager->persist($customer);
         }
+
+        // Client
+        $customerPrivate = new Customer();
+        $customerPrivate->setName('private');
+        $customerPrivate->setLastname('private');
+        $customerPrivate->setEmail($this->faker->email());
+        $customerPrivate->setAddress($this->faker->address());
+        $customerPrivate->setDni($this->faker->regexify('/^[A-Z0-9]{9}$/'));
+        $customerPrivate->setPhone($this->faker->phoneNumber());
+        $customerPrivate->setDeleted(false);
+
+        $loginPrivate = new Login();
+        $loginPrivate->setUsername('private');
+        $loginPrivate->setPassword($this->hasher->hashPassword($loginPrivate, "private"));
+        $loginPrivate->setRole('ROLE_PRIVATE');
+
+        $customerPrivate->setLogin($loginPrivate);
+
+        $manager->persist($loginPrivate);
+        $manager->persist($loginPrivate);
 
         $manager->flush();
     }

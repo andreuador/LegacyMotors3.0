@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Legacy Motors{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/logo.png') }}">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{# {% include '_header_front.html.twig' %}#}
+<main role="main">
+    {% block body %}
+    {% endblock %}
+</main>
+{% include '_footer.html.twig' %}
+</body>
+</html>

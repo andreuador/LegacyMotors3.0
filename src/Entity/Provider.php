@@ -39,6 +39,9 @@ class Provider
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'provider')]
     private Collection $vehicles;
 
+    #[ORM\Column]
+    private ?bool $isDeleted = null;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -147,6 +150,18 @@ class Provider
                 $vehicle->setProvider(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setDeleted(?bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
