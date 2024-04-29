@@ -51,5 +51,9 @@
         </tbody>
     </table>
 
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
     <a href="{{ path('app_vehicle_new') }}">Create new</a>
 {% endblock %}

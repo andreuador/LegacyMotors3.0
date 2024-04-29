@@ -6,6 +6,7 @@ use App\Entity\Vehicle;
 use App\Form\VehicleType;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,26 @@ use Symfony\Component\Routing\Attribute\Route;
 class VehicleController extends AbstractController
 {
     #[Route('/', name: 'app_vehicle_index', methods: ['GET'])]
-    public function index(VehicleRepository $vehicleRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator, VehicleRepository $vehicleRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Accés restringit, soles administradors');
+        $q = $request->get('q', '');
+
+        if (empty($q))
+            $query = $vehicleRepository->findAllQuery();
+        else
+            $query = $vehicleRepository->findByTextQuery($q);
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $vehicleRepository->findAll(),
+            'vehicles' => $pagination->getItems(),
+            'pagination' => $pagination,
+            'q' => $q,
         ]);
     }
 
