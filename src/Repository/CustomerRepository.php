@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,22 @@ class CustomerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Customer::class);
+    }
+
+    public function findAllQuery(): Query {
+        return $this->createQueryBuilder('c')
+            ->where('c.isDeleted = false')
+            ->orderBy('c.name', 'ASC')
+            ->getQuery();
+    }
+
+    public function findByText($value): array {
+        return $this->createQueryBuilder('c')
+            ->where('c.name LIKE :value')
+            ->setParameter('value', '%' . $value . '%')
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
