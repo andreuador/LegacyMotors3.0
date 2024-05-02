@@ -1,20 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CatalogueController!{% endblock %}
+{% block title %}Catàleg{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h1>Catàleg</h1>
+                </div>
+                <form method="get" role="search">
+                    <div class="d-flex justify-content-center my-3">
+                        <input name="q" type="search" class="rounded-start-pill border border-secondary-subtle ps-3"
+                               placeholder="Buscar..." aria-label="Search">
+                        <button type="submit" class="border border-0 rounded-end-pill p-2"><i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if q %}
+        <h2>Mostrant el resultat de: {{ q }}</h2>
+    {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/CatalogueController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/catalogue/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="container-fluid">
+        <div class="row">
+            {% for vehicle in vehicles %}
+            <div class="col-sm-12 col-md-6">
+                <div class="card w-100">
+                    {% for image in vehicle.images %}
+                    <img src="{{ asset('images/' ~ image.file_name) }}" class="card-img-top" alt="Cotxe">
+                    {% endfor %}
+                    <div class="card-body">
+                        <h4 class="card-title text-center"><a href="#" class="link-offset-2 link-underline link-underline-opacity-0">Doutone</a></h4>
+                        <div class="row">
+                            <div class="col-4">
+                                <h5 class="card-text text-center">V12</h5>
+                                <p class="card-text text-center fs-6">Motor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="navigation d-flex justify-content-center mt-lg-3">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}

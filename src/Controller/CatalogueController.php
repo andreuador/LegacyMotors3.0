@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/catalogue')]
 #[IsGranted('PUBLIC_ACCESS')]
 class CatalogueController extends AbstractController
 {

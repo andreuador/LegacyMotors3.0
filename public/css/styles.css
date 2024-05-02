@@ -1,0 +1,15 @@
+.bg-primary-lm {
+    background-color: var(--primary-LM-color) !important;
+}
+
+.bg-secondary-lm {
+    background-color: var(--secondary-LM-color) !important;
+}
+
+.bg-tertiary-lm {
+    background-color: var(--tertiary-LM-color) !important;
+}
+
+.bg-quaternary-lm {
+    background-color: var(--quaternary-LM-color) !important;
+}
