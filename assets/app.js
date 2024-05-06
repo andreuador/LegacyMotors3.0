@@ -1,3 +1,4 @@
+import { registerVueControllerComponents } from '@symfony/ux-vue';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -7,7 +8,9 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+import './styles/variables.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import '@popperjs/core';
+registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));
