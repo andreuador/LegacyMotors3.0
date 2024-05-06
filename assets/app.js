@@ -13,4 +13,6 @@ import './styles/variables.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import '@popperjs/core';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));

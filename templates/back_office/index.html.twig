@@ -1,0 +1,66 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Home Back - Legacy Motors{% endblock %}
+
+{% block body %}
+<div class="row">
+<!--    <div class="col-12 col-md-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h2 class="fs-3">Estadístiques de ventes</h2>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Vehicles amb més reserves</h5>
+                <canvas id="myPieChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h2 class="fs-3">Percetatge de reserves</h2>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Top 5 marques</h5>
+                {% for brand, percentage in topBrands %}
+                <div class="progress-bar">
+                    <div class="progress-label">{{ brand }}</div>
+                    <div class="progress h-50" role="progressbar" aria-label="{{ brand }}"
+                         aria-valuenow="{{ percentage }}"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-success text-light"
+                             style="width: {{ percentage }}%">{{ percentage }}%
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h2 class="fs-3">Vehicles més populars</h2>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Vehicles</h5>
+                <ul class="list-group">
+                    {% for vehicle in vehicles %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ vehicle.brand.name }}
+                            <span class="badge bg-danger rounded-pill">
+                                {% for model in vehicle.brand.models %}
+                                    {{ model.name }}
+                                {% endfor %}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

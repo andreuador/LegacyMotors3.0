@@ -1,9 +1,9 @@
-<header class="container-fluid">
+<header class="container-fluid px-0">
     <div class="row">
         <div class="col-12">
-            <nav class="navbar navbar-expand-lg bg-tertiary-lm">
+            <nav class="navbar navbar-expand-lg bg-primary-lm">
                 <div class="container-fluid">
-                    <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img src="{{ asset("images/logo.png") }}" width="100px" height="100px" alt="Logo"></a>
+                    <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img src="{{ asset("images/logo.png") }}" width="50px" height="50px" alt="Logo"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -15,9 +15,9 @@
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>#}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_catalogue_index') }}">Catàleg</a>
+                                <a class="nav-link link-light" href="{{ path('app_catalogue_index') }}">Catàleg</a>
                             </li>
-                            <li class="nav-item dropdown">
+<!--                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                    aria-expanded="false">
                                     Dropdown
@@ -33,7 +33,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>
+                            </li>-->
                         </ul>
                         <div class="d-flex">
                             <a class="btn btn-outline-primary me-2" href="{{ path('app_login') }}">Login</a>
