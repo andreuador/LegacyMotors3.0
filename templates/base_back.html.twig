@@ -14,8 +14,7 @@
 </head>
 <body>
 {% include '_header_back.html.twig' %}
-<main role="main">
-    <div class="container-fluid">
+<main class="container-fluid">
         <div class="row">
             <aside class="col-sm-2" {{ vue_component('AsideBack_component') }}></aside>
             <section class="col-lg-10 col-md-12">
@@ -23,7 +22,6 @@
                 {% endblock %}
             </section>
         </div>
-    </div>
 </main>
 {% include '_footer.html.twig' %}
 </body>

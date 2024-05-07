@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <nav>
+  <nav class="bg-quaternary-lm">
     <ul class="m-0 list-styled fs-5 d-flex flex-column text-sm-start text-center">
       <li class="pe-3 py-4 bg-tertiary-lm ps-sm-5">
         <a :href="Routes.home" class="text-decoration-none text-white">
