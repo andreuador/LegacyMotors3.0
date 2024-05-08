@@ -13,3 +13,12 @@
 .bg-quaternary-lm {
     background-color: var(--quaternary-LM-color) !important;
 }
+
+.btn-normal {
+    background-color: var(--btn-normal) !important;
+}
+
+.btn-normal-hover:hover {
+    background-color: var(--btn-normal-hover) !important;
+    color: var(--btn-text) !important;
+}

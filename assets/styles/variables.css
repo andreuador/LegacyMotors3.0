@@ -3,4 +3,10 @@
     --secondary-LM-color: #FFFFFC;
     --tertiary-LM-color: #FF8000;
     --quaternary-LM-color: #BEB7A4;
+
+    --btn-normal: var(--tertiary-LM-color);
+    --btn-text: var(--primary-LM-color);
+
+    /* Hover */
+    --btn-normal-hover: var(--quaternary-LM-color);
 }

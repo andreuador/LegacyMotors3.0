@@ -42,13 +42,13 @@ class EmployeeFixtures extends Fixture
         }
 
         $employeeAdmin = new Employee();
-        $employeeAdmin->setName('employee');
-        $employeeAdmin->setLastname('employee');
+        $employeeAdmin->setName('admin');
+        $employeeAdmin->setLastname('admin');
         $employeeAdmin->setDeleted(false);
 
         $loginAdmin = new Login();
-        $loginAdmin->setUsername('employee');
-        $loginAdmin->setPassword($this->hasher->hashPassword($loginAdmin, 'employee'));
+        $loginAdmin->setUsername('admin');
+        $loginAdmin->setPassword($this->hasher->hashPassword($loginAdmin, 'admin'));
         $loginAdmin->setRole('ROLE_ADMIN');
 
         $employeeAdmin->setLogin($loginAdmin);

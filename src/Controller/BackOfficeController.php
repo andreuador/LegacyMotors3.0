@@ -6,10 +6,12 @@ use App\Repository\VehicleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class BackOfficeController extends AbstractController
 {
-    #[Route('/backoffice', name: 'app_back_office')]
+    #[Route('/admin/backoffice', name: 'app_back_office')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(VehicleRepository $vehicleRepository): Response
     {
 

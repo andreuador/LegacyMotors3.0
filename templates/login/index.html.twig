@@ -27,6 +27,19 @@
                         {% endif %}
                         <button class="btn btn-primary mt-3" type="submit">Iniciar sessió</button>
                     </form>
+                    <p class="pt-3"><a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="">Registra't ací</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" data-controller="customer-register">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Registre</h1>
+                    <div class="modal-body">
+                        <div {{ vue_component('RegisterCustomer_component') }}></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
-<header class="container-fluid px-0">
+<header class="container-fluid">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 px-0">
             <nav class="navbar navbar-expand-lg bg-primary-lm">
                 <div class="container-fluid">
                     <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img src="{{ asset("images/logo.png") }}" width="50px" height="50px" alt="Logo"></a>
@@ -11,33 +11,19 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {#<li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>#}
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ path('app_catalogue_index') }}">Catàleg</a>
+                                <a class="nav-link link-light btn-normal-hover" href="{{ path('app_catalogue_index') }}">Catàleg</a>
                             </li>
-<!--                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>-->
                         </ul>
                         <div class="d-flex">
-                            <a class="btn btn-outline-primary me-2" href="{{ path('app_login') }}">Login</a>
-                            <a class="btn btn-primary" href="#">Registre</a>
+                            {% if app.user %}
+                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-person-fill"></i></a>
+                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-house-door-fill"></i></a>
+                                <a class="btn btn-outline-primary me-2" href="{{ path('app_logout') }}">Logout</a>
+                            {% else %}
+                                <a class="btn btn-outline-primary me-2" href="{{ path('app_login') }}">Login</a>
+                                {# <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a> #}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
