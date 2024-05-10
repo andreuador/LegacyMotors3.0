@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class VehicleController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_vehicle_index', methods: ['GET'])]
+    #[Route('', name: 'app_admin_vehicle_index', methods: ['GET'])]
     public function index(Request $request, PaginatorInterface $paginator, VehicleRepository $vehicleRepository): Response
     {
         //$this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Accés restringit, soles administradors');

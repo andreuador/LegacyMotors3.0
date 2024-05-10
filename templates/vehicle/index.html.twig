@@ -5,42 +5,59 @@
 {% block body %}
     <h1>Vehicle index</h1>
 
-    <table class="table">
+    <div class="row px-2">
+        <form method="get" role="search" class="col-12 col-md-4 py-2 justify-content-center">
+            <div class="input-group">
+                <input type="search" class="form-control" placeholder="Matrícula, combustible, color..." name="q"
+                       aria-label="Matrícula, combustible, color..." aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1"><button type="submit" class="btn btn-sm"><i
+                                class="bi bi-search"></i></button></span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12 col-md-8 p-2 mb-3 mb-md-0 d-flex justify-content-center justify-content-md-end">
+        <a href="{{ path('app_admin_vehicle_new') }}" class="btn btn-success">Crear</a>
+    </div>
+
+    <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Plate</th>
-                <th>Fuel</th>
-                <th>Color</th>
-                <th>Price_per_day</th>
-                <th>Available</th>
-                <th>Doors</th>
-                <th>Capacity</th>
-                <th>Transmission</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>IsDeleted</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th class="d-none">Id</th>
+            <th>Matricula</th>
+            <th>Carburant</th>
+            <th>Color</th>
+            <th>Preu</th>
+            <th>Disponible</th>
+            <th>Portes</th>
+            <th>Capacitat</th>
+            <th>Transmissió</th>
+            <th>Descripció</th>
+            <th class="d-none">Categoria</th>
+            <th>IsDeleted</th>
+            <th>Accions</th>
+        </tr>
         </thead>
         <tbody>
         {% for vehicle in vehicles %}
             <tr>
-                <td>{{ vehicle.id }}</td>
+                <td class="d-none">{{ vehicle.id }}</td>
                 <td>{{ vehicle.plate }}</td>
                 <td>{{ vehicle.fuel }}</td>
                 <td>{{ vehicle.color }}</td>
-                <td>{{ vehicle.pricePerDay }}</td>
+                <td>{{ vehicle.pricePerDay }} €</td>
                 <td>{{ vehicle.available ? 'Yes' : 'No' }}</td>
                 <td>{{ vehicle.doors }}</td>
                 <td>{{ vehicle.capacity }}</td>
                 <td>{{ vehicle.transmission }}</td>
                 <td>{{ vehicle.description }}</td>
-                <td>{{ vehicle.category }}</td>
+                <td class="d-none">{{ vehicle.category }}</td>
                 <td>{{ vehicle.isDeleted ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}">show</a>
-                    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_vehicle_show', {'id': vehicle.id}) }}"
+                       class="btn btn-primary">Mostrar</a>
+                    <a href="{{ path('app_admin_vehicle_edit', {'id': vehicle.id}) }}"
+                       class="btn btn-secondary">Editar</a>
                 </td>
             </tr>
         {% else %}
@@ -51,9 +68,27 @@
         </tbody>
     </table>
 
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
-
-    <a href="{{ path('app_vehicle_new') }}">Create new</a>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if pagination.currentPageNumber == 1 %}disabled{% endif %}">
+                <a class="page-link"
+                   href="{% if pagination.currentPageNumber > 1 %}{{ path('app_admin_vehicle_index', {'page': pagination.currentPageNumber - 1}) }}{% endif %}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for page in 1..pagination.pageCount %}
+                <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                    <a class="page-link" href="{{ path('app_admin_vehicle_index', {'page': page}) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {% if pagination.currentPageNumber == pagination.pageCount %}disabled{% endif %}">
+                <a class="page-link"
+                   href="{% if pagination.currentPageNumber < pagination.pageCount %}{{ path('app_admin_vehicle_index', {'page': pagination.currentPageNumber + 1}) }}{% endif %}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

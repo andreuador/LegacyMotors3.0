@@ -17,7 +17,8 @@
 {% include '_header_back.html.twig' %}
 <main class="container-fluid">
         <div class="row">
-            <aside class="col-sm-2" {{ vue_component('AsideBack_component') }}></aside>
+            {% include '_aside_back.html.twig' %}
+            {# <aside class="col-sm-2" {{ vue_component('AsideBack_component') }}></aside>#}
             <section class="col-lg-10 col-md-12">
                 {% block body %}
                 {% endblock %}
