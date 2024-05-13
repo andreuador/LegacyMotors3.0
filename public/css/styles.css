@@ -22,3 +22,11 @@
     background-color: var(--btn-normal-hover) !important;
     color: var(--btn-text) !important;
 }
+
+.font-lm-title {
+    font-family: var(--title-font-family-lm) !important;
+}
+
+.font-lm-text {
+    font-family: var(--text-font-family-lm) !important;
+}

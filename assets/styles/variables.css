@@ -1,3 +1,9 @@
+/* Josefin Sans */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
+
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 :root {
     --primary-LM-color: #36363B;
     --secondary-LM-color: #FFFFFC;
@@ -9,4 +15,7 @@
 
     /* Hover */
     --btn-normal-hover: var(--quaternary-LM-color);
+
+    --title-font-family-lm: 'Josefin Sans', sans-serif;
+    --text-font-family-lm: 'Montserrat', sans-serif;
 }

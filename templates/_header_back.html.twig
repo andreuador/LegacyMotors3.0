@@ -11,19 +11,48 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {# <li class="nav-item">
-                                <a class="nav-link link-light btn-normal-hover" href="{{ path('app_catalogue_index') }}">Catàleg</a>
-                            </li>#}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-md-block d-lg-none">
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_back_office') }}"><i class="bi bi-house"></i> Inici</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_invoice_index') }}"><i class="bi bi-file-earmark"></i> Factures</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_customer_index') }}"><i class="bi bi-person"></i> Clients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_employee_index') }}"><i class="bi bi-file-earmark-person"></i> Empleats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_invoice_index') }}"><i class="bi bi-calendar"></i> Reserves</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_vehicle_index') }}"><i class="bi bi-car-front-fill"></i> Vehicles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_provider_index') }}"><i class="bi bi-truck"></i> Proveïdors</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light btn-normal-hover"
+                                   href="{{ path('app_order_index') }}"><i class="bi bi-cart"></i> Comandes</a>
+                            </li>
                         </ul>
                         <div class="d-flex">
                             {% if app.user %}
-                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-person-fill"></i></a>
-                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-house-door-fill"></i></a>
+<!--                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-person-fill"></i></a>
+                                <a class="btn bg-tertiary-lm me-2" href="#"><i class="bi bi-house-door-fill"></i></a>-->
                                 <a class="btn btn-outline-primary me-2" href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn btn-outline-primary me-2" href="{{ path('app_login') }}">Login</a>
-                                {# <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a> #}
+                                 <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a>
                             {% endif %}
                         </div>
                     </div>
