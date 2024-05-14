@@ -3,64 +3,78 @@
 {% block title %}Vehicle{% endblock %}
 
 {% block body %}
-    <h1>Vehicle</h1>
+    <h1 class="font-lm-title my-3">Vehicle</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ vehicle.id }}</td>
-            </tr>
-            <tr>
-                <th>Plate</th>
-                <td>{{ vehicle.plate }}</td>
-            </tr>
-            <tr>
-                <th>Fuel</th>
-                <td>{{ vehicle.fuel }}</td>
-            </tr>
-            <tr>
-                <th>Color</th>
-                <td>{{ vehicle.color }}</td>
-            </tr>
-            <tr>
-                <th>Price_per_day</th>
-                <td>{{ vehicle.pricePerDay }}</td>
-            </tr>
-            <tr>
-                <th>Available</th>
-                <td>{{ vehicle.available ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Doors</th>
-                <td>{{ vehicle.doors }}</td>
-            </tr>
-            <tr>
-                <th>Capacity</th>
-                <td>{{ vehicle.capacity }}</td>
-            </tr>
-            <tr>
-                <th>Transmission</th>
-                <td>{{ vehicle.transmission }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ vehicle.description }}</td>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <td>{{ vehicle.category }}</td>
-            </tr>
-            <tr>
-                <th>IsDeleted</th>
-                <td>{{ vehicle.isDeleted ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover text-center">
+            <tbody>
+                <tr class="d-none">
+                    <th>Id</th>
+                    <td>{{ vehicle.id }}</td>
+                </tr>
+                <tr>
+                    <th>Marca</th>
+                    <td>{{ vehicle.brand.name }}</td>
+                </tr>
+                <tr>
+                    <th>Model</th>
+                    <td>
+                        {% for model in vehicle.brand.models %}
+                            {{ model.name }}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Matrícula</th>
+                    <td>{{ vehicle.plate }}</td>
+                </tr>
+                <tr>
+                    <th>Carburant</th>
+                    <td>{{ vehicle.fuel }}</td>
+                </tr>
+                <tr>
+                    <th>Color</th>
+                    <td>{{ vehicle.color }}</td>
+                </tr>
+                <tr>
+                    <th>Preu</th>
+                    <td>{{ vehicle.pricePerDay }}</td>
+                </tr>
+                <tr>
+                    <th>Disponible</th>
+                    <td>{{ vehicle.available ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Portes</th>
+                    <td>{{ vehicle.doors }}</td>
+                </tr>
+                <tr>
+                    <th>Capacitat</th>
+                    <td>{{ vehicle.capacity }}</td>
+                </tr>
+                <tr>
+                    <th>Transmissió</th>
+                    <td>{{ vehicle.transmission }}</td>
+                </tr>
+                <tr>
+                    <th>Descripció</th>
+                    <td>{{ vehicle.description }}</td>
+                </tr>
+                <tr class="d-none">
+                    <th>Category</th>
+                    <td>{{ vehicle.category }}</td>
+                </tr>
+                <tr class="d-none">
+                    <th>IsDeleted</th>
+                    <td>{{ vehicle.isDeleted ? 'Yes' : 'No' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_vehicle_index') }}">back to list</a>
+    <a href="{{ path('app_vehicle_index') }}" class="btn btn-primary">Tornar</a>
 
-    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}" class="btn btn-success">Editar</a>
 
-    {{ include('vehicle/_delete_form.html.twig') }}
+{# {{ include('vehicle/_delete_form.html.twig') }}#}
 {% endblock %}

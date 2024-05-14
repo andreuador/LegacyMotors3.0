@@ -38,8 +38,8 @@ class VehicleType extends AbstractType
                 ]
             ])
             ->add('description')
-            ->add('category')
-            ->add('isDeleted')
+            /*->add('category')
+            ->add('isDeleted')*/
             ->add('provider', EntityType::class, [
                 'class' => Provider::class,
                 'choice_label' => 'id',

@@ -1,4 +1,77 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.plate, 'Matrícula') }}
+        {{ form_widget(form.plate, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.fuel, 'Carburant') }}
+        {{ form_widget(form.fuel, {'attr': {'class': 'form-select'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.color, 'Color') }}
+        {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.price_per_day, 'Preu') }}
+        {{ form_widget(form.price_per_day, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 d-flex align-items-center">
+        {{ form_label(form.available, 'Disponible') }}
+        {{ form_widget(form.available, {'attr': {'class': 'form-check-input'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.doors, 'Portes') }}
+        {{ form_widget(form.doors, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.capacity, 'Capacitat') }}
+        {{ form_widget(form.capacity, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.transmission, 'Transmissió') }}
+        {{ form_widget(form.transmission, {'attr': {'class': 'form-select'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.description, 'Descripció') }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.provider, 'Proveïdor') }}
+        {{ form_widget(form.provider, {'attr': {'class': 'form-select'}}) }}
+    </div>
+</div>
+{#<div class="row">#}
+{#    <div class="col-md-6 d-flex align-items-center">#}
+{#        {{ form_row(form.isDeleted, {'attr': {'class': 'form-check-input'}}) }}#}
+{#    </div>#}
+{#    #}
+{#    <div class="col-md-6">#}
+{#        {{ form_label(form.category, 'Categoria') }}#}
+{#        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}#}
+{#    </div>#}
+{#</div>#}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.brand, 'Marca') }}
+        {{ form_widget(form.brand, {'attr': {'class': 'form-select'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.vehicleOrder, 'Comanda') }}
+        {{ form_widget(form.vehicleOrder, {'attr': {'class': 'form-select'}}) }}
+    </div>
+</div>
+
+<div class="col-12 my-2">
+    <button type="submit" class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+</div>
 {{ form_end(form) }}

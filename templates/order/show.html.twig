@@ -1,26 +1,45 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Order{% endblock %}
+{% block title %}Comanda{% endblock %}
 
 {% block body %}
-    <h1>Order</h1>
+    <h1 class="font-lm-title my-3">Comanda</h1>
 
-    <table class="table">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover text-center">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ order.id }}</td>
             </tr>
             <tr>
-                <th>State</th>
+                <th>Client</th>
+                <td>{{ order.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Vehicle</th>
+                <td>
+                    {% for vehicle in order.vehicles %}
+                        {{ vehicle.brand.name }}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Factura</th>
+                <td>{{ order.invoice.number }}</td>
+            </tr>
+            <tr>
+                <th>Estat</th>
                 <td>{{ order.state }}</td>
             </tr>
         </tbody>
     </table>
+    </div>
+    <div class="my-3">
+        <a href="{{ path('app_order_index') }}" class="btn btn-primary">Tornar</a>
 
-    <a href="{{ path('app_order_index') }}">back to list</a>
+        <a href="{{ path('app_order_edit', {'id': order.id}) }}" class="btn btn-success">Editar</a>
+    </div>
 
-    <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
-
-    {{ include('order/_delete_form.html.twig') }}
+    {# {{ include('order/_delete_form.html.twig') }} #}
 {% endblock %}

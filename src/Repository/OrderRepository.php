@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,22 @@ class OrderRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
+    }
+
+    public function findAllActive(): array {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.state', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTextQuery(string $value): Query {
+        return $this->createQueryBuilder('o')
+            ->join('o.customer', 'c')
+            ->andWhere('o.state LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('o.state', 'DESC')
+            ->getQuery();
     }
 
     //    /**

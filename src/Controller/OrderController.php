@@ -31,7 +31,7 @@ class OrderController extends AbstractController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            10
+            5
         );
 
         return $this->render('order/index.html.twig', [
