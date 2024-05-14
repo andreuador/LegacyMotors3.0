@@ -23,10 +23,15 @@
     color: var(--btn-text) !important;
 }
 
+.btn-aside-hover:hover {
+    background-color: var(--btn-aside-hover) !important;
+    color: var(--btn-text) !important;
+}
+
 .font-lm-title {
-    font-family: var(--title-font-family-lm) !important;
+    font-family: var(--title-font-family-lm), sans-serif !important;
 }
 
 .font-lm-text {
-    font-family: var(--text-font-family-lm) !important;
+    font-family: var(--text-font-family-lm), sans-serif !important;
 }
