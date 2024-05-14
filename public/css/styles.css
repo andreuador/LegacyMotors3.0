@@ -1,3 +1,6 @@
+* {
+    font-family: var(--text-font-family-lm), sans-serif !important;
+}
 .bg-primary-lm {
     background-color: var(--primary-LM-color) !important;
 }
