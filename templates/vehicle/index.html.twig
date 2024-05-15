@@ -3,12 +3,12 @@
 {% block title %}Vehicle index{% endblock %}
 
 {% block body %}
-    <h1 class="font-lm-title my-3">Vehicles</h1>
+    <h1 class="font-lm-title my-3">Vehículos</h1>
 
     <div class="row g-3 align-items-center font-lm-text">
         <form method="get" role="search" class="col-4">
             <div class="input-group input-group-sm">
-                <input type="search" class="form-control form-control-sm" placeholder="Matrícula, combustible, color..."
+                <input type="search" class="form-control form-control-sm" placeholder="Matrícula, color..."
                        name="q"
                        aria-label="Matrícula, combustible, color..." aria-describedby="basic-addon1">
                 <span class="input-group-text" id="basic-addon1"><button type="submit" class="btn btn-sm"><i
@@ -26,19 +26,19 @@
             <tr>
                 <th class="d-none">Id</th>
                 <th class="bg-quaternary-lm">Marca</th>
-                <th class="bg-quaternary-lm">Model</th>
-                <th class="bg-quaternary-lm">Matricula</th>
-                <th class="bg-quaternary-lm">Carburant</th>
+                <th class="bg-quaternary-lm">Modelo</th>
+                <th class="bg-quaternary-lm">Matrícula</th>
+                <th class="bg-quaternary-lm">Carburante</th>
                 <th class="bg-quaternary-lm">Color</th>
-                <th class="bg-quaternary-lm">Preu</th>
+                <th class="bg-quaternary-lm">Precio</th>
                 <th class="bg-quaternary-lm">Disponible</th>
-                <th class="bg-quaternary-lm">Portes</th>
-                <th class="bg-quaternary-lm">Capacitat</th>
-                <th class="bg-quaternary-lm">Transmissió</th>
-                <th class="bg-quaternary-lm">Descripció</th>
+                <th class="bg-quaternary-lm">Puertas</th>
+                <th class="bg-quaternary-lm">Capacidad</th>
+                <th class="bg-quaternary-lm">Transmissión</th>
+                <th class="bg-quaternary-lm">Descripción</th>
                 <th class="d-none">Categoria</th>
                 <th class="d-none">IsDeleted</th>
-                <th class="bg-quaternary-lm">Accions</th>
+                <th class="bg-quaternary-lm">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -46,20 +46,20 @@
                 <tr>
                     <td class="d-none">{{ vehicle.id }}</td>
                     <td data-title="Marca">{{ vehicle.brand.name }}</td>
-                    <td data-title="Model">
+                    <td data-title="Modelo">
                         {% for model in vehicle.brand.models %}
                             {{ model.name }}
                         {% endfor %}
                     </td>
-                    <td data-title="Matricula">{{ vehicle.plate }}</td>
-                    <td data-title="Carburant">{{ vehicle.fuel }}</td>
+                    <td data-title="Matrícula">{{ vehicle.plate }}</td>
+                    <td data-title="Carburante">{{ vehicle.fuel }}</td>
                     <td data-title="Color">{{ vehicle.color }}</td>
-                    <td data-title="Preu">{{ vehicle.pricePerDay }} €</td>
+                    <td data-title="Precio">{{ vehicle.pricePerDay }} €</td>
                     <td data-title="Disponible">{{ vehicle.available ? 'Si' : 'No' }}</td>
-                    <td data-title="Portes">{{ vehicle.doors }}</td>
-                    <td data-title="Capacitat">{{ vehicle.capacity }}</td>
-                    <td data-title="Transmissió">{{ vehicle.transmission }}</td>
-                    <td data-title="Descripció">{{ vehicle.description }}</td>
+                    <td data-title="Puertas">{{ vehicle.doors }}</td>
+                    <td data-title="Capacidad">{{ vehicle.capacity }}</td>
+                    <td data-title="Transmisión">{{ vehicle.transmission }}</td>
+                    <td data-title="Descripción">{{ vehicle.description }}</td>
                     <td class="d-none">{{ vehicle.category }}</td>
                     <td class="d-none">{{ vehicle.isDeleted ? 'Si' : 'No' }}</td>
                     <td>
@@ -73,7 +73,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="13">No es troben resultats</td>
+                    <td colspan="13">No se encuentran resultados</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -117,7 +117,7 @@
                             <p>{{ vehicle.plate }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Preu</h5>
+                            <h5>Precio</h5>
                             <p>{{ vehicle.pricePerDay }} €</p>
                         </div>
                         <div class="flex-grow-1">
@@ -125,7 +125,7 @@
                             <p>{{ vehicle.available ? 'Si' : 'No' }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Accions</h5>
+                            <h5>Acciones</h5>
                             <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}"
                                class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                             <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}"

@@ -18,11 +18,13 @@ class OrderType extends AbstractType
             ->add('state')
             ->add('customer', EntityType::class, [
                 'class' => Customer::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                'placeholder' => 'Selecciona un cliente',
             ])
             ->add('invoice', EntityType::class, [
                 'class' => Invoice::class,
-                'choice_label' => 'id',
+                'choice_label' => 'number',
+                'placeholder' => 'Selecciona una factura'
             ])
         ;
     }

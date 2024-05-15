@@ -21,7 +21,7 @@ class ProviderFixtures extends Fixture
     {
         $providers = [];
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $provider = new Provider();
             $provider->setName($this->faker->company());
             $provider->setEmail($this->faker->companyEmail());

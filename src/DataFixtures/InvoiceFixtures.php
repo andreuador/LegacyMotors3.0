@@ -30,7 +30,7 @@ class InvoiceFixtures extends Fixture implements DependentFixtureInterface
         $invoices = [];
 
         $usedOrders  = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $invoice = new Invoice();
             $invoice->setPrice($this->faker->numberBetween(100000, 1000000));
             $dateString = $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d');

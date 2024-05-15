@@ -1,13 +1,13 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Nova Comanda{% endblock %}
+{% block title %}Nuevo pedido{% endblock %}
 
 {% block body %}
-    <h1 class="font-lm-title my-3">Crear nova comanda</h1>
+    <h1 class="font-lm-title my-3">Crear pedido</h1>
 
     <div class="my-5">
         {{ include('order/_form.html.twig') }}
     </div>
 
-    <a href="{{ path('app_order_index') }}" class="btn btn-primary">Tornar</a>
+    <a href="{{ path('app_order_index') }}" class="btn btn-primary">Volver</a>
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Comandes{% endblock %}
+{% block title %}Pedidos{% endblock %}
 
 {% block body %}
-    <h1 class="font-lm-title my-3">Comandes</h1>
+    <h1 class="font-lm-title my-3">Pedidos</h1>
 
     <div class="row g-3 align-items-center">
         <form method="get" role="search" class="col-4">
@@ -24,11 +24,11 @@
             <thead>
             <tr>
                 <th class="d-none">Id</th>
-                <th class="bg-quaternary-lm">Client</th>
-                <th class="bg-quaternary-lm">Vehicle</th>
+                <th class="bg-quaternary-lm">Cliente</th>
+                <th class="bg-quaternary-lm">Vehiculo</th>
                 <th class="bg-quaternary-lm">Factura</th>
-                <th class="bg-quaternary-lm">Estat</th>
-                <th class="bg-quaternary-lm">Accions</th>
+                <th class="bg-quaternary-lm">Estado</th>
+                <th class="bg-quaternary-lm">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="3">No es troben resultats</td>
+                        <td colspan="3">No se encuentran resultados</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
@@ -68,14 +68,14 @@
                     <button class="accordion-button bg-tertiary-lm" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapse{{ order.id }}" aria-expanded="true"
                             aria-controls="collapse{{ order.id }}">
-                        Comanda: {{ order.id }}
+                        Pedido: {{ order.id }}
                     </button>
                 </h2>
                 <div id="collapse{{ order.id }}" class="accordion-collapse collapse"
                      data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body d-flex flex-wrap bg-quaternary-lm">
                         <div class="flex-grow-1">
-                            <h5>Client</h5>
+                            <h5>Cliente</h5>
                             <p>{{ order.customer.name }}</p>
                         </div>
                         <div class="flex-grow-1">
@@ -83,11 +83,11 @@
                             <p>{{ order.invoice.number }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Estat</h5>
+                            <h5>Estado</h5>
                             <p>{{ order.state }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Accions</h5>
+                            <h5>Acciones</h5>
                             <a href="{{ path('app_order_show', {'id': order.id}) }}" class="btn btn-primary"><i
                                         class="bi bi-eye-fill"></i></a>
                             <a href="{{ path('app_order_edit', {'id': order.id}) }}" class="btn btn-secondary"><i

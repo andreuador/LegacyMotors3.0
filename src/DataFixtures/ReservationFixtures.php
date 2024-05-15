@@ -33,7 +33,7 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
 
         // Solo crear reservas si hay clientes y vehiculos disponibles
         if (!empty ($customers) && !empty ($vehicles)) {
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 20; $i++) {
                 $reservation = new Reservation();
                 $startDate = $this->faker->dateTimeBetween('now', '+1 month');
 
