@@ -1,34 +1,40 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
-{% block title %}Invoice{% endblock %}
+{% block title %}Factura{% endblock %}
 
 {% block body %}
-    <h1>Invoice</h1>
+    <h1 class="font-lm-title my-3">Factura</h1>
 
-    <table class="table">
-        <tbody>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover text-center">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ invoice.id }}</td>
             </tr>
             <tr>
-                <th>Number</th>
+                <th>Cliente</th>
+                <td>{{ invoice.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Número</th>
                 <td>{{ invoice.number }}</td>
             </tr>
             <tr>
-                <th>Price</th>
+                <th>Precio</th>
                 <td>{{ invoice.price }}</td>
             </tr>
             <tr>
-                <th>Date</th>
+                <th>Fecha</th>
                 <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+    <div class="my-3">
+        <a href="{{ path('app_invoice_index') }}" class="btn btn-primary">Volver</a>
+        <a href="{{ path('app_invoice_edit', {'id': invoice.id}) }}" class="btn btn-success">Editar</a>
+    </div>
 
-    <a href="{{ path('app_invoice_index') }}">back to list</a>
-
-    <a href="{{ path('app_invoice_edit', {'id': invoice.id}) }}">edit</a>
-
-    {{ include('invoice/_delete_form.html.twig') }}
+    {#{{ include('invoice/_delete_form.html.twig') }}#}
 {% endblock %}

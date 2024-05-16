@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,22 @@ class ReservationRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Reservation::class);
+    }
+
+    public function findAllActive(): array {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.total_price', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTextQuery(string $value): Query {
+        return $this->createQueryBuilder('r')
+            ->join('o.customer', 'c')
+            ->andWhere('o.state LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('o.state', 'DESC')
+            ->getQuery();
     }
 
     //    /**

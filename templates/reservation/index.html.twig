@@ -1,39 +1,63 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
-{% block title %}Reservation index{% endblock %}
+{% block title %}Reservas{% endblock %}
 
 {% block body %}
-    <h1>Reservation index</h1>
+    <h1 class="font-lm-title my-3">Reservas</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Start_date</th>
-                <th>End_date</th>
-                <th>Total_price</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.totalPrice }}</td>
-                <td>
-                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row g-3 align-items-center">
+        <form method="get" role="search" class="col-4">
+            <div class="input-group input-group-sm">
+                <input type="search" class="form-control form-control-sm" name="q" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1"><button type="submit" class="btn btn-sm"><i
+                                class="bi bi-search"></i></button></span>
+            </div>
+        </form>
+    </div>
 
-    <a href="{{ path('app_reservation_new') }}">Create new</a>
+    <div class="table-responsive">
+        <div class="d-flex justify-content-md-end m-3">
+            <a href="{{ path('app_reservation_new') }}" class="btn btn-success">Crear</a>
+        </div>
+
+        <table class="table table-striped table-hover border border-1 d-lg-table d-none shadow text-center">
+            <thead>
+            <tr>
+                <th class="d-none">Id</th>
+                <th class="bg-quaternary-lm">Cliente</th>
+                <th class="bg-quaternary-lm">Vehículo</th>
+                <th class="bg-quaternary-lm">Fecha inicio</th>
+                <th class="bg-quaternary-lm">Fecha fin</th>
+                <th class="bg-quaternary-lm">Precio</th>
+                <th class="bg-quaternary-lm">Pago</th>
+                <th class="bg-quaternary-lm">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td class="d-none">{{ reservation.id }}</td>
+                    <td>{{ reservation.customer.name }}</td>
+                    <td>{{ reservation.vehicle.brand.name }}</td>
+                    <td>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.totalPrice }} €</td>
+                    <td></td>
+                    <td>
+                        <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-primary"><i
+                                    class="bi bi-eye-fill"></i></a>
+                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-secondary"><i
+                                    class="bi bi-pencil-fill"></i></a>
+                        <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}" class="btn btn-danger"><i
+                                    class="bi bi-trash-fill"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No se han encontrado resultados</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

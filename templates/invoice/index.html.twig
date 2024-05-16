@@ -37,7 +37,7 @@
                     <td class="d-none">{{ invoice.id }}</td>
                     <td>{{ invoice.customer.name }}</td>
                     <td>{{ invoice.number }}</td>
-                    <td>{{ invoice.price }}</td>
+                    <td>{{ invoice.price }} €</td>
                     <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
                     <td>
                         <a href="{{ path('app_invoice_show', {'id': invoice.id}) }}" class="btn btn-primary"><i
