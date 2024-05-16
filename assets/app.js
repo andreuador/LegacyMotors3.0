@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import '@popperjs/core';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import '@fortawesome/fontawesome-free/css/all.css';
+import '@fontawesome/fontawesome-free/css/all.css';
 
 import { registerVueControllerComponents } from '@symfony/ux-vue';
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));

@@ -43,14 +43,11 @@
             </thead>
             <tbody>
             {% for vehicle in vehicles %}
+                {% for model in vehicle.brand.models %}
                 <tr>
                     <td class="d-none">{{ vehicle.id }}</td>
                     <td data-title="Marca">{{ vehicle.brand.name }}</td>
-                    <td data-title="Modelo">
-                        {% for model in vehicle.brand.models %}
-                            {{ model.name }}
-                        {% endfor %}
-                    </td>
+                    <td data-title="Modelo">{{ model.name }}</td>
                     <td data-title="Matrícula">{{ vehicle.plate }}</td>
                     <td data-title="Carburante">{{ vehicle.fuel }}</td>
                     <td data-title="Color">{{ vehicle.color }}</td>
@@ -75,6 +72,7 @@
                 <tr>
                     <td colspan="13">No se encuentran resultados</td>
                 </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>
