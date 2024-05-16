@@ -17,6 +17,6 @@
     --btn-normal-hover: var(--primary-LM-color);
     --btn-aside-hover: var(--tertiary-LM-color);
 
-    --title-font-family-lm: 'Josefin Sans', sans-serif;
-    --text-font-family-lm: 'Montserrat', sans-serif;
+    --title-font-family-lm: "Josefin Sans", sans-serif;
+    --text-font-family-lm: "Montserrat", sans-serif;
 }

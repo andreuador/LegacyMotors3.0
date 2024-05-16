@@ -1,9 +1,9 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Vehicle{% endblock %}
+{% block title %}Vehículo{% endblock %}
 
 {% block body %}
-    <h1 class="font-lm-title my-3">Vehicle</h1>
+    <h1 class="font-lm-title my-3">Vehículo</h1>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover text-center">
@@ -17,7 +17,7 @@
                     <td>{{ vehicle.brand.name }}</td>
                 </tr>
                 <tr>
-                    <th>Model</th>
+                    <th>Modelo</th>
                     <td>
                         {% for model in vehicle.brand.models %}
                             {{ model.name }}
@@ -29,7 +29,7 @@
                     <td>{{ vehicle.plate }}</td>
                 </tr>
                 <tr>
-                    <th>Carburant</th>
+                    <th>Carburante</th>
                     <td>{{ vehicle.fuel }}</td>
                 </tr>
                 <tr>
@@ -37,7 +37,7 @@
                     <td>{{ vehicle.color }}</td>
                 </tr>
                 <tr>
-                    <th>Preu</th>
+                    <th>Precio</th>
                     <td>{{ vehicle.pricePerDay }}</td>
                 </tr>
                 <tr>
@@ -45,19 +45,19 @@
                     <td>{{ vehicle.available ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
-                    <th>Portes</th>
+                    <th>Puertas</th>
                     <td>{{ vehicle.doors }}</td>
                 </tr>
                 <tr>
-                    <th>Capacitat</th>
+                    <th>Capacidad</th>
                     <td>{{ vehicle.capacity }}</td>
                 </tr>
                 <tr>
-                    <th>Transmissió</th>
+                    <th>Transmisión</th>
                     <td>{{ vehicle.transmission }}</td>
                 </tr>
                 <tr>
-                    <th>Descripció</th>
+                    <th>Descripción</th>
                     <td>{{ vehicle.description }}</td>
                 </tr>
                 <tr class="d-none">
@@ -72,7 +72,7 @@
         </table>
     </div>
 
-    <a href="{{ path('app_vehicle_index') }}" class="btn btn-primary">Tornar</a>
+    <a href="{{ path('app_vehicle_index') }}" class="btn btn-primary">Volver</a>
 
     <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}" class="btn btn-success">Editar</a>
 

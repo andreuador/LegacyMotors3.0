@@ -1,5 +1,11 @@
+/* Josefin Sans */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
+
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 * {
-    font-family: var(--text-font-family-lm), sans-serif !important;
+    font-family: 'Montserrat',  sans-serif !important;
 }
 .bg-primary-lm {
     background-color: var(--primary-LM-color) !important;
@@ -32,9 +38,9 @@
 }
 
 .font-lm-title {
-    font-family: var(--title-font-family-lm), sans-serif !important;
+    font-family: 'Josefin Sans', sans-serif !important;
 }
 
 .font-lm-text {
-    font-family: var(--text-font-family-lm), sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
 }

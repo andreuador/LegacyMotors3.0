@@ -4,6 +4,9 @@
 
 {% block body %}
 <div class="row">
+    <div class="col-12">
+        <h1 class="font-lm-title m-3">Estadísticas</h1>
+    </div>
 <!--    <div class="col-12 col-md-4">
         <div class="card h-100">
             <div class="card-header">
@@ -19,10 +22,10 @@
     <div class="col-12 col-md-6">
         <div class="card h-100">
             <div class="card-header">
-                <h2 class="fs-3">Percentatge de reserves</h2>
+                <h2 class="fs-3">Porcentage de reservas</h2>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Top 5 marques</h5>
+                <h5 class="card-title">Top 5 marcas</h5>
                 {% for brand, percentage in topBrands %}
                 <div class="progress-bar">
                     <div class="progress-label">{{ brand }}</div>
@@ -42,10 +45,10 @@
     <div class="col-12 col-md-6">
         <div class="card h-100">
             <div class="card-header">
-                <h2 class="fs-3">Vehicles més populars</h2>
+                <h2 class="fs-3">Vehículos más populares</h2>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Vehicles</h5>
+                <h5 class="card-title">Vehículos</h5>
                 <ul class="list-group">
                     {% for vehicle in vehicles %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
