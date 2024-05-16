@@ -12,10 +12,12 @@
 
     --btn-normal: var(--tertiary-LM-color);
     --btn-text: var(--primary-LM-color);
+    --btn-text-hover: var(--secondary-LM-color);
 
     /* Hover */
     --btn-normal-hover: var(--primary-LM-color);
     --btn-aside-hover: var(--tertiary-LM-color);
+    --btn-button-hover: var(--secondary-LM-color);
 
     --title-font-family-lm: "Josefin Sans", sans-serif;
     --text-font-family-lm: "Montserrat", sans-serif;

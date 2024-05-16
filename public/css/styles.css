@@ -37,6 +37,11 @@
     color: var(--btn-text) !important;
 }
 
+.btn-button-hover:hover {
+    background-color: var(--btn-button-hover) !important;
+    color: var(--btn-text-hover) !important;
+}
+
 .font-lm-title {
     font-family: 'Josefin Sans', sans-serif !important;
 }
