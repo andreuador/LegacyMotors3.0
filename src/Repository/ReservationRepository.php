@@ -31,10 +31,10 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function findByTextQuery(string $value): Query {
         return $this->createQueryBuilder('r')
-            ->join('o.customer', 'c')
-            ->andWhere('o.state LIKE :val')
+            ->join('r.customer', 'c')
+            ->andWhere('c.name LIKE :val')
             ->setParameter('val', '%'.$value.'%')
-            ->orderBy('o.state', 'DESC')
+            ->orderBy('r.start_date', 'DESC')
             ->getQuery();
     }
 

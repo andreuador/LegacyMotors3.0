@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Brand;
 use App\Entity\Customer;
+use App\Entity\Model;
 use App\Entity\PaymentDetails;
 use App\Entity\Reservation;
 use App\Entity\Vehicle;
@@ -25,15 +27,23 @@ class ReservationType extends AbstractType
             ->add('total_price')
             ->add('vehicle', EntityType::class, [
                 'class' => Vehicle::class,
-                'choice_label' => 'id',
+                'choice_label' => 'plate',
+            ])
+            ->add('vehicle', EntityType::class, [
+                'class' => Brand::class,
+                'choice_label' => 'name',
+            ])
+            ->add('vehicle', EntityType::class, [
+                'class' => Model::class,
+                'choice_label' => 'name',
             ])
             ->add('paymentDetails', EntityType::class, [
                 'class' => PaymentDetails::class,
-                'choice_label' => 'id',
+                'choice_label' => 'paymentMethod',
             ])
             ->add('customer', EntityType::class, [
                 'class' => Customer::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }

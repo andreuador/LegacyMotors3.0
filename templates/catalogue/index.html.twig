@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catàleg{% endblock %}
+{% block title %}Catálogo{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="d-flex justify-content-center">
-                    <h1>Catàleg</h1>
+                    <h1 class="font-lm-title my-3">Catálogo</h1>
                 </div>
                 <form method="get" role="search">
                     <div class="d-flex justify-content-center my-3">
@@ -22,17 +22,15 @@
     </div>
 
     {% if q %}
-        <h2>Mostrant el resultat de: {{ q }}</h2>
+        <h2>Mostrando el resultado de: {{ q }}</h2>
     {% endif %}
 
     <div class="container-fluid">
         <div class="row">
             {% for vehicle in vehicles %}
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="card w-100">
-                    {% for image in vehicle.images %}
-                    <img src="{{ asset('images/' ~ image.file_name) }}" class="card-img-top" alt="Cotxe">
-                    {% endfor %}
+                    <img src="{{ asset('images/duotone5.png') }}" class="card-img-top img-fluid" alt="Cotxe">
                     <div class="card-body">
                         <h4 class="card-title text-center"><a href="#" class="link-offset-2 link-underline link-underline-opacity-0">Doutone</a></h4>
                         <div class="row">

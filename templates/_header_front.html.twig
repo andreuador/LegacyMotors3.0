@@ -1,11 +1,18 @@
 <header class="container-fluid">
     <div class="row">
         <div class="col-12 px-0">
-            <nav class="navbar navbar-expand-lg position-absolute z-2 w-100 font-lm-text">
-                <div class="container-fluid mx-auto">
+            <nav class="navbar navbar-expand-lg w-100 font-lm-text
+                {% if app.request.attributes.get('_route') == 'app_catalogue_index' %}
+                    bg-primary-lm
+                {% elseif app.request.attributes.get('_route') == 'app_login' %}
+                    bg-primary-lm
+                {% else %}
+                    position-absolute z-2
+                {% endif %}">
+                <div class="container-fluid">
                     <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img
-                                src="{{ asset("images/logo5.png") }}" width="40px" alt="Logo"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                src="{{ asset("images/logo5.png") }}" width="40px" alt="Legacy Motors"></a>
+                    <button class="navbar-toggler bg-secondary-lm" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -17,20 +24,20 @@
                                    href="{{ path('app_catalogue_index') }}">Catálogo</a>
                             </li>
                         </ul>
+                        <div class="d-flex justify-content-around w-25">
+                            {% if app.user %}
+                                <!-- Fer un dropdown amb les opcions per a entrar al back o fer altre login per als treballadors -->
+                                <a class="btn bg-tertiary-lm btn-normal-hover" href="#"><i
+                                            class="bi bi-person-fill"></i></a>
+                                <a class="btn bg-tertiary-lm btn-normal-hover" href="#"><i
+                                            class="bi bi-cart-fill"></i></a>
+                                <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_logout') }}">Logout</a>
+                            {% else %}
+                                <a class="btn bg-tertiary-lm" href="{{ path('app_login') }}">Login</a>
+                                {# <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a> #}
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-around">
-                    {% if app.user %}
-                        <!-- Fer un dropdown amb les opcions per a entrar al back o fer altre login per als treballadors -->
-                        <a class="btn bg-tertiary-lm me-2 btn-normal-hover" href="#"><i
-                                    class="bi bi-person-fill"></i></a>
-                        <a class="btn bg-tertiary-lm me-2 btn-normal-hover" href="#"><i
-                                    class="bi bi-house-door-fill"></i></a>
-                        <a class="btn bg-quaternary-lm btn-normal-hover me-2" href="{{ path('app_logout') }}">Logout</a>
-                    {% else %}
-                        <a class="btn bg-tertiary-lm mx-4" href="{{ path('app_login') }}">Login</a>
-                        {# <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a> #}
-                    {% endif %}
                 </div>
             </nav>
         </div>
