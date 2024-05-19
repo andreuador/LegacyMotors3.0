@@ -22,7 +22,7 @@ class Employee
     #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
     private ?Login $login = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isDeleted = null;
 
     public function getId(): ?int
@@ -71,7 +71,7 @@ class Employee
         return $this->isDeleted;
     }
 
-    public function setDeleted(bool $isDeleted): static
+    public function setDeleted(?bool $isDeleted): static
     {
         $this->isDeleted = $isDeleted;
 

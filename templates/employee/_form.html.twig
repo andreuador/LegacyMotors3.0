@@ -1,4 +1,31 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.name, 'Nombre') }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.lastname, 'Apellido') }}
+        {{ form_widget(form.lastname, {'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_label(form.login.username, 'Nombre de Usuario') }}
+        {{ form_widget(form.login.username, {'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.login.password, 'Contraseña') }}
+        {{ form_widget(form.login.password, {'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 my-2">
+        <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+    </div>
+</div>
+
 {{ form_end(form) }}

@@ -20,7 +20,7 @@ class CustomerType extends AbstractType
             ->add('phone')
             ->add('address')
             ->add('dni')
-            ->add('login', LoginType::class)
+            //->add('login', LoginType::class)
         ;
     }
 

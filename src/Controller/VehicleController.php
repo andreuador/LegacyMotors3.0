@@ -87,7 +87,7 @@ class VehicleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_vehicle_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_vehicle_delete', methods: ['POST', 'GET'])]
     public function delete(Request $request, Vehicle $vehicle, EntityManagerInterface $entityManager): Response
     {
 

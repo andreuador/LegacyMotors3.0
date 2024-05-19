@@ -16,10 +16,7 @@ class EmployeeType extends AbstractType
         $builder
             ->add('name')
             ->add('lastname')
-            ->add('login', EntityType::class, [
-                'class' => Login::class,
-                'choice_label' => 'id',
-            ])
+            ->add('login', LoginType::class)
         ;
     }
 

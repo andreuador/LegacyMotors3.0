@@ -3,11 +3,11 @@
 {% block title %}Nuevo vehículo{% endblock %}
 
 {% block body %}
-    <h1 class="font-lm-title my-3">Crear nuevo vehículo</h1>
+    <h1 class="font-lm-title my-3">Crear vehículo</h1>
 
     <div class="my-5">
         {{ include('vehicle/_form.html.twig') }}
+        <a href="{{ path('app_vehicle_index') }}" class="btn btn-primary">Volver</a>
     </div>
 
-    <a href="{{ path('app_vehicle_index') }}" class="btn btn-primary">Volver</a>
 {% endblock %}

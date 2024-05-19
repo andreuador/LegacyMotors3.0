@@ -24,7 +24,7 @@ class CustomerRepository extends ServiceEntityRepository
 
     public function findAllQuery(): Query {
         return $this->createQueryBuilder('c')
-            ->where('c.isDeleted = false')
+            ->andWhere('c.isDeleted IS NULL OR c.isDeleted = 0')
             ->orderBy('c.name', 'ASC')
             ->getQuery();
     }

@@ -10,6 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -17,19 +18,27 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class CustomerController extends AbstractController
 {
+
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     #[Route('/', name: 'app_customer_index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $q = $request->query->get('q', '');
 
         if (empty($q)) {
-            $cutomerQuery = $customerRepository->findAllQuery();
+            $customerQuery = $customerRepository->findAllQuery();
         } else {
-            $cutomerQuery = $customerRepository->findByText($q);
+            $customerQuery = $customerRepository->findByText($q);
         }
 
         $pagination = $paginator->paginate(
-            $cutomerQuery,
+            $customerQuery,
             $request->query->getInt('page', 1),
             5
         );
@@ -49,6 +58,15 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $login = $customer->getLogin();
+            $login->setRole('ROLE_PRIVATE');
+            $customer->setDeleted(false);
+
+            // Codificar la contraseña
+            $encodedPassword = $this->passwordHasher->hashPassword($login, $login->getPassword());
+            $login->setPassword($encodedPassword);
+
+            $entityManager->persist($login);
             $entityManager->persist($customer);
             $entityManager->flush();
 
@@ -57,7 +75,7 @@ class CustomerController extends AbstractController
 
         return $this->render('customer/new.html.twig', [
             'customer' => $customer,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -87,13 +105,18 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_customer_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_customer_delete', methods: ['POST', 'GET'])]
     public function delete(Request $request, Customer $customer, EntityManagerInterface $entityManager): Response
     {
+
+        $customer->setDeleted(true);
+        $entityManager->persist($customer);
+        $entityManager->flush();
+        /*
         if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($customer);
             $entityManager->flush();
-        }
+        }*/
 
         return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
     }

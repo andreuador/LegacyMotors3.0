@@ -24,8 +24,7 @@ class VehicleRepository extends ServiceEntityRepository
 
     public function findAllQuery(): Query {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.isDeleted IS NULL OR v.isDeleted = :isDeleted')
-            ->setParameter('isDeleted', false)
+            ->andWhere('v.isDeleted IS NULL OR v.isDeleted = 0')
             ->orderBy('v.id', 'ASC')
             ->getQuery()
             ;

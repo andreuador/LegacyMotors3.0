@@ -32,6 +32,9 @@ class Order implements JsonSerializable
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Invoice $invoice = null;
 
+    #[ORM\Column]
+    private ?bool $isDeleted = null;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -115,6 +118,18 @@ class Order implements JsonSerializable
     public function setInvoice(?Invoice $invoice): static
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

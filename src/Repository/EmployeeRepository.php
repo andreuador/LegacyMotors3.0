@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Employee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,22 @@ class EmployeeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Employee::class);
+    }
+
+    public function findAllQuery(): Query {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.isDeleted IS NULL OR e.isDeleted = 0')
+            ->orderBy('e.name', 'ASC')
+            ->getQuery();
+    }
+
+    public function findByText($value): array {
+        return $this->createQueryBuilder('e')
+            ->where('c.name LIKE :value')
+            ->setParameter('value', '%' . $value . '%')
+            ->orderBy('e.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

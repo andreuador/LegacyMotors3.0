@@ -86,13 +86,17 @@ class InvoiceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_invoice_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_invoice_delete', methods: ['POST', 'GET'])]
     public function delete(Request $request, Invoice $invoice, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$invoice->getId(), $request->getPayload()->get('_token'))) {
+        $invoice->setDeleted(true);
+        $entityManager->persist($invoice);
+        $entityManager->flush();
+
+        /*if ($this->isCsrfTokenValid('delete'.$invoice->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($invoice);
             $entityManager->flush();
-        }
+        }*/
 
         return $this->redirectToRoute('app_invoice_index', [], Response::HTTP_SEE_OTHER);
     }

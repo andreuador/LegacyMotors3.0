@@ -1,11 +1,12 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}New Provider{% endblock %}
+{% block title %}Nuevo proveedor{% endblock %}
 
 {% block body %}
-    <h1>Create new Provider</h1>
+    <h1 class="font-lm-title my-3">Crear proveedor</h1>
 
-    {{ include('provider/_form.html.twig') }}
-
-    <a href="{{ path('app_provider_index') }}">back to list</a>
+    <div class="my-5">
+        {{ include('provider/_form.html.twig') }}
+        <a href="{{ path('app_provider_index') }}" class="btn btn-primary">Volver</a>
+    </div>
 {% endblock %}
