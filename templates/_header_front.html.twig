@@ -8,6 +8,8 @@
                     bg-primary-lm
                 {% elseif app.request.attributes.get('_route') == 'app_register' %}
                     bg-primary-lm
+                {% elseif app.request.attributes.get('_route') == 'app_details_vehicle' %}
+                    bg-primary-lm
                 {% else %}
                     position-absolute z-2
                 {% endif %}">
@@ -22,7 +24,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link link-light btn-normal-hover rounded"
+                                <a class="nav-link btn-aside-hover link-light rounded"
                                    href="{{ path('app_catalogue_index') }}">Catálogo</a>
                             </li>
                         </ul>
@@ -33,10 +35,11 @@
                                             class="bi bi-person-fill"></i></a>
                                 <a class="btn bg-tertiary-lm btn-normal-hover" href="#"><i
                                             class="bi bi-cart-fill"></i></a>
-                                <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_logout') }}">Logout</a>
+                                <a class="btn bg-quaternary-lm btn-normal-hover"
+                                   href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
-                                <a class="btn bg-tertiary-lm" href="{{ path('app_login') }}">Login</a>
-                                <a class="btn btn-tertiary-lm" href="{{ path('app_register') }}">Registro</a>
+                                <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_login') }}">Login</a>
+                                <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_register') }}">Registro</a>
                             {% endif %}
                         </div>
                     </div>

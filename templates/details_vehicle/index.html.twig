@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DetailsVehicleController!{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4">Nombre del Coche</h1>
+                <p class="lead">Descripción breve del coche con detalles específicos y destacables.</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid" alt="Imagen del Coche">
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5" id="specifications">
+        <h2>Especificaciones Técnicas</h2>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <th scope="row">Motor</th>
+                <td>2.0L Turbo</td>
+            </tr>
+            <tr>
+                <th scope="row">Potencia</th>
+                <td>250 CV</td>
+            </tr>
+            <tr>
+                <th scope="row">Transmisión</th>
+                <td>Automática 8 velocidades</td>
+            </tr>
+            <tr>
+                <th scope="row">Consumo</th>
+                <td>8.5 L/100km</td>
+            </tr>
+            <tr>
+                <th scope="row">Aceleración 0-100 km/h</th>
+                <td>5.5 segundos</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- No se que fer en aquesta part -->
+<!--    <div class="container mt-5" id="features">
+        <h2>Características Destacadas</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="interior.jpg" class="card-img-top" alt="Interior">
+                    <div class="card-body">
+                        <h5 class="card-title">Interior de Lujo</h5>
+                        <p class="card-text">Asientos de cuero, sistema de infotainment de última generación, y más.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="seguridad.jpg" class="card-img-top" alt="Seguridad">
+                    <div class="card-body">
+                        <h5 class="card-title">Seguridad</h5>
+                        <p class="card-text">Equipado con los últimos avances en seguridad activa y pasiva.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="tecnologia.jpg" class="card-img-top" alt="Tecnología">
+                    <div class="card-body">
+                        <h5 class="card-title">Tecnología</h5>
+                        <p class="card-text">Conectividad total, asistencia al conductor y más innovaciones
+                            tecnológicas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+{% endblock %}

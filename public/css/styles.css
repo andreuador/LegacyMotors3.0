@@ -39,7 +39,7 @@
 
 .btn-button-hover:hover {
     background-color: var(--btn-button-hover) !important;
-    color: var(--btn-text-hover) !important;
+    color: var(--btn-text) !important;
 }
 
 .font-lm-title {
