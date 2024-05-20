@@ -6,6 +6,8 @@
                     bg-primary-lm
                 {% elseif app.request.attributes.get('_route') == 'app_login' %}
                     bg-primary-lm
+                {% elseif app.request.attributes.get('_route') == 'app_register' %}
+                    bg-primary-lm
                 {% else %}
                     position-absolute z-2
                 {% endif %}">
@@ -34,7 +36,7 @@
                                 <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn bg-tertiary-lm" href="{{ path('app_login') }}">Login</a>
-                                {# <a class="btn btn-primary" href="{{ path('app_') }}">Registre</a> #}
+                                <a class="btn btn-tertiary-lm" href="{{ path('app_register') }}">Registro</a>
                             {% endif %}
                         </div>
                     </div>

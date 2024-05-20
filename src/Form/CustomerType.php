@@ -14,13 +14,15 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
             ->add('name')
             ->add('lastname')
+            ->add('email')
             ->add('phone')
             ->add('address')
             ->add('dni')
-            //->add('login', LoginType::class)
+            ->add('login', LoginType::class, [
+                'label' => 'Credenciales de Inicio de Sesión'
+            ])
         ;
     }
 
