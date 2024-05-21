@@ -66,7 +66,7 @@ class Vehicle
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Order $vehicleOrder = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isDeleted = null;
 
     public function __construct()

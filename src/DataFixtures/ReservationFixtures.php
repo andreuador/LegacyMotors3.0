@@ -44,6 +44,7 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
                 $reservation->setStartDate($startDate);
                 $reservation->setEndDate($endDate);
                 $reservation->setTotalPrice($this->faker->numberBetween(100, 1000));
+                $reservation->setDeleted(false);
 
                 // Asignar un cliente y un vehiculo a la reserva
                 $randomCustomer = array_rand($customers);

@@ -61,7 +61,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 24; $i++) {
             $vehicle = new Vehicle();
             $vehicle->setPlate($this->faker->vehicleRegistration('[0-9]{4}[A-Z]{3}'));
             $vehicle->setFuel($this->faker->vehicleFuelType);
