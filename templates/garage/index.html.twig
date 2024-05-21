@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="font-lm-title mb-4">Garage</h1>
+        {% if vehicles|length > 0 %}
+            <div class="row">
+                {% for vehicle in vehicles %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ asset('path_to_vehicle_image') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} {% endfor %}</h5>
+                                <p class="card-text">Matricula: {{ vehicle.plate }}</p>
+                                <p class="card-text">Precio: {{ vehicle.pricePerDay }} € / dia</p>
+                                <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id})  }}" class="btn btn-danger"><i class="bi bi-trash"></i> </a>
+                                {# <a href="{{ path('remove_from_cart', {'id': vehicle.id}) }}" class="btn btn-danger">Eliminar del Carrito</a>#}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2">Volver al catálogo</a>
+                <a href="#" class="btn btn-primary">Realizar Pedido</a>
+            </div>
+        {% else %}
+            <p>No hay vehículos en tu carrito.</p>
+        {% endif %}
+    </div>
+{% endblock %}

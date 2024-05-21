@@ -3,10 +3,10 @@
 {% block title %}Catálogo{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-start">
                     <h1 class="font-lm-title my-3">Catálogo</h1>
                 </div>
                 <form method="get" role="search">
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-4">
                                     <h5 class="card-text text-center">Motor</h5>
-                                    <p class="card-text text-center fs-6">V12</p>
+                                    <p class="card-text text-center fs-6">{{ vehicle.engine }}</p>
                                 </div>
                                 <div class="col-4">
                                     <h5 class="card-text text-center">Carburante</h5>
@@ -57,8 +57,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
-                                    <button class="btn bg-quaternary-lm m-3" type="submit">Añadir</button>
+                                <div class="col-12 text-center">
+                                    {% if not vehicle.available %}
+                                        <button class="btn bg-quaternary-lm m-2" disabled>Reservado</button>
+                                    {% else %}
+                                        <a class="btn bg-quaternary-lm m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -68,7 +72,27 @@
         </div>
     </div>
 
-    <div class="navigation d-flex justify-content-center mt-lg-3">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center my-2">
+            <li class="page-item {% if pagination.currentPageNumber == 1 %}disabled{% endif %}">
+                <a class="page-link"
+                   href="{% if pagination.currentPageNumber > 1 %}{{ path('app_catalogue_index', {'page': pagination.currentPageNumber - 1}) }}{% endif %}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for page in 1..pagination.pageCount %}
+                <li class="page-item {% if page == pagination.currentPageNumber %}active{% endif %}">
+                    <a class="page-link" href="{{ path('app_catalogue_index', {'page': page}) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {% if pagination.currentPageNumber == pagination.pageCount %}disabled{% endif %}">
+                <a class="page-link"
+                   href="{% if pagination.currentPageNumber < pagination.pageCount %}{{ path('app_catalogue_index', {'page': pagination.currentPageNumber + 1}) }}{% endif %}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

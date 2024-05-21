@@ -13,6 +13,7 @@ class DetailsVehicleController extends AbstractController
     #[Route('/{id}', name: 'app_details_vehicle')]
     public function index(Vehicle $vehicle): Response
     {
+
         return $this->render('details_vehicle/index.html.twig', [
             'vehicle' => $vehicle,
         ]);

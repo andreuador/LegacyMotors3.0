@@ -69,11 +69,28 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setPricePerDay($this->faker->randomFloat(2, 50, 300));
             $vehicle->setAvailable(true);
             $vehicle->setDoors($this->faker->numberBetween(2, 5));
-            $vehicle->setCapacity($this->faker->numberBetween(2, 8));
-            $vehicle->setTransmission($this->faker->randomElement(['automatic', 'manual']));
-            $vehicle->setDescription('funciona');
-            $vehicle->setCategory($this->faker->randomElement(['Gasolina', 'Gasoil', 'Eléctrico']));
+            $vehicle->setTransmission($this->faker->randomElement(['Automatico', 'Manual']));
             $vehicle->setDeleted(false);
+            $vehicle->setConsumption($this->faker->randomFloat(2, 3, 15)); // Liters per 100km
+            $vehicle->setAcceleration($this->faker->randomFloat(2, 2, 15)); // 0-100 km/h in seconds
+            $vehicle->setPower($this->faker->numberBetween(60, 500)); // Horsepower
+            $vehicle->setEngine($this->faker->randomElement(['V6', 'V8', 'I4', 'I6', 'Electric']));
+
+            /*$description = sprintf(
+                'Este %s %s del año %d tiene un motor %s con una potencia de %d CV. Cuenta con una aceleración de 0 a 100 km/h en %.2f segundos y un consumo de %.2f litros por cada 100 km. Está disponible en color %s y tiene %d puertas.',
+                $brand->getName(),
+                $model->getName(),
+                $model->getYear(),
+                $vehicle->getEngine(),
+                $vehicle->getPower(),
+                $vehicle->getAcceleration(),
+                $vehicle->getConsumption(),
+                $vehicle->getColor(),
+                $vehicle->getDoors()
+            );
+
+            $vehicle->setDescription($description);*/
+
 
             $brand = $brands[array_rand($brands)];
             $vehicle->setBrand($brand);

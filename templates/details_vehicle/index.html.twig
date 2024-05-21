@@ -12,10 +12,17 @@
         <div class="row">
             <div class="col-md-6">
                 <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} {% endfor %}</h1>
-                <p class="lead">{{ vehicle.description }}</p>
+                <p class="lead">
+                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} del año {{ model.year }} {% endfor %}
+                    tiene un
+                    motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
+                    0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros
+                    por cada 100 km. Está disponible en color {{ vehicle.color }} y tiene {{ vehicle.doors }} puertas.
+                </p>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid" alt="Imagen del Coche">
+                <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid"
+                     alt="Imagen del Coche">
             </div>
         </div>
     </div>
@@ -26,61 +33,25 @@
             <tbody>
             <tr>
                 <th scope="row">Motor</th>
-                <td>2.0L Turbo</td>
+                <td>{{ vehicle.engine }}</td>
             </tr>
             <tr>
                 <th scope="row">Potencia</th>
-                <td>250 CV</td>
+                <td>{{ vehicle.power }} CV</td>
             </tr>
             <tr>
                 <th scope="row">Transmisión</th>
-                <td>Automática 8 velocidades</td>
+                <td>{{ vehicle.transmission }}</td>
             </tr>
             <tr>
                 <th scope="row">Consumo</th>
-                <td>8.5 L/100km</td>
+                <td>{{ vehicle.consumption }} L/100km</td>
             </tr>
             <tr>
                 <th scope="row">Aceleración 0-100 km/h</th>
-                <td>5.5 segundos</td>
+                <td>{{ vehicle.acceleration }} segundos</td>
             </tr>
             </tbody>
         </table>
     </div>
-
-
-    <!-- No se que fer en aquesta part -->
-    <!--    <div class="container mt-5" id="features">
-            <h2>Características Destacadas</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="interior.jpg" class="card-img-top" alt="Interior">
-                        <div class="card-body">
-                            <h5 class="card-title">Interior de Lujo</h5>
-                            <p class="card-text">Asientos de cuero, sistema de infotainment de última generación, y más.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="seguridad.jpg" class="card-img-top" alt="Seguridad">
-                        <div class="card-body">
-                            <h5 class="card-title">Seguridad</h5>
-                            <p class="card-text">Equipado con los últimos avances en seguridad activa y pasiva.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="tecnologia.jpg" class="card-img-top" alt="Tecnología">
-                        <div class="card-body">
-                            <h5 class="card-title">Tecnología</h5>
-                            <p class="card-text">Conectividad total, asistencia al conductor y más innovaciones
-                                tecnológicas.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 {% endblock %}

@@ -33,17 +33,23 @@ class Vehicle
     #[ORM\Column]
     private ?int $doors = null;
 
-    #[ORM\Column]
-    private ?int $capacity = null;
+    #[ORM\Column(length: 50)]
+    private ?string $engine = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $power = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $consumption = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $acceleration = null;
 
     #[ORM\Column(length: 50)]
     private ?string $transmission = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Provider $provider = null;
@@ -152,18 +158,6 @@ class Vehicle
         return $this;
     }
 
-    public function getCapacity(): ?int
-    {
-        return $this->capacity;
-    }
-
-    public function setCapacity(int $capacity): static
-    {
-        $this->capacity = $capacity;
-
-        return $this;
-    }
-
     public function getTransmission(): ?string
     {
         return $this->transmission;
@@ -184,18 +178,6 @@ class Vehicle
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): static
-    {
-        $this->category = $category;
 
         return $this;
     }
@@ -304,6 +286,54 @@ class Vehicle
     public function setDeleted(bool $isDeleted): static
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getEngine(): ?string
+    {
+        return $this->engine;
+    }
+
+    public function setEngine(string $engine): static
+    {
+        $this->engine = $engine;
+
+        return $this;
+    }
+
+    public function getPower(): ?string
+    {
+        return $this->power;
+    }
+
+    public function setPower(string $power): static
+    {
+        $this->power = $power;
+
+        return $this;
+    }
+
+    public function getConsumption(): ?string
+    {
+        return $this->consumption;
+    }
+
+    public function setConsumption(string $consumption): static
+    {
+        $this->consumption = $consumption;
+
+        return $this;
+    }
+
+    public function getAcceleration(): ?string
+    {
+        return $this->acceleration;
+    }
+
+    public function setAcceleration(string $acceleration): static
+    {
+        $this->acceleration = $acceleration;
 
         return $this;
     }

@@ -30,7 +30,6 @@ class VehicleType extends AbstractType
             ->add('price_per_day')
             ->add('available')
             ->add('doors')
-            ->add('capacity')
             ->add('transmission', ChoiceType::class,[
                 'choices' => [
                     'Manual' => 'manual',
@@ -42,11 +41,11 @@ class VehicleType extends AbstractType
             ->add('isDeleted')*/
             ->add('provider', EntityType::class, [
                 'class' => Provider::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('vehicleOrder', EntityType::class, [
                 'class' => Order::class,

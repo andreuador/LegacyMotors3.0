@@ -33,10 +33,9 @@
                 <th class="bg-quaternary-lm">Precio</th>
                 <th class="bg-quaternary-lm">Disponible</th>
                 <th class="bg-quaternary-lm">Puertas</th>
-                <th class="bg-quaternary-lm">Capacidad</th>
                 <th class="bg-quaternary-lm">Transmissión</th>
-                <th class="bg-quaternary-lm">Descripción</th>
-                <th class="d-none">Categoria</th>
+                <th class="bg-quaternary-lm d-none">Descripción</th>
+                <th class="bg-quaternary-lm">Motor</th>
                 <th class="d-none">IsDeleted</th>
                 <th class="bg-quaternary-lm">Acciones</th>
             </tr>
@@ -54,10 +53,9 @@
                     <td data-title="Precio">{{ vehicle.pricePerDay }} €</td>
                     <td data-title="Disponible">{{ vehicle.available ? 'Si' : 'No' }}</td>
                     <td data-title="Puertas">{{ vehicle.doors }}</td>
-                    <td data-title="Capacidad">{{ vehicle.capacity }}</td>
                     <td data-title="Transmisión">{{ vehicle.transmission }}</td>
-                    <td data-title="Descripción">{{ vehicle.description }}</td>
-                    <td class="d-none">{{ vehicle.category }}</td>
+                    <td data-title="Motor">{{ vehicle.engine }}</td>
+                    <td data-title="Descripción" class="d-none">{{ vehicle.description }}</td>
                     <td class="d-none">{{ vehicle.isDeleted ? 'Si' : 'No' }}</td>
                     <td>
                         <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}"

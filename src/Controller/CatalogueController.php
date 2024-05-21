@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use App\Form\OrderType;
+use App\Repository\OrderRepository;
 use App\Repository\VehicleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,5 +37,70 @@ class CatalogueController extends AbstractController
             'pagination' => $pagination,
             'q' => $q
         ]);
+    }
+
+    #[Route('/add/{id}', name: 'app_catalogue_add_vehicle', methods: ['GET', 'POST'])]
+    public function new($id, Request $request, EntityManagerInterface $entityManager, OrderRepository $orderRepository, VehicleRepository $vehicleRepository): Response {
+        /*if ($this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'warning',
+                "Sols els clients poden realitzar compres"
+            );
+            return $this->redirectToRoute('templates');
+        }*/
+
+        $login = $this->getUser();
+        $customer = $login->getCustomer();
+
+        $existingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+
+        if (!$existingOrder) {
+            $order = new Order();
+            $order->setState('En proceso');
+            $order->setCustomer($customer);
+            $order->setDeleted(false);
+
+            $form = $this->createForm(OrderType::class, $order);
+            $form->handleRequest($request);
+
+            $entityManager->persist($order);
+            $entityManager->flush();
+
+            $vehicleId = $id;
+            $vehicle = $vehicleRepository->find($vehicleId);
+            $vehicle->setVehicleOrder($order);
+
+            $entityManager->persist($vehicle);
+            $entityManager->flush();
+
+            /*$this->addFlash(
+                'success',
+                "S'ha creat una nova ordre amb el vehicle."
+            );*/
+        } else {
+            $order = $existingOrder;
+
+            $vehicleId = $id;
+            $vehicle = $vehicleRepository->find($vehicleId);
+
+            if ($vehicle->getVehicleOrder() !== null) {
+                $this->addFlash(
+                    'danger',
+                    'El vehicle no esta disponible.'
+                );
+            } else {
+                $vehicle->setVehicleOrder($order);
+
+                $entityManager->persist($vehicle);
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Vehicle afegit correctament!'
+                );
+            }
+        }
+
+        return $this->redirectToRoute('app_catalogue_index', [], Response::HTTP_SEE_OTHER);
     }
 }
