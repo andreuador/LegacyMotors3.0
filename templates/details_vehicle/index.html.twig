@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DetailsVehicleController!{% endblock %}
+{% block title %}
+    {{ vehicle.brand.name }}
+    {% for model in vehicle.brand.models %}
+        {{ model.name }}
+    {% endfor %}
+{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4">Nombre del Coche</h1>
-                <p class="lead">Descripción breve del coche con detalles específicos y destacables.</p>
+                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} {% endfor %}</h1>
+                <p class="lead">{{ vehicle.description }}</p>
             </div>
             <div class="col-md-6">
                 <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid" alt="Imagen del Coche">
@@ -45,37 +50,37 @@
 
 
     <!-- No se que fer en aquesta part -->
-<!--    <div class="container mt-5" id="features">
-        <h2>Características Destacadas</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="interior.jpg" class="card-img-top" alt="Interior">
-                    <div class="card-body">
-                        <h5 class="card-title">Interior de Lujo</h5>
-                        <p class="card-text">Asientos de cuero, sistema de infotainment de última generación, y más.</p>
+    <!--    <div class="container mt-5" id="features">
+            <h2>Características Destacadas</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="interior.jpg" class="card-img-top" alt="Interior">
+                        <div class="card-body">
+                            <h5 class="card-title">Interior de Lujo</h5>
+                            <p class="card-text">Asientos de cuero, sistema de infotainment de última generación, y más.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="seguridad.jpg" class="card-img-top" alt="Seguridad">
+                        <div class="card-body">
+                            <h5 class="card-title">Seguridad</h5>
+                            <p class="card-text">Equipado con los últimos avances en seguridad activa y pasiva.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="tecnologia.jpg" class="card-img-top" alt="Tecnología">
+                        <div class="card-body">
+                            <h5 class="card-title">Tecnología</h5>
+                            <p class="card-text">Conectividad total, asistencia al conductor y más innovaciones
+                                tecnológicas.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="seguridad.jpg" class="card-img-top" alt="Seguridad">
-                    <div class="card-body">
-                        <h5 class="card-title">Seguridad</h5>
-                        <p class="card-text">Equipado con los últimos avances en seguridad activa y pasiva.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="tecnologia.jpg" class="card-img-top" alt="Tecnología">
-                    <div class="card-body">
-                        <h5 class="card-title">Tecnología</h5>
-                        <p class="card-text">Conectividad total, asistencia al conductor y más innovaciones
-                            tecnológicas.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+        </div>-->
 {% endblock %}

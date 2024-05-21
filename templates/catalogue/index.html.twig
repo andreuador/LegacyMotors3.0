@@ -25,24 +25,40 @@
         <h2>Mostrando el resultado de: {{ q }}</h2>
     {% endif %}
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             {% for vehicle in vehicles %}
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="card w-100">
-                        {% for image in vehicle.images %}
-                            <img src="{{ asset('resources/vehicles/' ~ image.filename) }}" class="card-img-top img-fluid" alt="{{ vehicle.brand.name }}">
-                        {% endfor %}
+                <div class="col-sm-12 col-md-6">
+                    <div class="card w-100 m-3">
+                        {#{% for image in vehicle.images %}#}
+                            <img src="{{ asset('images/vehicles/porsche911.jpg') }}" class="card-img-top img-fluid" alt="{{ vehicle.brand.name }}">
+                        {#{% endfor %}#}
                         <div class="card-body">
                             <h4 class="card-title text-center">
                                 <a href="{{ path('app_details_vehicle', {'id': vehicle.id }) }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                     {{ vehicle.brand.name }}
+                                    {% for model in vehicle.brand.models %}
+                                        {{ model.name }}
+                                    {% endfor %}
                                 </a>
                             </h4>
                             <div class="row">
                                 <div class="col-4">
-                                    <h5 class="card-text text-center">V12</h5>
-                                    <p class="card-text text-center fs-6">Motor</p>
+                                    <h5 class="card-text text-center">Precio</h5>
+                                    <p class="card-text text-center fs-6">{{ vehicle.pricePerDay }} € / dia</p>
+                                </div>
+                                <div class="col-4">
+                                    <h5 class="card-text text-center">Motor</h5>
+                                    <p class="card-text text-center fs-6">V12</p>
+                                </div>
+                                <div class="col-4">
+                                    <h5 class="card-text text-center">Carburante</h5>
+                                    <p class="card-text text-center fs-6">{{ vehicle.fuel}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn bg-quaternary-lm m-3" type="submit">Añadir</button>
                                 </div>
                             </div>
                         </div>

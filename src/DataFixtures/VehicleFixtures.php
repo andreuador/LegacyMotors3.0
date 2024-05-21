@@ -64,7 +64,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 24; $i++) {
             $vehicle = new Vehicle();
             $vehicle->setPlate($this->faker->vehicleRegistration('[0-9]{4}[A-Z]{3}'));
-            $vehicle->setFuel($this->faker->vehicleFuelType);
+            $vehicle->setFuel($this->faker->randomElement(['Gasolina', 'Gasoil', 'Eléctrico']));
             $vehicle->setColor($this->faker->colorName());
             $vehicle->setPricePerDay($this->faker->randomFloat(2, 50, 300));
             $vehicle->setAvailable(true);
@@ -72,7 +72,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setCapacity($this->faker->numberBetween(2, 8));
             $vehicle->setTransmission($this->faker->randomElement(['automatic', 'manual']));
             $vehicle->setDescription('funciona');
-            $vehicle->setCategory($this->faker->randomElement(['gasolina', 'gasoil', 'electic']));
+            $vehicle->setCategory($this->faker->randomElement(['Gasolina', 'Gasoil', 'Eléctrico']));
             $vehicle->setDeleted(false);
 
             $brand = $brands[array_rand($brands)];

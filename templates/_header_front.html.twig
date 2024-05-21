@@ -15,7 +15,7 @@
                 {% endif %}">
                 <div class="container-fluid">
                     <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img
-                                src="{{ asset("images/logo5.png") }}" width="40px" alt="Legacy Motors"></a>
+                                src="{{ asset("images/logo7.png") }}" width="60px" alt="Legacy Motors"></a>
                     <button class="navbar-toggler bg-secondary-lm" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -31,11 +31,11 @@
                         <div class="d-flex justify-content-around w-25">
                             {% if app.user %}
                                 <!-- Fer un dropdown amb les opcions per a entrar al back o fer altre login per als treballadors -->
-                                <a class="btn bg-tertiary-lm btn-normal-hover" href="#"><i
+                                <a class="btn bg-tertiary-lm btn-button-hover" href="#"><i
                                             class="bi bi-person-fill"></i></a>
-                                <a class="btn bg-tertiary-lm btn-normal-hover" href="#"><i
+                                <a class="btn bg-tertiary-lm btn-button-hover" href="#"><i
                                             class="bi bi-cart-fill"></i></a>
-                                <a class="btn bg-quaternary-lm btn-normal-hover"
+                                <a class="btn bg-quaternary-lm btn-button-hover"
                                    href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_login') }}">Login</a>

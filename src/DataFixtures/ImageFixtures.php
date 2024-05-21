@@ -14,30 +14,21 @@ class ImageFixtures extends Fixture
 {
     private Generator $faker;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->faker = Factory::create('es_ES');
     }
+
     public function load(ObjectManager $manager): void
     {
-        // Obtindre totes les entitats de Vehicle disponibles
+        // Obtener todas las entidades Vehicle disponibles
         $vehicles = $manager->getRepository(Vehicle::class)->findAll();
 
         foreach ($vehicles as $vehicle) {
-            // Crear imatges per als vehicles
-            for ($i = 0; $i < random_int(2, 5); $i++) {
+            // Crear tres imágenes para cada vehículo
+            for ($i = 0; $i < random_int(2,5); $i++) {
                 $image = new Image();
-
-                // Generar el nombre del archivo de imagen
-                $imageFilePath = $this->faker->file('resources/vehicles', 'public/images/vehicles', false);
-                $imageFile = new UploadedFile(
-                    'public/images/vehicles/' . $imageFilePath,
-                    $imageFilePath,
-                    null,
-                    null,
-                    true // Mark the file as test to bypass security checks
-                );
-
-                $image->setImageFile($imageFile);
+                $image->setFilename($this->faker->file('resources/vehicles', '/public/images/vehicles', false));
                 $image->setVehicle($vehicle);
                 $manager->persist($image);
             }
