@@ -2,7 +2,7 @@
 
 {% block title %}
     {{ vehicle.brand.name }}
-    {% for model in vehicle.brand.models %}
+    {% for model in vehicle.brand.model %}
         {{ model.name }}
     {% endfor %}
 {% endblock %}
@@ -11,13 +11,13 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} {% endfor %}</h1>
+                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h1>
                 <p class="lead">
-                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} del año {{ model.year }} {% endfor %}
+                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} del año {{ model.year }} {% endfor %}
                     tiene un
                     motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
                     0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros
-                    por cada 100 km. Está disponible en color {{ vehicle.color }} y tiene {{ vehicle.doors }} puertas.
+                    por cada 100 km. Está disponible en color {{ vehicle.color }}.
                 </p>
             </div>
             <div class="col-md-6">
@@ -28,11 +28,12 @@
 
         <div class="row">
             <div class="col-12">
-                {% if not vehicle.available %}
+                {#{% if not vehicle.available %}
                     <button class="btn bg-quaternary-lm m-2" disabled>Reservado</button>
                 {% else %}
                     <a class="btn bg-quaternary-lm btn-normal-hover m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
-                {% endif %}
+                {% endif %}#}
+                <a class="btn bg-quaternary-lm btn-normal-hover m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
             </div>
         </div>
     </div>

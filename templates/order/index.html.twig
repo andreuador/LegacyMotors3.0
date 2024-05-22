@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             {% for order in orders %}
-                {% for vehicle in order.vehicles %}
+                {% for vehicle in order.vehicle %}
                     <tr>
                         <td class="d-none">{{ order.id }}</td>
                         <td>{{ order.customer.name }}</td>

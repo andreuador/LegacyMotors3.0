@@ -37,7 +37,7 @@
                             <h4 class="card-title text-center">
                                 <a href="{{ path('app_details_vehicle', {'id': vehicle.id }) }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                     {{ vehicle.brand.name }}
-                                    {% for model in vehicle.brand.models %}
+                                    {% for model in vehicle.brand.model %}
                                         {{ model.name }}
                                     {% endfor %}
                                 </a>
@@ -58,11 +58,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    {% if not vehicle.available %}
+                                    {#{% if not vehicle.available %}
                                         <button class="btn bg-quaternary-lm m-2" disabled>Reservado</button>
                                     {% else %}
                                         <a class="btn bg-quaternary-lm m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
-                                    {% endif %}
+                                    {% endif %}#}
+                                    <a class="btn bg-quaternary-lm m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
                                 </div>
                             </div>
                         </div>

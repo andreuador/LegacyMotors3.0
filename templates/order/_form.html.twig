@@ -1,21 +1,15 @@
-{{ form_start(form) }}
-<div class="row">
-    <div class="col-md-6">
-        {{ form_label(form.state, 'Estado') }}
-        {{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
+<hr class="my-5">
+<footer class="container-fluid my-3">
+    <div class="row">
+        <div class="col-12 p-0">
+            <div class="d-flex justify-content-center align-items-center font-lm-text fixed-bottom">
+                <p class="m-0">
+                    © 2024 Legacy Motors, Inc. ·
+                    <a href="#">Privacidad</a>
+                    <a href="#">Términos</a>
+                    <a href="{{ path('app_cookies') }}">Cookies</a>
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6">
-        {{ form_label(form.customer, 'Cliente') }}
-        {{ form_widget(form.customer, {'attr': {'class': 'form-control'}}) }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        {{ form_label(form.invoice, 'Factura') }}
-        {{ form_widget(form.invoice, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class="col-12 my-2">
-        <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
-    </div>
-</div>
-{{ form_end(form) }}
+</footer>

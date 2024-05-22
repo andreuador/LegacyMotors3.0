@@ -31,8 +31,6 @@
                 <th class="bg-quaternary-lm">Carburante</th>
                 <th class="bg-quaternary-lm">Color</th>
                 <th class="bg-quaternary-lm">Precio</th>
-                <th class="bg-quaternary-lm">Disponible</th>
-                <th class="bg-quaternary-lm">Puertas</th>
                 <th class="bg-quaternary-lm">Transmissión</th>
                 <th class="bg-quaternary-lm d-none">Descripción</th>
                 <th class="bg-quaternary-lm">Motor</th>
@@ -42,7 +40,7 @@
             </thead>
             <tbody>
             {% for vehicle in vehicles %}
-                {% for model in vehicle.brand.models %}
+                {% for model in vehicle.brand.model %}
                 <tr>
                     <td class="d-none">{{ vehicle.id }}</td>
                     <td data-title="Marca">{{ vehicle.brand.name }}</td>
@@ -51,8 +49,6 @@
                     <td data-title="Carburante">{{ vehicle.fuel }}</td>
                     <td data-title="Color">{{ vehicle.color }}</td>
                     <td data-title="Precio">{{ vehicle.pricePerDay }} €</td>
-                    <td data-title="Disponible">{{ vehicle.available ? 'Si' : 'No' }}</td>
-                    <td data-title="Puertas">{{ vehicle.doors }}</td>
                     <td data-title="Transmisión">{{ vehicle.transmission }}</td>
                     <td data-title="Motor">{{ vehicle.engine }}</td>
                     <td data-title="Descripción" class="d-none">{{ vehicle.description }}</td>
@@ -87,7 +83,7 @@
                             aria-controls="collapse{{ vehicle.id }}">
                         {{ vehicle.brand.name }}
                         <span class="mx-1">
-                            {% for model in vehicle.brand.models %}
+                            {% for model in vehicle.brand.model %}
                                 {{ model.name }}
                             {% endfor %}
                         </span>
@@ -103,7 +99,7 @@
                         <div class="flex-grow-1">
                             <h3>Model</h3>
                             <p>
-                                {% for model in vehicle.brand.models %}
+                                {% for model in vehicle.brand.model %}
                                     {{ model.name }}
                                 {% endfor %}
                             </p>
@@ -118,7 +114,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h5>Disponible</h5>
-                            <p>{{ vehicle.available ? 'Si' : 'No' }}</p>
+                            <p>{#{{ vehicle.available ? 'Si' : 'No' }}#}</p>
                         </div>
                         <div class="flex-grow-1">
                             <h5>Acciones</h5>
