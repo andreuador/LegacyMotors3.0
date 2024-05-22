@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,22 +23,14 @@ class Invoice
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Customer $customer = null;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'invoice')]
-    private Collection $orders;
-
-    #[ORM\Column]
-    private ?bool $isDeleted = null;
-
-    public function __construct()
-    {
-        $this->orders = new ArrayCollection();
-    }
+    #[ORM\OneToOne(mappedBy: 'invoice', cascade: ['persist', 'remove'])]
+    private ?Order $invoiceOrder = null;
 
     public function getId(): ?int
     {
@@ -83,7 +73,17 @@ class Invoice
         return $this;
     }
 
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
 
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
 
     public function getCustomer(): ?Customer
     {
@@ -97,44 +97,24 @@ class Invoice
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getInvoiceOrder(): ?Order
     {
-        return $this->orders;
+        return $this->invoiceOrder;
     }
 
-    public function addOrder(Order $order): static
+    public function setInvoiceOrder(?Order $invoiceOrder): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setInvoice($this);
+        // unset the owning side of the relation if necessary
+        if ($invoiceOrder === null && $this->invoiceOrder !== null) {
+            $this->invoiceOrder->setInvoice(null);
         }
 
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getInvoice() === $this) {
-                $order->setInvoice(null);
-            }
+        // set the owning side of the relation if necessary
+        if ($invoiceOrder !== null && $invoiceOrder->getInvoice() !== $this) {
+            $invoiceOrder->setInvoice($this);
         }
 
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setDeleted(bool $isDeleted): static
-    {
-        $this->isDeleted = $isDeleted;
+        $this->invoiceOrder = $invoiceOrder;
 
         return $this;
     }

@@ -33,18 +33,18 @@ class Provider
     #[ORM\Column(length: 20)]
     private ?string $phone = null;
 
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
     /**
      * @var Collection<int, Vehicle>
      */
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'provider')]
-    private Collection $vehicles;
-
-    #[ORM\Column]
-    private ?bool $isDeleted = null;
+    private Collection $vehicle;
 
     public function __construct()
     {
-        $this->vehicles = new ArrayCollection();
+        $this->vehicle = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,18 +124,30 @@ class Provider
         return $this;
     }
 
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Vehicle>
      */
-    public function getVehicles(): Collection
+    public function getVehicle(): Collection
     {
-        return $this->vehicles;
+        return $this->vehicle;
     }
 
     public function addVehicle(Vehicle $vehicle): static
     {
-        if (!$this->vehicles->contains($vehicle)) {
-            $this->vehicles->add($vehicle);
+        if (!$this->vehicle->contains($vehicle)) {
+            $this->vehicle->add($vehicle);
             $vehicle->setProvider($this);
         }
 
@@ -144,24 +156,12 @@ class Provider
 
     public function removeVehicle(Vehicle $vehicle): static
     {
-        if ($this->vehicles->removeElement($vehicle)) {
+        if ($this->vehicle->removeElement($vehicle)) {
             // set the owning side to null (unless already changed)
             if ($vehicle->getProvider() === $this) {
                 $vehicle->setProvider(null);
             }
         }
-
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setDeleted(?bool $isDeleted): static
-    {
-        $this->isDeleted = $isDeleted;
 
         return $this;
     }

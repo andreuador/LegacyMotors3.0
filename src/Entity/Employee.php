@@ -19,11 +19,12 @@ class Employee
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
-    private ?Login $login = null;
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isDeleted = null;
+    #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Login $login = null;
 
     public function getId(): ?int
     {
@@ -54,26 +55,26 @@ class Employee
         return $this;
     }
 
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
     public function getLogin(): ?Login
     {
         return $this->login;
     }
 
-    public function setLogin(?Login $login): static
+    public function setLogin(Login $login): static
     {
         $this->login = $login;
-
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setDeleted(?bool $isDeleted): static
-    {
-        $this->isDeleted = $isDeleted;
 
         return $this;
     }

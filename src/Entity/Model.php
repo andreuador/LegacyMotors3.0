@@ -16,13 +16,10 @@ class Model
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     #[ORM\Column]
     private ?int $year = null;
 
-    #[ORM\ManyToOne(inversedBy: 'models')]
+    #[ORM\ManyToOne(inversedBy: 'model')]
     private ?Brand $brand = null;
 
     public function getId(): ?int
@@ -38,18 +35,6 @@ class Model
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }

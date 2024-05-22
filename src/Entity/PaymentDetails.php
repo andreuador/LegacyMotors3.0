@@ -26,6 +26,9 @@ class PaymentDetails
     #[ORM\Column(length: 10)]
     private ?string $cvv = null;
 
+    #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
+    private ?Reservation $reservation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,23 @@ class PaymentDetails
     public function setCvv(string $cvv): static
     {
         $this->cvv = $cvv;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(Reservation $reservation): static
+    {
+        // set the owning side of the relation if necessary
+        if ($reservation->getPaymentDetails() !== $this) {
+            $reservation->setPaymentDetails($this);
+        }
+
+        $this->reservation = $reservation;
 
         return $this;
     }

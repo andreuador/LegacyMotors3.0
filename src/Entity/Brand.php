@@ -28,12 +28,12 @@ class Brand
      * @var Collection<int, Model>
      */
     #[ORM\OneToMany(targetEntity: Model::class, mappedBy: 'brand')]
-    private Collection $models;
+    private Collection $model;
 
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
-        $this->models = new ArrayCollection();
+        $this->model = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,15 +86,15 @@ class Brand
     /**
      * @return Collection<int, Model>
      */
-    public function getModels(): Collection
+    public function getModel(): Collection
     {
-        return $this->models;
+        return $this->model;
     }
 
     public function addModel(Model $model): static
     {
-        if (!$this->models->contains($model)) {
-            $this->models->add($model);
+        if (!$this->model->contains($model)) {
+            $this->model->add($model);
             $model->setBrand($this);
         }
 
@@ -103,7 +103,7 @@ class Brand
 
     public function removeModel(Model $model): static
     {
-        if ($this->models->removeElement($model)) {
+        if ($this->model->removeElement($model)) {
             // set the owning side to null (unless already changed)
             if ($model->getBrand() === $this) {
                 $model->setBrand(null);

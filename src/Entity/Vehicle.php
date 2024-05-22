@@ -27,12 +27,6 @@ class Vehicle
     #[ORM\Column]
     private ?int $price_per_day = null;
 
-    #[ORM\Column]
-    private ?bool $available = null;
-
-    #[ORM\Column]
-    private ?int $doors = null;
-
     #[ORM\Column(length: 50)]
     private ?string $engine = null;
 
@@ -48,20 +42,24 @@ class Vehicle
     #[ORM\Column(length: 50)]
     private ?string $transmission = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vehicle')]
     private ?Provider $provider = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Brand $brand = null;
 
     /**
      * @var Collection<int, Reservation>
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'vehicle')]
-    private Collection $reservations;
+    private Collection $reservation;
 
     /**
      * @var Collection<int, Image>
@@ -69,15 +67,12 @@ class Vehicle
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'vehicle')]
     private Collection $images;
 
-    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\ManyToOne(inversedBy: 'vehicle')]
     private ?Order $vehicleOrder = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $isDeleted = null;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
+        $this->reservation = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
 
@@ -134,26 +129,50 @@ class Vehicle
         return $this;
     }
 
-    public function isAvailable(): ?bool
+    public function getEngine(): ?string
     {
-        return $this->available;
+        return $this->engine;
     }
 
-    public function setAvailable(bool $available): static
+    public function setEngine(string $engine): static
     {
-        $this->available = $available;
+        $this->engine = $engine;
 
         return $this;
     }
 
-    public function getDoors(): ?int
+    public function getPower(): ?string
     {
-        return $this->doors;
+        return $this->power;
     }
 
-    public function setDoors(int $doors): static
+    public function setPower(string $power): static
     {
-        $this->doors = $doors;
+        $this->power = $power;
+
+        return $this;
+    }
+
+    public function getConsumption(): ?string
+    {
+        return $this->consumption;
+    }
+
+    public function setConsumption(string $consumption): static
+    {
+        $this->consumption = $consumption;
+
+        return $this;
+    }
+
+    public function getAcceleration(): ?string
+    {
+        return $this->acceleration;
+    }
+
+    public function setAcceleration(string $acceleration): static
+    {
+        $this->acceleration = $acceleration;
 
         return $this;
     }
@@ -178,6 +197,18 @@ class Vehicle
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
 
         return $this;
     }
@@ -209,15 +240,15 @@ class Vehicle
     /**
      * @return Collection<int, Reservation>
      */
-    public function getReservations(): Collection
+    public function getReservation(): Collection
     {
-        return $this->reservations;
+        return $this->reservation;
     }
 
     public function addReservation(Reservation $reservation): static
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation->add($reservation);
             $reservation->setVehicle($this);
         }
 
@@ -226,7 +257,7 @@ class Vehicle
 
     public function removeReservation(Reservation $reservation): static
     {
-        if ($this->reservations->removeElement($reservation)) {
+        if ($this->reservation->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
             if ($reservation->getVehicle() === $this) {
                 $reservation->setVehicle(null);
@@ -274,66 +305,6 @@ class Vehicle
     public function setVehicleOrder(?Order $vehicleOrder): static
     {
         $this->vehicleOrder = $vehicleOrder;
-
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setDeleted(bool $isDeleted): static
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    public function getEngine(): ?string
-    {
-        return $this->engine;
-    }
-
-    public function setEngine(string $engine): static
-    {
-        $this->engine = $engine;
-
-        return $this;
-    }
-
-    public function getPower(): ?string
-    {
-        return $this->power;
-    }
-
-    public function setPower(string $power): static
-    {
-        $this->power = $power;
-
-        return $this;
-    }
-
-    public function getConsumption(): ?string
-    {
-        return $this->consumption;
-    }
-
-    public function setConsumption(string $consumption): static
-    {
-        $this->consumption = $consumption;
-
-        return $this;
-    }
-
-    public function getAcceleration(): ?string
-    {
-        return $this->acceleration;
-    }
-
-    public function setAcceleration(string $acceleration): static
-    {
-        $this->acceleration = $acceleration;
 
         return $this;
     }

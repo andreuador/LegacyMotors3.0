@@ -6,11 +6,10 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
-class Order implements JsonSerializable
+class Order
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,24 +19,28 @@ class Order implements JsonSerializable
     #[ORM\Column(length: 100)]
     private ?string $state = null;
 
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
     /**
      * @var Collection<int, Vehicle>
      */
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'vehicleOrder')]
-    private Collection $vehicles;
+    private Collection $vehicle;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?Customer $customer = null;
-
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\OneToOne(inversedBy: 'invoiceOrder', cascade: ['persist', 'remove'])]
     private ?Invoice $invoice = null;
 
-    #[ORM\Column]
-    private ?bool $isDeleted = null;
+    /**
+     * @var Collection<int, Reservation>
+     */
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'reservationOrder')]
+    private Collection $reservation;
 
     public function __construct()
     {
-        $this->vehicles = new ArrayCollection();
+        $this->vehicle = new ArrayCollection();
+        $this->reservation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,18 +60,30 @@ class Order implements JsonSerializable
         return $this;
     }
 
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Vehicle>
      */
-    public function getVehicles(): Collection
+    public function getVehicle(): Collection
     {
-        return $this->vehicles;
+        return $this->vehicle;
     }
 
     public function addVehicle(Vehicle $vehicle): static
     {
-        if (!$this->vehicles->contains($vehicle)) {
-            $this->vehicles->add($vehicle);
+        if (!$this->vehicle->contains($vehicle)) {
+            $this->vehicle->add($vehicle);
             $vehicle->setVehicleOrder($this);
         }
 
@@ -77,7 +92,7 @@ class Order implements JsonSerializable
 
     public function removeVehicle(Vehicle $vehicle): static
     {
-        if ($this->vehicles->removeElement($vehicle)) {
+        if ($this->vehicle->removeElement($vehicle)) {
             // set the owning side to null (unless already changed)
             if ($vehicle->getVehicleOrder() === $this) {
                 $vehicle->setVehicleOrder(null);
@@ -85,29 +100,6 @@ class Order implements JsonSerializable
         }
 
         return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    function jsonSerialize(): mixed
-    {
-        return [
-            'id' => $this->id,
-            'state' => $this->state,
-            /*'discharge' =>$this->discharge,*/
-            'customer' => $this->getCustomer(),
-            'vehicles' => $this->getVehicles()->getIterator()
-        ];
     }
 
     public function getInvoice(): ?Invoice
@@ -122,14 +114,32 @@ class Order implements JsonSerializable
         return $this;
     }
 
-    public function isDeleted(): ?bool
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservation(): Collection
     {
-        return $this->isDeleted;
+        return $this->reservation;
     }
 
-    public function setDeleted(bool $isDeleted): static
+    public function addReservation(Reservation $reservation): static
     {
-        $this->isDeleted = $isDeleted;
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation->add($reservation);
+            $reservation->setReservationOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservation->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getReservationOrder() === $this) {
+                $reservation->setReservationOrder(null);
+            }
+        }
 
         return $this;
     }

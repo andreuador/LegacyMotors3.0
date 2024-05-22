@@ -23,8 +23,11 @@ class Review
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\ManyToOne(inversedBy: 'review')]
     private ?Reservation $reservation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    private ?Customer $customer = null;
 
     public function getId(): ?int
     {
@@ -75,6 +78,18 @@ class Review
     public function setReservation(?Reservation $reservation): static
     {
         $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }

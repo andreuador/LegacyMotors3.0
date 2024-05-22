@@ -25,27 +25,31 @@ class Reservation
     #[ORM\Column]
     private ?int $total_price = null;
 
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?Vehicle $vehicle = null;
+    private ?Customer $customer = null;
+
+    #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PaymentDetails $paymentDetails = null;
 
     /**
      * @var Collection<int, Review>
      */
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'reservation')]
-    private Collection $reviews;
+    private Collection $review;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?PaymentDetails $paymentDetails = null;
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    private ?Vehicle $vehicle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?Customer $customer = null;
-
-    #[ORM\Column]
-    private ?bool $isDeleted = null;
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    private ?Order $reservationOrder = null;
 
     public function __construct()
     {
-        $this->reviews = new ArrayCollection();
+        $this->review = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,56 +93,14 @@ class Reservation
         return $this;
     }
 
-    public function getVehicle(): ?Vehicle
+    public function isDeleted(): ?bool
     {
-        return $this->vehicle;
+        return $this->is_deleted;
     }
 
-    public function setVehicle(?Vehicle $vehicle): static
+    public function setDeleted(bool $is_deleted): static
     {
-        $this->vehicle = $vehicle;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Review>
-     */
-    public function getReviews(): Collection
-    {
-        return $this->reviews;
-    }
-
-    public function addReview(Review $review): static
-    {
-        if (!$this->reviews->contains($review)) {
-            $this->reviews->add($review);
-            $review->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReview(Review $review): static
-    {
-        if ($this->reviews->removeElement($review)) {
-            // set the owning side to null (unless already changed)
-            if ($review->getReservation() === $this) {
-                $review->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getPaymentDetails(): ?PaymentDetails
-    {
-        return $this->paymentDetails;
-    }
-
-    public function setPaymentDetails(?PaymentDetails $paymentDetails): static
-    {
-        $this->paymentDetails = $paymentDetails;
+        $this->is_deleted = $is_deleted;
 
         return $this;
     }
@@ -155,14 +117,68 @@ class Reservation
         return $this;
     }
 
-    public function isDeleted(): ?bool
+    public function getPaymentDetails(): ?PaymentDetails
     {
-        return $this->isDeleted;
+        return $this->paymentDetails;
     }
 
-    public function setDeleted(bool $isDeleted): static
+    public function setPaymentDetails(PaymentDetails $paymentDetails): static
     {
-        $this->isDeleted = $isDeleted;
+        $this->paymentDetails = $paymentDetails;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReview(): Collection
+    {
+        return $this->review;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->review->contains($review)) {
+            $this->review->add($review);
+            $review->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->review->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getReservation() === $this) {
+                $review->setReservation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVehicle(): ?Vehicle
+    {
+        return $this->vehicle;
+    }
+
+    public function setVehicle(?Vehicle $vehicle): static
+    {
+        $this->vehicle = $vehicle;
+
+        return $this;
+    }
+
+    public function getReservationOrder(): ?Order
+    {
+        return $this->reservationOrder;
+    }
+
+    public function setReservationOrder(?Order $reservationOrder): static
+    {
+        $this->reservationOrder = $reservationOrder;
 
         return $this;
     }

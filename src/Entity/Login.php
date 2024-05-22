@@ -4,11 +4,9 @@ namespace App\Entity;
 
 use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login implements PasswordAuthenticatedUserInterface, UserInterface
+class Login
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,10 +23,10 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $role = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Employee $employee = null;
+    private ?Customer $customer = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Customer $customer = null;
+    private ?Employee $employee = null;
 
     public function getId(): ?int
     {
@@ -71,42 +69,15 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getEmployee(): ?Employee
-    {
-        return $this->employee;
-    }
-
-    public function setEmployee(?Employee $employee): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($employee === null && $this->employee !== null) {
-            $this->employee->setLogin(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($employee !== null && $employee->getLogin() !== $this) {
-            $employee->setLogin($this);
-        }
-
-        $this->employee = $employee;
-
-        return $this;
-    }
-
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
-    public function setCustomer(?Customer $customer): static
+    public function setCustomer(Customer $customer): static
     {
-        // unset the owning side of the relation if necessary
-        if ($customer === null && $this->customer !== null) {
-            $this->customer->setLogin(null);
-        }
-
         // set the owning side of the relation if necessary
-        if ($customer !== null && $customer->getLogin() !== $this) {
+        if ($customer->getLogin() !== $this) {
             $customer->setLogin($this);
         }
 
@@ -115,20 +86,20 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getRoles(): array
+    public function getEmployee(): ?Employee
     {
-        // TODO: Implement getRoles() method.
-        return [$this->role];
+        return $this->employee;
     }
 
-    public function eraseCredentials()
+    public function setEmployee(Employee $employee): static
     {
-        // TODO: Implement eraseCredentials() method.
-    }
+        // set the owning side of the relation if necessary
+        if ($employee->getLogin() !== $this) {
+            $employee->setLogin($this);
+        }
 
-    public function getUserIdentifier(): string
-    {
-        // TODO: Implement getUserIdentifier() method.
-        return $this->getUsername();
+        $this->employee = $employee;
+
+        return $this;
     }
 }

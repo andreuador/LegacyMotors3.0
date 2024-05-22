@@ -16,13 +16,13 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $lastname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 50)]
     private ?string $phone = null;
@@ -33,7 +33,11 @@ class Customer
     #[ORM\Column(length: 50)]
     private ?string $dni = null;
 
+    #[ORM\Column]
+    private ?bool $is_deleted = null;
+
     #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 
     /**
@@ -49,36 +53,21 @@ class Customer
     private Collection $invoices;
 
     /**
-     * @var Collection<int, Order>
+     * @var Collection<int, Review>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
-    private Collection $orders;
-
-    #[ORM\Column]
-    private ?bool $isDeleted = null;
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'customer')]
+    private Collection $reviews;
 
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->invoices = new ArrayCollection();
-        $this->orders = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -101,6 +90,18 @@ class Customer
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -141,12 +142,24 @@ class Customer
         return $this;
     }
 
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
     public function getLogin(): ?Login
     {
         return $this->login;
     }
 
-    public function setLogin(?Login $login): static
+    public function setLogin(Login $login): static
     {
         $this->login = $login;
 
@@ -214,43 +227,31 @@ class Customer
     }
 
     /**
-     * @return Collection<int, Order>
+     * @return Collection<int, Review>
      */
-    public function getOrders(): Collection
+    public function getReviews(): Collection
     {
-        return $this->orders;
+        return $this->reviews;
     }
 
-    public function addOrder(Order $order): static
+    public function addReview(Review $review): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setCustomer($this);
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setCustomer($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): static
+    public function removeReview(Review $review): static
     {
-        if ($this->orders->removeElement($order)) {
+        if ($this->reviews->removeElement($review)) {
             // set the owning side to null (unless already changed)
-            if ($order->getCustomer() === $this) {
-                $order->setCustomer(null);
+            if ($review->getCustomer() === $this) {
+                $review->setCustomer(null);
             }
         }
-
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setDeleted(bool $isDeleted): static
-    {
-        $this->isDeleted = $isDeleted;
 
         return $this;
     }
