@@ -16,14 +16,6 @@ class GarageController extends AbstractController
     #[Route('/garages', name: 'app_garage')]
     public function index(InvoiceRepository $invoiceRepository, OrderRepository $orderRepository): Response
     {
-        /*if ($this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'warning',
-                "Sols els clients poden realitzar compres"
-            );
-            return $this->redirectToRoute('templates');
-        }*/
-
         $login = $this->getUser();
         $customer = $login->getCustomer();
 
@@ -43,6 +35,32 @@ class GarageController extends AbstractController
             'invoices' => $userInvoices,
             'orders' => $closedOrders
         ]);
+    }
+
+    #[Route('/add-to-cart', name: 'app_garage_add_to_cart', methods: ['POST'])]
+    public function addToCart(Request $request, OrderRepository $orderRepository, VehicleRepository $vehicleRepository, EntityManagerInterface $entityManager): Response
+    {
+        $vehicleId = $request->request->get('vehicle_id');
+        $date = $request->request->get('date');
+
+        $vehicle = $vehicleRepository->find($vehicleId);
+        $login = $this->getUser();
+        $customer = $login->getCustomer();
+
+        $pendingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+
+        if (!$pendingOrder) {
+            $pendingOrder = new Order();
+            $pendingOrder->setCustomer($customer);
+            $pendingOrder->setState('En proceso');
+            $entityManager->persist($pendingOrder);
+        }
+
+        $pendingOrder->addVehicle($vehicle);
+        $entityManager->persist($pendingOrder);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicleId]);
     }
 
     #[Route('/delete/{id}', name: 'app_garage_delete_vehicle')]

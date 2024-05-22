@@ -101,6 +101,6 @@ class CatalogueController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_catalogue_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_garage', [], Response::HTTP_SEE_OTHER);
     }
 }

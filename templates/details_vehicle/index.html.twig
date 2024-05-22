@@ -43,7 +43,7 @@
                 <!-- Fechas disponibles -->
                 <div id="available-dates">
                     <h2 class="font-lm-title mb-4">Fechas Disponibles</h2>
-                    <form action="{{ path('app_garage') }}" method="GET" class="d-flex align-items-center">
+                    <form action="{{ path('app_garage_add_to_cart') }}" method="POST" class="d-flex align-items-center">
                         <div class="form-group mb-0 mr-3">
                             <label for="reservationDate" class="mr-2">Seleccione una fecha:</label>
                             <select class="form-control" id="reservationDate" name="date">
@@ -52,7 +52,8 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <button type="submit" class="btn bg-quaternary-lm btn-normal-hover mx-3 mt-3">Reservar</button>
+                        <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
+                        <button type="submit" class="btn bg-quaternary-lm btn-normal-hover ml-2 mt-2">Reservar</button>
                     </form>
                 </div>
             </div>

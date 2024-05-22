@@ -50,15 +50,31 @@ class DetailsVehicleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/reservations', name: 'app_details_vehicle_reservations')]
-    public function reservations(Vehicle $vehicle): Response
+    #[Route('/{id}/add-to-cart', name: 'app_details_vehicle_add_to_cart', methods: ['POST'])]
+    public function addToCart(Request $request, Vehicle $vehicle): Response
     {
-        // Obtener las reservas del vehículo
-        $reservations = $vehicle->getReservation();
+        $selectedDate = $request->request->get('date');
 
-        return $this->render('details_vehicle/index.html.twig', [
-            'vehicle' => $vehicle,
-            'reservations' => $reservations,
-        ]);
+        if (!$selectedDate) {
+            $this->addFlash('error', 'No se ha seleccionado ninguna fecha.');
+            return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicle->getId()]);
+        }
+
+        // Obtener el carrito de la sesión
+        $session = $request->getSession();
+        $cart = $session->get('cart', []);
+
+        // Añadir el vehículo y la fecha seleccionada al carrito
+        $cart[] = [
+            'vehicle_id' => $vehicle->getId(),
+            'date' => $selectedDate,
+        ];
+
+        // Guardar el carrito en la sesión
+        $session->set('cart', $cart);
+
+        $this->addFlash('success', 'Vehículo añadido al carrito con éxito.');
+
+        return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicle->getId()]);
     }
 }
