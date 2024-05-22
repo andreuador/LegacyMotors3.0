@@ -32,7 +32,7 @@ class GarageController extends AbstractController
         if (!$pendingOrder) {
             $vehicles = [];
         } else {
-            $vehicles = $pendingOrder->getVehicles()->toArray();
+            $vehicles = $pendingOrder->getVehicle()->toArray();
         }
 
         $closedOrders = $orderRepository->findBy(['state' => 'Completado', 'customer' => $customer]);

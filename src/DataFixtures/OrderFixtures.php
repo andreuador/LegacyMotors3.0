@@ -40,7 +40,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $orderCount = 0;
 
         // Mientras no hayamos alcanzado el limite de 10 ordenes y aun queden vehiculos disponibles
-        while ($orderCount < 20 && count($vehicles) > 0) {
+        while ($orderCount < 10 && count($vehicles) > 0) {
             $order = new Order();
             $order->setState($this->faker->randomElement(['En proceso', 'Completado']));
             $order->setDeleted(false);

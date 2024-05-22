@@ -12,7 +12,7 @@
                         <div class="card">
                             <img src="{{ asset('path_to_vehicle_image') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.models %} {{ model.name }} {% endfor %}</h5>
+                                <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h5>
                                 <p class="card-text">Matricula: {{ vehicle.plate }}</p>
                                 <p class="card-text">Precio: {{ vehicle.pricePerDay }} € / dia</p>
                                 <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id})  }}" class="btn btn-danger"><i class="bi bi-trash"></i> </a>
