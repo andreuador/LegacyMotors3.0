@@ -12,7 +12,7 @@
                     {% set totalPrice = totalPrice + vehicle.pricePerDay %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ asset('images/vehicles/ferrari488gtb.jpg') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
+                            <img src="{{ asset('images/vehicles/hola/ferrari488gtb-min.jpg') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h5>
                                 <p class="card-text">Matricula: {{ vehicle.plate }}</p>
@@ -29,7 +29,7 @@
                     Total: {{ totalPrice | number_format(2, ',', '.') }}€
                 </h3>
                 <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2">Volver al catálogo</a>
-                <a href="{{ path('app_checkout') }}" class="btn btn-primary">Realizar Pedido</a>
+                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary">Realizar Pedido</a>
             </div>
         {% else %}
             <p>No hay vehículos en tu carrito.</p>
