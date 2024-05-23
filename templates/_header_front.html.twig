@@ -32,13 +32,26 @@
                         </ul>
                         <div class="d-flex justify-content-around w-25">
                             {% if app.user %}
-                                <!-- Fer un dropdown amb les opcions per a entrar al back o fer altre login per als treballadors -->
-                                <a class="btn bg-tertiary-lm btn-button-hover" href="#"><i
-                                            class="bi bi-person-fill"></i></a>
+                                <div class="dropdown">
+                                    <a class="btn bg-tertiary-lm btn-button-hover dropdown-toggle" href="#"
+                                       role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-fill"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{# {{ path('app_profile') }}#}">Perfil</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{# {{ path('app_orders') }}#}">Mis Órdenes</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
+                                    </ul>
+                                </div>
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_garage') }}"><i
                                             class="bi bi-cart-fill"></i></a>
-                                <a class="btn bg-quaternary-lm btn-button-hover"
-                                   href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_login') }}">Login</a>
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_register') }}">Registro</a>

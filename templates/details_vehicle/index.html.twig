@@ -1,22 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ vehicle.brand.name }}
-    {% for model in vehicle.brand.model %}
-        {{ model.name }}
-    {% endfor %}
+    {{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }}{% endfor %}
 {% endblock %}
 
 {% block body %}
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h1>
+                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }}{% endfor %}</h1>
                 <p class="lead">
-                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} del año {{ model.year }} {% endfor %}
+                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }} del año {{ model.year }}{% endfor %}
                     tiene un motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
-                    0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros
-                    por cada 100 km. Está disponible en color {{ vehicle.color }}. {{ vehicle.plate }}
+                    0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros por cada 100 km.
+                    Está disponible en color {{ vehicle.color }}. {{ vehicle.plate }}
                 </p>
                 <h2 class="font-lm-title">Reservas</h2>
                 {% if vehicle.reservation is not empty %}
@@ -43,23 +40,20 @@
                 <!-- Fechas disponibles -->
                 <div id="available-dates">
                     <h2 class="font-lm-title mb-4">Fechas Disponibles</h2>
-                    <form action="{{ path('app_garage_add_to_cart') }}" method="POST" class="d-flex align-items-center">
+                    <form action="{{ path('app_details_vehicle_add_to_cart', {id: vehicle.id}) }}" method="POST" class="d-flex align-items-center">
                         <div class="form-group mb-0 mr-3">
                             <label for="reservationDate" class="mr-2">Seleccione una fecha:</label>
-                            <select class="form-control" id="reservationDate" name="date">
-                                {% for date in availableDates %}
-                                    <option value="{{ date|date('Y-m-d') }}">{{ date|date('Y-m-d') }}</option>
-                                {% endfor %}
-                            </select>
+                            <input type="date" class="form-control" id="reservationDate" name="date"
+                                   min="{{ "now"|date('Y-m-d') }}"
+                                   max="{{ "now"|date_modify('+30 days')|date('Y-m-d') }}">
                         </div>
                         <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
-                        <button type="submit" class="btn bg-quaternary-lm btn-normal-hover ml-2 mt-2">Reservar</button>
+                        <button type="submit" class="btn bg-quaternary-lm btn-normal-hover mx-3 mt-4">Reservar</button>
                     </form>
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid"
-                     alt="Imagen del Coche">
+                <img src="{{ asset('images/vehicles/ferrariTestarossa.jpg') }}" class="img-fluid" alt="Imagen del Coche">
             </div>
         </div>
         <div class="container mt-5" id="specifications">

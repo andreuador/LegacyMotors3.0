@@ -27,6 +27,10 @@
     background-color: var(--btn-normal) !important;
 }
 
+.color-text {
+    color: var(--btn-text-hover);
+}
+
 .btn-normal-hover:hover {
     background-color: var(--btn-normal-hover) !important;
     color: var(--btn-text-hover) !important;

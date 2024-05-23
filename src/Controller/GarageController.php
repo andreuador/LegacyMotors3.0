@@ -9,12 +9,13 @@ use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class GarageController extends AbstractController
 {
     #[Route('/garages', name: 'app_garage')]
-    public function index(InvoiceRepository $invoiceRepository, OrderRepository $orderRepository): Response
+    public function index(InvoiceRepository $invoiceRepository, OrderRepository $orderRepository, SessionInterface $session): Response
     {
         $login = $this->getUser();
         $customer = $login->getCustomer();
@@ -30,10 +31,15 @@ class GarageController extends AbstractController
         $closedOrders = $orderRepository->findBy(['state' => 'Completado', 'customer' => $customer]);
         $userInvoices = $invoiceRepository->findBy(['customer' => $customer]);
 
+        // Obtener la fecha seleccionada de la sesión
+        $selectedDate = $session->get('selected_date');
+
+
         return $this->render('garage/index.html.twig', [
             'vehicles' => $vehicles,
             'invoices' => $userInvoices,
-            'orders' => $closedOrders
+            'orders' => $closedOrders,
+            'selectedDate' => $selectedDate
         ]);
     }
 

@@ -7,24 +7,29 @@
         <h1 class="font-lm-title mb-4">Garage</h1>
         {% if vehicles|length > 0 %}
             <div class="row">
+                {% set totalPrice = 0 %}
                 {% for vehicle in vehicles %}
+                    {% set totalPrice = totalPrice + vehicle.pricePerDay %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ asset('path_to_vehicle_image') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
+                            <img src="{{ asset('images/vehicles/ferrari488gtb.jpg') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h5>
                                 <p class="card-text">Matricula: {{ vehicle.plate }}</p>
                                 <p class="card-text">Precio: {{ vehicle.pricePerDay }} € / dia</p>
-                                <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id})  }}" class="btn btn-danger"><i class="bi bi-trash"></i> </a>
-                                {# <a href="{{ path('remove_from_cart', {'id': vehicle.id}) }}" class="btn btn-danger">Eliminar del Carrito</a>#}
+                                <p>Fecha seleccionada: {{ selectedDate }}</p>
+                                <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id})  }}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
             <div class="text-center">
+                <h3 class="my-4">
+                    Total: {{ totalPrice | number_format(2, ',', '.') }}€
+                </h3>
                 <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2">Volver al catálogo</a>
-                <a href="#" class="btn btn-primary">Realizar Pedido</a>
+                <a href="{{ path('app_checkout') }}" class="btn btn-primary">Realizar Pedido</a>
             </div>
         {% else %}
             <p>No hay vehículos en tu carrito.</p>

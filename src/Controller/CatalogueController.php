@@ -73,10 +73,10 @@ class CatalogueController extends AbstractController
             $entityManager->persist($vehicle);
             $entityManager->flush();
 
-            /*$this->addFlash(
+            $this->addFlash(
                 'success',
-                "S'ha creat una nova ordre amb el vehicle."
-            );*/
+                "Se ha creado la reserva correctamente."
+            );
         } else {
             $order = $existingOrder;
 
@@ -86,7 +86,7 @@ class CatalogueController extends AbstractController
             if ($vehicle->getVehicleOrder() !== null) {
                 $this->addFlash(
                     'danger',
-                    'El vehicle no esta disponible.'
+                    'El vehículo ya no esta disponible.'
                 );
             } else {
                 $vehicle->setVehicleOrder($order);
@@ -96,7 +96,7 @@ class CatalogueController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'Vehicle afegit correctament!'
+                    'Vehículo agregado correctamente.'
                 );
             }
         }

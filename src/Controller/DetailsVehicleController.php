@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/details/vehicle')]
 class DetailsVehicleController extends AbstractController
@@ -21,7 +24,7 @@ class DetailsVehicleController extends AbstractController
         foreach ($reservations as $reservation) {
             $period = new \DatePeriod(
                 $reservation->getStartDate(),
-                new \DateInterval('P1D'),
+                new DateInterval('P1D'),
                 $reservation->getEndDate()->modify('+1 day')
             );
 
@@ -30,10 +33,10 @@ class DetailsVehicleController extends AbstractController
             }
         }
 
-        // Calcular algunas fechas disponibles para reservar (por ejemplo, los próximos 7 días)
+        // Calcular algunas fechas disponibles para reservar
         $availableDates = [];
         $currentDate = new \DateTime();
-        for ($i = 1; $i <= 15; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $availableDate = clone $currentDate;
             $availableDate->modify("+$i day");
 
@@ -51,30 +54,17 @@ class DetailsVehicleController extends AbstractController
     }
 
     #[Route('/{id}/add-to-cart', name: 'app_details_vehicle_add_to_cart', methods: ['POST'])]
-    public function addToCart(Request $request, Vehicle $vehicle): Response
+    public function addToCart($id, Request $request, SessionInterface $session): Response
     {
         $selectedDate = $request->request->get('date');
 
         if (!$selectedDate) {
             $this->addFlash('error', 'No se ha seleccionado ninguna fecha.');
-            return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicle->getId()]);
+            return $this->redirectToRoute('app_details_vehicle', ['id' => $id]);
         }
+        // Almacenar la fecha seleccionada en la sesión
+        $session->set('selected_date', $selectedDate);
 
-        // Obtener el carrito de la sesión
-        $session = $request->getSession();
-        $cart = $session->get('cart', []);
-
-        // Añadir el vehículo y la fecha seleccionada al carrito
-        $cart[] = [
-            'vehicle_id' => $vehicle->getId(),
-            'date' => $selectedDate,
-        ];
-
-        // Guardar el carrito en la sesión
-        $session->set('cart', $cart);
-
-        $this->addFlash('success', 'Vehículo añadido al carrito con éxito.');
-
-        return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicle->getId()]);
+        return $this->redirectToRoute('app_catalogue_add_vehicle', ['id' => $id]);
     }
 }
