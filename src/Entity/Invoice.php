@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,14 +25,19 @@ class Invoice
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
-    private ?bool $is_deleted = null;
-
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Customer $customer = null;
 
-    #[ORM\OneToOne(mappedBy: 'invoice', cascade: ['persist', 'remove'])]
-    private ?Order $invoiceOrder = null;
+    /**
+     * @var Collection<int, Reservation>
+     */
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'invoice')]
+    private Collection $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -73,18 +80,6 @@ class Invoice
         return $this;
     }
 
-    public function isDeleted(): ?bool
-    {
-        return $this->is_deleted;
-    }
-
-    public function setDeleted(bool $is_deleted): static
-    {
-        $this->is_deleted = $is_deleted;
-
-        return $this;
-    }
-
     public function getCustomer(): ?Customer
     {
         return $this->customer;
@@ -97,24 +92,32 @@ class Invoice
         return $this;
     }
 
-    public function getInvoiceOrder(): ?Order
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
     {
-        return $this->invoiceOrder;
+        return $this->reservations;
     }
 
-    public function setInvoiceOrder(?Order $invoiceOrder): static
+    public function addReservation(Reservation $reservation): static
     {
-        // unset the owning side of the relation if necessary
-        if ($invoiceOrder === null && $this->invoiceOrder !== null) {
-            $this->invoiceOrder->setInvoice(null);
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setInvoice($this);
         }
 
-        // set the owning side of the relation if necessary
-        if ($invoiceOrder !== null && $invoiceOrder->getInvoice() !== $this) {
-            $invoiceOrder->setInvoice($this);
-        }
+        return $this;
+    }
 
-        $this->invoiceOrder = $invoiceOrder;
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getInvoice() === $this) {
+                $reservation->setInvoice(null);
+            }
+        }
 
         return $this;
     }

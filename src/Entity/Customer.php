@@ -18,10 +18,10 @@ class Customer
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 150)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 150)]
     private ?string $email = null;
 
     #[ORM\Column(length: 50)]
@@ -30,10 +30,10 @@ class Customer
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 20)]
     private ?string $dni = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $is_deleted = null;
 
     #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
@@ -58,18 +58,11 @@ class Customer
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'customer')]
     private Collection $reviews;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
-    private Collection $orders;
-
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->invoices = new ArrayCollection();
         $this->reviews = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,7 +147,7 @@ class Customer
         return $this->is_deleted;
     }
 
-    public function setDeleted(bool $is_deleted): static
+    public function setDeleted(?bool $is_deleted): static
     {
         $this->is_deleted = $is_deleted;
 
@@ -257,36 +250,6 @@ class Customer
             // set the owning side to null (unless already changed)
             if ($review->getCustomer() === $this) {
                 $review->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): static
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getCustomer() === $this) {
-                $order->setCustomer(null);
             }
         }
 

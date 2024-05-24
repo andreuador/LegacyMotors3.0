@@ -14,7 +14,7 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $filename = null;
+    private ?string $file_name = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Vehicle $vehicle = null;
@@ -24,14 +24,14 @@ class Image
         return $this->id;
     }
 
-    public function getFilename(): ?string
+    public function getFileName(): ?string
     {
-        return $this->filename;
+        return $this->file_name;
     }
 
-    public function setFilename(string $filename): static
+    public function setFileName(string $file_name): static
     {
-        $this->filename = $filename;
+        $this->file_name = $file_name;
 
         return $this;
     }

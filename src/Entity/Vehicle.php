@@ -15,19 +15,19 @@ class Vehicle
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 10)]
     private ?string $plate = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $fuel = null;
 
     #[ORM\Column(length: 50)]
     private ?string $color = null;
 
     #[ORM\Column]
-    private ?int $price_per_day = null;
+    private ?int $price_per_color = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $engine = null;
 
     #[ORM\Column(length: 50)]
@@ -39,16 +39,14 @@ class Vehicle
     #[ORM\Column(length: 100)]
     private ?string $acceleration = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $transmission = null;
-
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $is_deleted = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicle')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Provider $provider = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
@@ -66,9 +64,6 @@ class Vehicle
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'vehicle')]
     private Collection $images;
-
-    #[ORM\ManyToOne(inversedBy: 'vehicle')]
-    private ?Order $vehicleOrder = null;
 
     public function __construct()
     {
@@ -117,14 +112,14 @@ class Vehicle
         return $this;
     }
 
-    public function getPricePerDay(): ?int
+    public function getPricePerColor(): ?int
     {
-        return $this->price_per_day;
+        return $this->price_per_color;
     }
 
-    public function setPricePerDay(int $price_per_day): static
+    public function setPricePerColor(int $price_per_color): static
     {
-        $this->price_per_day = $price_per_day;
+        $this->price_per_color = $price_per_color;
 
         return $this;
     }
@@ -177,18 +172,6 @@ class Vehicle
         return $this;
     }
 
-    public function getTransmission(): ?string
-    {
-        return $this->transmission;
-    }
-
-    public function setTransmission(string $transmission): static
-    {
-        $this->transmission = $transmission;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -206,7 +189,7 @@ class Vehicle
         return $this->is_deleted;
     }
 
-    public function setDeleted(bool $is_deleted): static
+    public function setDeleted(?bool $is_deleted): static
     {
         $this->is_deleted = $is_deleted;
 
@@ -293,18 +276,6 @@ class Vehicle
                 $image->setVehicle(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getVehicleOrder(): ?Order
-    {
-        return $this->vehicleOrder;
-    }
-
-    public function setVehicleOrder(?Order $vehicleOrder): static
-    {
-        $this->vehicleOrder = $vehicleOrder;
 
         return $this;
     }

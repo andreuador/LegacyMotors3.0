@@ -18,7 +18,7 @@ class Provider
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 150)]
     private ?string $email = null;
 
     #[ORM\Column(length: 20)]
@@ -27,13 +27,10 @@ class Provider
     #[ORM\Column(length: 20)]
     private ?string $cif = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 150)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $phone = null;
-
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $is_deleted = null;
 
     /**
@@ -108,18 +105,6 @@ class Provider
     public function setAddress(string $address): static
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): static
-    {
-        $this->phone = $phone;
 
         return $this;
     }

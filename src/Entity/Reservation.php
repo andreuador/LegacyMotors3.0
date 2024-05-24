@@ -25,11 +25,18 @@ class Reservation
     #[ORM\Column]
     private ?int $total_price = null;
 
-    #[ORM\Column]
-    private ?bool $is_deleted = null;
+    #[ORM\Column(length: 50)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $reservation_date = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_deleted = null;
 
     #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -42,10 +49,11 @@ class Reservation
     private Collection $review;
 
     #[ORM\ManyToOne(inversedBy: 'reservation')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Vehicle $vehicle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation')]
-    private ?Order $reservationOrder = null;
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?Invoice $invoice = null;
 
     public function __construct()
     {
@@ -93,14 +101,26 @@ class Reservation
         return $this;
     }
 
-    public function isDeleted(): ?bool
+    public function getStatus(): ?string
     {
-        return $this->is_deleted;
+        return $this->status;
     }
 
-    public function setDeleted(bool $is_deleted): static
+    public function setStatus(string $status): static
     {
-        $this->is_deleted = $is_deleted;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getReservationDate(): ?\DateTimeInterface
+    {
+        return $this->reservation_date;
+    }
+
+    public function setReservationDate(\DateTimeInterface $reservation_date): static
+    {
+        $this->reservation_date = $reservation_date;
 
         return $this;
     }
@@ -113,6 +133,18 @@ class Reservation
     public function setCustomer(?Customer $customer): static
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(?bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
 
         return $this;
     }
@@ -171,14 +203,14 @@ class Reservation
         return $this;
     }
 
-    public function getReservationOrder(): ?Order
+    public function getInvoice(): ?Invoice
     {
-        return $this->reservationOrder;
+        return $this->invoice;
     }
 
-    public function setReservationOrder(?Order $reservationOrder): static
+    public function setInvoice(?Invoice $invoice): static
     {
-        $this->reservationOrder = $reservationOrder;
+        $this->invoice = $invoice;
 
         return $this;
     }

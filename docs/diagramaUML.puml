@@ -14,6 +14,7 @@ Table(Customer, customer) {
     dni: string
     login: Login
     reservations[]: Reservation
+    invoices[]: Invoice
 }
 
 Table(Employee, employee) {
@@ -22,6 +23,11 @@ Table(Employee, employee) {
   name: string
   surname: string
   login: Login
+  email: string
+  phone: string
+  position: string
+  hire_date: date
+  salary: decimal
 }
 
 Table(Provider, provider) {
@@ -86,6 +92,9 @@ Table(Reservation, reservation) {
     status: string
     payment_details: Payment_Details
     reviews[]: Review
+    vehicle: Vehicle
+    invoice: Invoice
+    reservation_date: date
 }
 
 Table(Payment_Details, payment_details) {
@@ -105,16 +114,6 @@ Table(Review, review) {
     date: date
 }
 
-Table(Order, order) {
-    primary_key(order_id): int
-    --
-    quantity: int
-    vehicle: Vehicle
-    customer: Customer
-    invoice: Invoice
-    state: string
-}
-
 Table(Image, image) {
     primary_key(image_id): int
     --
@@ -129,7 +128,7 @@ Table(Invoice, invoice) {
     price: float
     date: date
     customer: Customer
-    order: Order
+    reservation: Reservation
 }
 
 Customer "1" -- "1" Login
@@ -143,7 +142,7 @@ Reservation "1" -- "N" Review
 Vehicle "1" -- "N" Reservation
 Image "N" -- "1" Vehicle
 Invoice "N" -- "1" Customer
-Order "1" -- "N" Vehicle
-Order "1" -- "1" Invoice
+Reservation "N" -- "1" Invoice
+Review "N" -- "1" Customer
 
 @enduml

@@ -20,6 +20,7 @@ class Model
     private ?int $year = null;
 
     #[ORM\ManyToOne(inversedBy: 'model')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Brand $brand = null;
 
     public function getId(): ?int
