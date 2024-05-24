@@ -25,7 +25,7 @@ class Vehicle
     private ?string $color = null;
 
     #[ORM\Column]
-    private ?int $price_per_color = null;
+    private ?int $price_per_day = null;
 
     #[ORM\Column(length: 100)]
     private ?string $engine = null;
@@ -64,6 +64,9 @@ class Vehicle
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'vehicle')]
     private Collection $images;
+
+    #[ORM\Column(length: 100)]
+    private ?string $transmission = null;
 
     public function __construct()
     {
@@ -112,14 +115,14 @@ class Vehicle
         return $this;
     }
 
-    public function getPricePerColor(): ?int
+    public function getPricePerDay(): ?int
     {
-        return $this->price_per_color;
+        return $this->price_per_day;
     }
 
-    public function setPricePerColor(int $price_per_color): static
+    public function setPricePerDay(int $price_per_day): static
     {
-        $this->price_per_color = $price_per_color;
+        $this->price_per_day = $price_per_day;
 
         return $this;
     }
@@ -276,6 +279,18 @@ class Vehicle
                 $image->setVehicle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTransmission(): ?string
+    {
+        return $this->transmission;
+    }
+
+    public function setTransmission(string $transmission): static
+    {
+        $this->transmission = $transmission;
 
         return $this;
     }

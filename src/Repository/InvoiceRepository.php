@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Invoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +15,25 @@ class InvoiceRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Invoice::class);
+    }
+
+    public function findAllQuery() : Query
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.is_deleted IS NULL OR i.is_deleted = 0')
+            ->orderBy('i.date', 'DESC')
+            ->getQuery()
+            ;
+    }
+
+    public function findByTextQuery(string $value): Query
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.number LIKE :val')
+            ->setParameter('val', "%$value%")
+            ->orderBy('i.number', 'DESC')
+            ->getQuery()
+            ;
     }
 
     //    /**

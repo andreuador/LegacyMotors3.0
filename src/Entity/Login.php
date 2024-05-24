@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login
+class Login implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -26,7 +28,7 @@ class Login
     private ?Customer $customer = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Emplpoyee $emplpoyee = null;
+    private ?Employee $emplpoyee = null;
 
     public function getId(): ?int
     {
@@ -86,12 +88,12 @@ class Login
         return $this;
     }
 
-    public function getEmplpoyee(): ?Emplpoyee
+    public function getEmplpoyee(): ?Employee
     {
         return $this->emplpoyee;
     }
 
-    public function setEmplpoyee(Emplpoyee $emplpoyee): static
+    public function setEmplpoyee(Employee $emplpoyee): static
     {
         // set the owning side of the relation if necessary
         if ($emplpoyee->getLogin() !== $this) {
@@ -101,5 +103,22 @@ class Login
         $this->emplpoyee = $emplpoyee;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        // TODO: Implement getRoles() method.
+        return [$this->role];
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // TODO: Implement getUserIdentifier() method.
+        return $this->getUsername();
     }
 }

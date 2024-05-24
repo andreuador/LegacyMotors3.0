@@ -39,6 +39,9 @@ class Provider
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'provider')]
     private Collection $vehicle;
 
+    #[ORM\Column(length: 50)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->vehicle = new ArrayCollection();
@@ -147,6 +150,18 @@ class Provider
                 $vehicle->setProvider(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

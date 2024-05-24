@@ -34,6 +34,9 @@ class Invoice
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'invoice')]
     private Collection $reservations;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_deleted = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -118,6 +121,18 @@ class Invoice
                 $reservation->setInvoice(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setDeleted(?bool $is_deleted): static
+    {
+        $this->is_deleted = $is_deleted;
 
         return $this;
     }
