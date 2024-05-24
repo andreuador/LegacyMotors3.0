@@ -6,9 +6,10 @@ use App\Repository\ProviderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: ProviderRepository::class)]
-class Provider
+class Provider implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -164,5 +165,18 @@ class Provider
         $this->phone = $phone;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'dni' => $this->dni,
+            'cif' => $this->cif,
+            'address' => $this->address,
+        ];
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentDetailsRepository::class)]
-class PaymentDetails
+class PaymentDetails implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -97,5 +97,17 @@ class PaymentDetails
         $this->reservation = $reservation;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            'id' => $this->id,
+            'payment_method' => $this->payment_method,
+            'card_number' => $this->card_number,
+            'expiry_date' => $this->expiry_date,
+            'cvv' => $this->cvv,
+        ];
     }
 }

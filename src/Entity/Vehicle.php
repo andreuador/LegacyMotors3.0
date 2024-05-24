@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
-class Vehicle
+class Vehicle implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -294,4 +294,27 @@ class Vehicle
 
         return $this;
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'plate' => $this->plate,
+            'fuel' => $this->fuel,
+            'color' => $this->color,
+            'price_per_day' => $this->price_per_day,
+            'engine' => $this->engine,
+            'power' => $this->power,
+            'consumption' => $this->consumption,
+            'acceleration' => $this->acceleration,
+            'description' => $this->description,
+            'transmission' => $this->transmission,
+            'brand' => $this->getBrand(),
+            'images' => $this->getImages()->getIterator()
+        ];
+    }
+
 }

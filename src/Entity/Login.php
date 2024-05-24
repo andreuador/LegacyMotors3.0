@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: LoginRepository::class)]
-class Login implements PasswordAuthenticatedUserInterface, UserInterface
+#[UniqueEntity('username')]
+#[UniqueConstraint(name: 'username_unique_idx', columns: ['username'])]
+class Login implements PasswordAuthenticatedUserInterface, UserInterface, \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,7 +32,7 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
     private ?Customer $customer = null;
 
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
-    private ?Employee $emplpoyee = null;
+    private ?Employee $employee = null;
 
     public function getId(): ?int
     {
@@ -78,7 +82,6 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function setCustomer(Customer $customer): static
     {
-        // set the owning side of the relation if necessary
         if ($customer->getLogin() !== $this) {
             $customer->setLogin($this);
         }
@@ -88,37 +91,44 @@ class Login implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getEmplpoyee(): ?Employee
+    public function getEmployee(): ?Employee
     {
-        return $this->emplpoyee;
+        return $this->employee;
     }
 
-    public function setEmplpoyee(Employee $emplpoyee): static
+    public function setEmployee(Employee $employee): static
     {
-        // set the owning side of the relation if necessary
-        if ($emplpoyee->getLogin() !== $this) {
-            $emplpoyee->setLogin($this);
+        if ($employee->getLogin() !== $this) {
+            $employee->setLogin($this);
         }
 
-        $this->emplpoyee = $emplpoyee;
+        $this->employee = $employee;
 
         return $this;
     }
 
     public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
         return [$this->role];
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        // No es necesario realizar ninguna acción aquí, ya que no almacenamos credenciales sensibles
     }
 
     public function getUserIdentifier(): string
     {
-        // TODO: Implement getUserIdentifier() method.
-        return $this->getUsername();
+        return $this->username;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'username' => $this->getUsername(),
+            'role' => $this->getRole(),
+            'employee' => $this->getEmployee(),
+            'customer' => $this->getCustomer(),
+        ];
     }
 }

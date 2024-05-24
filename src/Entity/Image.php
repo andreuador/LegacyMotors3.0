@@ -6,7 +6,7 @@ use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
-class Image
+class Image implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,5 +46,13 @@ class Image
         $this->vehicle = $vehicle;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            'file_name' => $this->getFileName(),
+        ];
     }
 }

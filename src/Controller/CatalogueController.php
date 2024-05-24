@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Login;
 use App\Entity\Order;
+use App\Entity\Reservation;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use App\Repository\VehicleRepository;
@@ -40,35 +42,40 @@ class CatalogueController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_catalogue_add_vehicle', methods: ['GET', 'POST'])]
-    public function new($id, Request $request, EntityManagerInterface $entityManager, OrderRepository $orderRepository, VehicleRepository $vehicleRepository): Response {
-        /*if ($this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'warning',
-                "Sols els clients poden realitzar compres"
-            );
-            return $this->redirectToRoute('templates');
-        }*/
+    public function new($id, Request $request, EntityManagerInterface $entityManager, VehicleRepository $vehicleRepository): Response {
 
-        $login = $this->getUser();
-        $customer = $login->getCustomer();
+        // Obtener el usuario logeado
+        $user = $this->getUser();
 
-        $existingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+        dump($user);
 
-        if (!$existingOrder) {
-            $order = new Order();
-            $order->setState('En proceso');
-            $order->setCustomer($customer);
-            $order->setDeleted(false);
+        // Verificar si el usuario está autenticado y tiene un cliente asociado
+        if (!$user || !$user->isAuthenticated() || !$user->getCustomer()) {
+            // Si el usuario no está autenticado o no tiene un cliente asociado, redirigirlo a la página de inicio
+            return $this->redirectToRoute('app_default');
+        }
 
-            $form = $this->createForm(OrderType::class, $order);
+        $customer = $user->getCustomer();
+
+        $existingReservation = $customer->getReservations()->filter(function (Reservation $reservation) {
+            return $reservation->getStatus() === 'pending';
+        })->first();
+
+        if (!$existingReservation) {
+            $reservation = new Reservation();
+            $reservation->setStatus('pending');
+            $reservation->setCustomer($customer);
+            $reservation->setDeleted(false);
+
+            $form = $this->createForm(ReservationType::class, $reservation);
             $form->handleRequest($request);
 
-            $entityManager->persist($order);
+            $entityManager->persist($reservation);
             $entityManager->flush();
 
             $vehicleId = $id;
             $vehicle = $vehicleRepository->find($vehicleId);
-            $vehicle->setVehicleOrder($order);
+            $vehicle->setReservation($reservation);
 
             $entityManager->persist($vehicle);
             $entityManager->flush();
@@ -78,27 +85,10 @@ class CatalogueController extends AbstractController
                 "Se ha creado la reserva correctamente."
             );
         } else {
-            $order = $existingOrder;
-
-            $vehicleId = $id;
-            $vehicle = $vehicleRepository->find($vehicleId);
-
-            if ($vehicle->getVehicleOrder() !== null) {
-                $this->addFlash(
-                    'danger',
-                    'El vehículo ya no esta disponible.'
-                );
-            } else {
-                $vehicle->setVehicleOrder($order);
-
-                $entityManager->persist($vehicle);
-                $entityManager->flush();
-
-                $this->addFlash(
-                    'success',
-                    'Vehículo agregado correctamente.'
-                );
-            }
+            $this->addFlash(
+                'danger',
+                'Ya tienes una reserva pendiente.'
+            );
         }
 
         return $this->redirectToRoute('app_garage', [], Response::HTTP_SEE_OTHER);

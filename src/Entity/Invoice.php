@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
-class Invoice
+class Invoice implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -135,5 +135,16 @@ class Invoice
         $this->is_deleted = $is_deleted;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            'id' => $this->id,
+            'number' => $this->number,
+            'price' => $this->price,
+            'date' => $this->date,
+        ];
     }
 }
