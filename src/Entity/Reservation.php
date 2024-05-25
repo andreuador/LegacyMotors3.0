@@ -39,7 +39,7 @@ class Reservation implements \JsonSerializable
     private ?bool $is_deleted = null;
 
     #[ORM\OneToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?PaymentDetails $paymentDetails = null;
 
     /**

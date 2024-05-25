@@ -3,50 +3,49 @@
 namespace App\Controller;
 
 use App\Entity\Invoice;
-use App\Entity\Vehicle;
+use App\Entity\Reservation;
 use App\Repository\InvoiceRepository;
-use App\Repository\OrderRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GarageController extends AbstractController
 {
     #[Route('/garages', name: 'app_garage')]
-    public function index(InvoiceRepository $invoiceRepository, OrderRepository $orderRepository, SessionInterface $session): Response
+    public function index(InvoiceRepository $invoiceRepository, ReservationRepository $reservationRepository, SessionInterface $session): Response
     {
         $login = $this->getUser();
         $customer = $login->getCustomer();
 
-        $pendingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+        $pendingReservation = $reservationRepository->findOneBy(['status' => 'Pendiente', 'customer' => $customer]);
 
-        if (!$pendingOrder) {
+        if (!$pendingReservation) {
             $vehicles = [];
         } else {
-            $vehicles = $pendingOrder->getVehicle()->toArray();
+            $vehicles = $pendingReservation->getVehicle();
         }
 
-        $closedOrders = $orderRepository->findBy(['state' => 'Completado', 'customer' => $customer]);
+        $closedReservations = $reservationRepository->findBy(['status' => 'Completada', 'customer' => $customer]);
         $userInvoices = $invoiceRepository->findBy(['customer' => $customer]);
 
         // Obtener la fecha seleccionada de la sesión
         $selectedDate = $session->get('selected_date');
 
-
         return $this->render('garage/index.html.twig', [
             'vehicles' => $vehicles,
             'invoices' => $userInvoices,
-            'orders' => $closedOrders,
+            'reservations' => $closedReservations,
             'selectedDate' => $selectedDate
         ]);
     }
 
     #[Route('/add-to-cart', name: 'app_garage_add_to_cart', methods: ['POST'])]
-    public function addToCart(Request $request, OrderRepository $orderRepository, VehicleRepository $vehicleRepository, EntityManagerInterface $entityManager): Response
+    public function addToCart(Request $request, ReservationRepository $reservationRepository, VehicleRepository $vehicleRepository, EntityManagerInterface $entityManager): Response
     {
         $vehicleId = $request->request->get('vehicle_id');
         $date = $request->request->get('date');
@@ -55,17 +54,18 @@ class GarageController extends AbstractController
         $login = $this->getUser();
         $customer = $login->getCustomer();
 
-        $pendingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+        $pendingReservation = $reservationRepository->findOneBy(['status' => 'Pendiente', 'customer' => $customer]);
 
-        if (!$pendingOrder) {
-            $pendingOrder = new Order();
-            $pendingOrder->setCustomer($customer);
-            $pendingOrder->setState('En proceso');
-            $entityManager->persist($pendingOrder);
+        if (!$pendingReservation) {
+            $pendingReservation = new Reservation();
+            $pendingReservation->setStatus('Pendiente');
+            $pendingReservation->setCustomer($customer);
+            $pendingReservation->setDeleted(false);
+            $entityManager->persist($pendingReservation);
         }
 
-        $pendingOrder->addVehicle($vehicle);
-        $entityManager->persist($pendingOrder);
+        $pendingReservation->addVehicle($vehicle);
+        $entityManager->persist($pendingReservation);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_details_vehicle', ['id' => $vehicleId]);
@@ -76,7 +76,7 @@ class GarageController extends AbstractController
     {
         $vehicleId = $id;
         $vehicle = $vehicleRepository->find($vehicleId);
-        $vehicle->setVehicleOrder(null);
+        $vehicle->removeReservation();
 
         $entityManager->persist($vehicle);
         $entityManager->flush();
@@ -85,22 +85,22 @@ class GarageController extends AbstractController
     }
 
     #[Route('/checkout', name: 'app_garage_checkout', methods: ['POST', 'GET'])]
-    public function checkout(OrderRepository $orderRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
+    public function checkout(InvoiceRepository $invoiceRepository, ReservationRepository $reservationRepository, EntityManagerInterface $entityManager): Response
     {
-        // Obtener el pedido pendiente del usuario
+        // Obtener la reserva pendiente del usuario
         $login = $this->getUser();
         $customer = $login->getCustomer();
-        $pendingOrder = $orderRepository->findOneBy(['state' => 'En proceso', 'customer' => $customer]);
+        $pendingReservation = $reservationRepository->findOneBy(['status' => 'Pendiente', 'customer' => $customer]);
 
-        if (!$pendingOrder) {
-            // Manejar el caso en que no haya un pedido pendiente
-            $this->addFlash('error', 'No hay un pedido pendiente para completar.');
+        if (!$pendingReservation) {
+            // Manejar el caso en que no haya una reserva pendiente
+            $this->addFlash('error', 'No hay una reserva pendiente para completar.');
             return $this->redirectToRoute('app_garage');
         }
 
         // Calcular el precio total del carrito
         $totalPrice = 0;
-        foreach ($pendingOrder->getVehicle() as $vehicle) {
+        foreach ($pendingReservation->getVehicle() as $vehicle) {
             $totalPrice += $vehicle->getPricePerDay();
         }
 
@@ -118,25 +118,16 @@ class GarageController extends AbstractController
         $invoice->setDate(new \DateTime());
         $invoice->setDeleted(false);
 
-        $invoice->setInvoiceOrder($pendingOrder);
+        $invoice->addReservation($pendingReservation);
         $invoice->setCustomer($customer);
         $entityManager->persist($invoice);
         $entityManager->flush();
 
-        foreach ($pendingOrder->getReservation() as $reservation) {
-            // Establecer la fecha actual para la reserva
-            //$reservation->setDate(new \DateTime());
-            $reservation->setReservationOrder($pendingOrder);
-            // Asignar el cliente a la reserva
-            $reservation->setCustomer($customer);
-            $entityManager->persist($reservation);
-        }
-
-        // Actualizar el estado del pedido a "Completado"
-        $pendingOrder->setState('Completado');
-        $entityManager->persist($pendingOrder);
+        // Actualizar el estado de la reserva a "Completada"
+        $pendingReservation->setStatus('Completada');
+        $entityManager->persist($pendingReservation);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_default', ['id' => $invoice->getId()]);
+        return $this->redirectToRoute('app_payment_details', ['id' => $invoice->getId()]);
     }
 }

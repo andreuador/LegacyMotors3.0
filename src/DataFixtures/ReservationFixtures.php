@@ -6,6 +6,7 @@ use App\Entity\Invoice;
 use App\Entity\Reservation;
 use App\Entity\PaymentDetails;
 use App\Repository\CustomerRepository;
+use App\Repository\InvoiceRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -18,20 +19,23 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
     private Generator $faker;
     private CustomerRepository $customerRepository;
     private VehicleRepository $vehicleRepository;
+    private InvoiceRepository $invoiceRepository;
 
-    public function __construct(CustomerRepository $customerRepository, VehicleRepository $vehicleRepository)
+    public function __construct(CustomerRepository $customerRepository, VehicleRepository $vehicleRepository, InvoiceRepository $invoiceRepository)
     {
         $this->faker = Factory::create('es_ES');
         $this->customerRepository = $customerRepository;
         $this->vehicleRepository = $vehicleRepository;
+        $this->invoiceRepository = $invoiceRepository;
     }
 
     public function load(ObjectManager $manager): void
     {
         $customers = $this->customerRepository->findAll();
         $vehicles = $this->vehicleRepository->findAll();
+        $invoices = $this->invoiceRepository->findAll();
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $reservation = new Reservation();
             $reservation->setStartDate($this->faker->dateTimeBetween('-1 month', '+1 month'));
             $reservation->setEndDate($this->faker->dateTimeBetween($reservation->getStartDate(), '+1 month'));
@@ -40,19 +44,15 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
             $reservation->setReservationDate($this->faker->dateTimeBetween('-3 months', '-1 day'));
             $reservation->setCustomer($this->faker->randomElement($customers));
             $reservation->setVehicle($this->faker->randomElement($vehicles));
+            $reservation->setInvoice($this->faker->randomElement($invoices));
 
             $paymentDetails = new PaymentDetails();
             $paymentDetails->setPaymentMethod($this->faker->randomElement(['Visa', 'MasterCard']));
-            $paymentDetails->setCardNumber($this->faker->numerify('############')); // Genera un número de tarjeta de crédito de 12 dígitos
+            $cardNumber = $this->faker->numerify('############');
+            $paymentDetails->setCardNumber('************'.substr($cardNumber, -4)); // Mostrar solo los últimos 4 dígitos
             $paymentDetails->setExpiryDate($this->faker->dateTimeBetween($reservation->getStartDate(), '+12 months'));
-            $paymentDetails->setCvv($this->faker->numerify('###')); // Genera un código CVV de 3 dígitos
+            $paymentDetails->setCvv('***'); // Establecer CVV como oculto
             $reservation->setPaymentDetails($paymentDetails);
-
-            $invoice = new Invoice();
-            $invoice->setNumber($this->faker->numerify('INV-########'));
-            $invoice->setPrice($reservation->getTotalPrice()); // Precio de la reserva
-            $invoice->setDate($reservation->getReservationDate()); // Fecha de la reserva
-            $invoice->setCustomer($reservation->getCustomer()); // Cliente de la reserva
 
             $manager->persist($reservation);
         }
@@ -65,6 +65,7 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
         return [
             CustomerFixtures::class,
             VehicleFixtures::class,
+            InvoiceFixtures::class
         ];
     }
 }

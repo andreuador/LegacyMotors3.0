@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Login;
-use App\Entity\Order;
 use App\Entity\Reservation;
-use App\Form\OrderType;
-use App\Repository\OrderRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -43,41 +40,43 @@ class CatalogueController extends AbstractController
 
     #[Route('/add/{id}', name: 'app_catalogue_add_vehicle', methods: ['GET', 'POST'])]
     public function new($id, Request $request, EntityManagerInterface $entityManager, VehicleRepository $vehicleRepository): Response {
-
         // Obtener el usuario logeado
-        $user = $this->getUser();
+        $login = $this->getUser();
 
-        dump($user);
+        dump($login);
 
-        // Verificar si el usuario está autenticado y tiene un cliente asociado
-        if (!$user || !$user->isAuthenticated() || !$user->getCustomer()) {
-            // Si el usuario no está autenticado o no tiene un cliente asociado, redirigirlo a la página de inicio
-            return $this->redirectToRoute('app_default');
-        }
-
-        $customer = $user->getCustomer();
+        $customer = $login->getCustomer();
 
         $existingReservation = $customer->getReservations()->filter(function (Reservation $reservation) {
-            return $reservation->getStatus() === 'pending';
+            return $reservation->getStatus() === 'Pendiente';
         })->first();
 
         if (!$existingReservation) {
             $reservation = new Reservation();
-            $reservation->setStatus('pending');
+            $reservation->setStatus('Pendiente');
+            $reservation->setStartDate(new \DateTime());
+            $reservation->setEndDate(new \DateTime());
+            // Obtener el vehículo por su ID
+            $vehicle = $vehicleRepository->find($id);
+            if ($vehicle) {
+                // Establecer el precio del vehículo en la reserva
+                $reservation->setTotalPrice($vehicle->getPricePerDay());
+            }
+            $reservation->setReservationDate(new \DateTime());
             $reservation->setCustomer($customer);
             $reservation->setDeleted(false);
 
-            $form = $this->createForm(ReservationType::class, $reservation);
-            $form->handleRequest($request);
+            //$form = $this->createForm(ReservationType::class, $reservation);
+            //$form->handleRequest($request);
 
             $entityManager->persist($reservation);
-            $entityManager->flush();
 
             $vehicleId = $id;
             $vehicle = $vehicleRepository->find($vehicleId);
-            $vehicle->setReservation($reservation);
+            $vehicle->addReservation($reservation);
 
             $entityManager->persist($vehicle);
+            $entityManager->flush();
             $entityManager->flush();
 
             $this->addFlash(

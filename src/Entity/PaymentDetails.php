@@ -29,6 +29,9 @@ class PaymentDetails implements \JsonSerializable
     #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
     private ?Reservation $reservation = null;
 
+    #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
+    private ?Customer $customer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,5 +112,27 @@ class PaymentDetails implements \JsonSerializable
             'expiry_date' => $this->expiry_date,
             'cvv' => $this->cvv,
         ];
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($customer === null && $this->customer !== null) {
+            $this->customer->setPaymentDetails(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($customer !== null && $customer->getPaymentDetails() !== $this) {
+            $customer->setPaymentDetails($this);
+        }
+
+        $this->customer = $customer;
+
+        return $this;
     }
 }

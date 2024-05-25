@@ -58,6 +58,9 @@ class Customer implements \JsonSerializable
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'customer')]
     private Collection $reviews;
 
+    #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
+    private ?PaymentDetails $paymentDetails = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -268,5 +271,17 @@ class Customer implements \JsonSerializable
             'address' => $this->address,
             'dni' => $this->dni
         ];
+    }
+
+    public function getPaymentDetails(): ?PaymentDetails
+    {
+        return $this->paymentDetails;
+    }
+
+    public function setPaymentDetails(?PaymentDetails $paymentDetails): static
+    {
+        $this->paymentDetails = $paymentDetails;
+
+        return $this;
     }
 }

@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Invoice;
 use App\Repository\CustomerRepository;
-use App\Repository\ReservationRepository;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Generator;
@@ -16,43 +15,38 @@ class InvoiceFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
     private CustomerRepository $customerRepository;
-    private ReservationRepository $reservationRepository;
 
-    public function __construct(CustomerRepository $customerRepository, ReservationRepository $reservationRepository)
+    public function __construct(CustomerRepository $customerRepository)
     {
         $this->faker = Factory::create('es_ES');
         $this->customerRepository = $customerRepository;
-        $this->reservationRepository = $reservationRepository;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $reservations = $this->reservationRepository->findAll();
+        $customers = $this->customerRepository->findAll();
 
         for ($i = 0; $i < 10; $i++) {
             $invoice = new Invoice();
-            $invoice->setPrice($this->faker->numberBetween(100000, 1000000));
-            $dateString = $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d');
-            $date = DateTime::createFromFormat('Y-m-d', $dateString);
-            $invoice->setDate($date);
-            $invoice->setNumber($this->faker->numberBetween('200€', '1000€'));
+            $invoice->setNumber($this->faker->numberBetween(1, 999));
+            $invoice->setDate(new DateTime());
+            $invoice->setPrice($this->faker->numberBetween(100, 999));
             $invoice->setDeleted(false);
 
-            // Asociar una reserva aleatoria a la factura
-            $reservation = $this->faker->randomElement($reservations);
-            $invoice->addReservation($reservation);
-
-            // Obtener el cliente asociado a la reserva
-            $customer = $reservation->getCustomer();
+            // Asignar un cliente aleatorio a la factura
+            $customer = $this->faker->randomElement($customers);
             $invoice->setCustomer($customer);
 
             $manager->persist($invoice);
         }
+
         $manager->flush();
     }
 
     public function getDependencies(): array
     {
-        return [ReservationFixtures::class];
+        return [
+            CustomerFixtures::class,
+        ];
     }
 }

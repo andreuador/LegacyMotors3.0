@@ -62,7 +62,7 @@ class CustomerFixtures extends Fixture
         $customerPrivate->setLogin($loginPrivate);
 
         $manager->persist($loginPrivate);
-        $manager->persist($loginPrivate);
+        $manager->persist($customerPrivate);
 
         $manager->flush();
     }

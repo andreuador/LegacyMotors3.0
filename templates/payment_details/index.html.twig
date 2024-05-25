@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pago{% endblock %}
+
+{% block body %}
+    <h1>Pago</h1>
+
+    <div class="payment-details-form">
+        {{ form_start(form) }}
+        {{ form_row(form.payment_method) }}
+        {{ form_row(form.card_number) }}
+        {{ form_row(form.expiry_date) }}
+        {{ form_row(form.cvv) }}
+        <button type="submit">Submit</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
