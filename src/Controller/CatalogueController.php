@@ -43,7 +43,13 @@ class CatalogueController extends AbstractController
         // Obtener el usuario logeado
         $login = $this->getUser();
 
-        dump($login);
+        if (!$login) {
+            $this->addFlash(
+                'warning',
+                "Debes iniciar sesión o registrarte para poder hacer una reserva."
+            );
+            return $this->redirectToRoute('app_login');
+        }
 
         $customer = $login->getCustomer();
 
