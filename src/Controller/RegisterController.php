@@ -27,7 +27,7 @@ class RegisterController extends AbstractController
             $customer->setDeleted(false);
 
             $entityManager->persist($customer);
-            $entityManager->persist($login); // Asegúrate de persistir el objeto de login
+            $entityManager->persist($login);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_login');

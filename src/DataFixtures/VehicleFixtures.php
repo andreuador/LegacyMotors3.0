@@ -98,12 +98,14 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setDescription(substr($description, 0, 255));
 
             $manager->persist($vehicle);
+
+            $this->addReference('vehicle_' . $i, $vehicle);
         }
 
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [ProviderFixtures::class];
     }
