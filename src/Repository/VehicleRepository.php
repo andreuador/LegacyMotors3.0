@@ -28,16 +28,13 @@ class VehicleRepository extends ServiceEntityRepository
     public function findByTextQuery(string $value): Query {
         return $this->createQueryBuilder('v')
             ->join('v.brand', 'b')
-            ->join('m.model', 'm')
             ->where('b.name LIKE :value')
-            ->orWhere('m.name LIKE :value')
             ->orWhere('v.color LIKE :value')
             ->orWhere('v.transmission LIKE :value')
             ->orWhere('v.fuel LIKE :value')
-            ->orWhere('v.year LIKE :value')
-            ->orWhere('v.price LIKE :value')
+            ->orWhere('v.price_per_day LIKE :value')
             ->setParameter('value', '%' . $value . '%')
-            ->setParameter('v.id', 'ASC')
+            ->orderBy('v.id', 'ASC')
             ->getQuery();
     }
 

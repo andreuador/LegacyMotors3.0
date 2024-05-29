@@ -11,9 +11,9 @@
                 <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }}{% endfor %}</h1>
                 <p class="lead">
                     Este {{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }} del año {{ model.year }}{% endfor %}
-                    tiene un motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
+                    con la matricula {{ vehicle.plate }} tiene un motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
                     0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros por cada 100 km.
-                    Está disponible en color {{ vehicle.color }}. {{ vehicle.plate }}
+                    Está disponible en color {{ vehicle.color }}.
                 </p>
                 <h2 class="font-lm-title">Reservas</h2>
                 {% if vehicle.reservation is not empty %}

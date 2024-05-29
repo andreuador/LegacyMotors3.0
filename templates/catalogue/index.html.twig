@@ -28,11 +28,10 @@
     <div class="container">
         <div class="row">
             {% for vehicle in vehicles %}
-                <div class="col-sm-12 col-md-6">
+                <div class="col-md-12 col-lg-6">
                     <div class="card w-100 m-3">
-                        {#{% for image in vehicle.images %}#}
-                            <img src="{{ asset('images/vehicles/hola/porsche911-min.jpg') }}" class="card-img-top img-fluid" alt="{{ vehicle.brand.name }}">
-                        {#{% endfor %}#}
+                        <img src="{{ asset('images/vehicles/hola/porsche911-min.jpg') }}" class="card-img-top img-fluid"
+                             alt="{{ vehicle.brand.name }}">
                         <div class="card-body">
                             <h4 class="card-title text-center">
                                 <a href="{{ path('app_details_vehicle', {'id': vehicle.id }) }}" class="link-offset-2 link-underline link-underline-opacity-0">
@@ -45,27 +44,22 @@
                             <div class="row">
                                 <div class="col-4">
                                     <h5 class="card-text text-center">Precio</h5>
-                                    <p class="card-text text-center fs-6">{{ vehicle.pricePerDay }} € / dia {{ vehicle.plate }}</p>
+                                    <p class="card-text text-center fs-6 fs-md-5">{{ vehicle.pricePerDay }} € / dia</p>
                                 </div>
                                 <div class="col-4">
                                     <h5 class="card-text text-center">Motor</h5>
-                                    <p class="card-text text-center fs-6">{{ vehicle.engine }}</p>
+                                    <p class="card-text text-center">{{ vehicle.engine }}</p>
                                 </div>
                                 <div class="col-4">
                                     <h5 class="card-text text-center">Carburante</h5>
-                                    <p class="card-text text-center fs-6">{{ vehicle.fuel}}</p>
+                                    <p class="card-text text-center fs-6 fs-md-5">{{ vehicle.fuel }}</p>
                                 </div>
                             </div>
-                            <div class="row">
+<!--                            <div class="row">
                                 <div class="col-12 text-center">
-                                    {#{% if not vehicle.available %}
-                                        <button class="btn bg-quaternary-lm m-2" disabled>Reservado</button>
-                                    {% else %}
-                                        <a class="btn bg-quaternary-lm m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
-                                    {% endif %}#}
                                     <a class="btn bg-quaternary-lm btn-normal-hover m-2" href="{{ path('app_catalogue_add_vehicle', {'id': vehicle.id })}}">Reservar</a>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

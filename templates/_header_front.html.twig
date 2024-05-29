@@ -1,22 +1,16 @@
+{% set route = app.request.attributes.get('_route') %}
+{% set navbarClass = '' %}
+
+{% if route in ['app_catalogue_index', 'app_login', 'app_register', 'app_details_vehicle', 'app_garage', 'app_payment_details'] %}
+    {% set navbarClass = 'bg-primary-lm' %}
+{% else %}
+    {% set navbarClass = 'position-absolute z-2' %}
+{% endif %}
+
 <header class="container-fluid">
     <div class="row">
         <div class="col-12 px-0">
-            <nav class="navbar navbar-expand-lg w-100 font-lm-text
-                {% if app.request.attributes.get('_route') == 'app_catalogue_index' %}
-                    bg-primary-lm
-                {% elseif app.request.attributes.get('_route') == 'app_login' %}
-                    bg-primary-lm
-                {% elseif app.request.attributes.get('_route') == 'app_register' %}
-                    bg-primary-lm
-                {% elseif app.request.attributes.get('_route') == 'app_details_vehicle' %}
-                    bg-primary-lm
-                {% elseif app.request.attributes.get('_route') == 'app_garage' %}
-                    bg-primary-lm
-                {% elseif app.request.attributes.get('_route') == 'app_payment_details' %}
-                    bg-primary-lm
-                {% else %}
-                    position-absolute z-2
-                {% endif %}">
+            <nav class="navbar navbar-expand-lg w-100 font-lm-text {{ navbarClass }}">
                 <div class="container-fluid">
                     <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img
                                 src="{{ asset("images/logo7.png") }}" width="50px" alt="Legacy Motors"></a>
@@ -32,28 +26,30 @@
                                    href="{{ path('app_catalogue_index') }}">Catálogo</a>
                             </li>
                         </ul>
-                        <div class="d-flex justify-content-around w-25">
+                        <div class="d-flex justify-content-lg-end gap-4 w-25">
                             {% if app.user %}
                                 <div class="dropdown">
                                     <a class="btn bg-tertiary-lm btn-button-hover dropdown-toggle" href="#"
                                        role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-person-fill"></i>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                         <li>
                                             <a class="dropdown-item" href="{# {{ path('app_profile') }}#}">Perfil</a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{# {{ path('app_orders') }}#}">Mis Reservas</a>
                                         </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <li>
+                                                <a class="dropdown-item" href="{{ path('app_back_office') }}">Administración</a>
+                                            </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_garage') }}"><i
                                             class="bi bi-cart-fill"></i></a>
+                                <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_login') }}">Login</a>
                                 <a class="btn bg-tertiary-lm btn-button-hover" href="{{ path('app_register') }}">Registro</a>
