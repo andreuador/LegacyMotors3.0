@@ -12,13 +12,15 @@
                     {% set totalPrice = totalPrice + vehicle.pricePerDay %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ asset('images/vehicles/hola/ferrari488gtb-min.jpg') }}" class="card-img-top" alt="{{ vehicle.brand.name }}">
+                            <img src="{{ asset('images/vehicles/hola/ferrari488gtb-min.jpg') }}" class="card-img-top"
+                                 alt="{{ vehicle.brand.name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h5>
                                 <p class="card-text">Matricula: {{ vehicle.plate }}</p>
                                 <p class="card-text">Precio: {{ vehicle.pricePerDay }} € / dia</p>
                                 <p>Fecha seleccionada: {{ selectedDate }}</p>
-                                <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id})  }}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                                <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id}) }}"
+                                   class="btn btn-danger"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </div>
@@ -29,10 +31,29 @@
                     Total: {{ totalPrice | number_format(2, ',', '.') }}€
                 </h3>
                 <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2">Volver al catálogo</a>
-                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary">Realizar Pedido</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                    Añadir tarjeta
+                </button>
+                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary mx-2">Realizar reserva</a>
             </div>
         {% else %}
             <p>No hay vehículos en tu carrito.</p>
         {% endif %}
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Detalles de Pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% include 'payment_details/index.html.twig' with { 'form': form } %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

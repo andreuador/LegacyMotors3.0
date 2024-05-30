@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Invoice;
 use App\Entity\Reservation;
+use App\Entity\PaymentDetails;
+use App\Form\PaymentDetailsType;
 use App\Repository\InvoiceRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GarageController extends AbstractController
 {
     #[Route('/garages', name: 'app_garage')]
-    public function index(InvoiceRepository $invoiceRepository, ReservationRepository $reservationRepository, SessionInterface $session): Response
+    public function index(InvoiceRepository $invoiceRepository, ReservationRepository $reservationRepository, SessionInterface $session, Request $request, EntityManagerInterface $entityManager): Response
     {
         $login = $this->getUser();
         $customer = $login->getCustomer();
@@ -36,11 +39,28 @@ class GarageController extends AbstractController
         // Obtener la fecha seleccionada de la sesión
         $selectedDate = $session->get('selected_date');
 
+        // Crear el formulario de detalles de pago
+        $paymentDetails = $customer->getPaymentDetails() ?? new PaymentDetails();
+        $paymentDetailsForm = $this->createForm(PaymentDetailsType::class, $paymentDetails);
+        $paymentDetailsForm->handleRequest($request);
+
+        if ($paymentDetailsForm->isSubmitted() && $paymentDetailsForm->isValid()) {
+            $paymentDetails = $paymentDetailsForm->getData();
+            $paymentDetails->setCustomer($customer);
+
+            $entityManager->persist($paymentDetails);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Los detalles de pago se han guardado correctamente.');
+            return $this->redirectToRoute('app_garage');
+        }
+
         return $this->render('garage/index.html.twig', [
             'vehicles' => $vehicles,
             'invoices' => $userInvoices,
             'reservations' => $closedReservations,
-            'selectedDate' => $selectedDate
+            'selectedDate' => $selectedDate,
+            'form' => $paymentDetailsForm->createView(),
         ]);
     }
 
@@ -98,6 +118,12 @@ class GarageController extends AbstractController
             return $this->redirectToRoute('app_garage');
         }
 
+        $paymentDetails = $customer->getPaymentDetails();
+        if (!$paymentDetails) {
+            $this->addFlash('error', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
+            return $this->redirectToRoute('app_garage');
+        }
+
         // Calcular el precio total del carrito
         $totalPrice = 0;
         foreach ($pendingReservation->getVehicle() as $vehicle) {
@@ -115,7 +141,7 @@ class GarageController extends AbstractController
         // Establecer el precio en base al total del carrito
         $invoice->setPrice($totalPrice);
 
-        $invoice->setDate(new \DateTime());
+        $invoice->setDate(new DateTime());
         $invoice->setDeleted(false);
 
         $invoice->addReservation($pendingReservation);
@@ -125,9 +151,12 @@ class GarageController extends AbstractController
 
         // Actualizar el estado de la reserva a "Completada"
         $pendingReservation->setStatus('Completada');
+        $pendingReservation->setPaymentDetails($paymentDetails);
         $entityManager->persist($pendingReservation);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_payment_details', ['id' => $invoice->getId()]);
+        $this->addFlash('success', 'Reserva realizada con éxito.');
+
+        return $this->redirectToRoute('app_default', ['id' => $invoice->getId()]);
     }
 }

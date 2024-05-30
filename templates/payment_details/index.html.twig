@@ -1,17 +1,30 @@
-{% extends 'base.html.twig' %}
-
 {% block title %}Pago{% endblock %}
 
 {% block body %}
-    <h1>Pago</h1>
 
-    <div class="payment-details-form">
-        {{ form_start(form) }}
-        {{ form_row(form.payment_method) }}
-        {{ form_row(form.card_number) }}
-        {{ form_row(form.expiry_date) }}
-        {{ form_row(form.cvv) }}
-        <button type="submit">Submit</button>
-        {{ form_end(form) }}
+    <div class="container my-5">
+        {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_label(form.payment_method, 'Método de pago') }}
+                {{ form_widget(form.payment_method, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.card_number, 'Número de la tarjeta') }}
+                {{ form_widget(form.card_number, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.expiry_date, 'Fecha de caducidad') }}
+                {{ form_widget(form.expiry_date, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.cvv, 'Código de seguridad') }}
+                {{ form_widget(form.cvv, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-success mt-3 w-100">Guardar</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
