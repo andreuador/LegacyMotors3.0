@@ -91,19 +91,7 @@
                 </h2>
                 <div id="collapse{{ vehicle.id }}" class="accordion-collapse collapse"
                      data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body d-flex flex-wrap bg-quaternary-lm">
-                        <!--                        <div class="flex-grow-1">
-                            <h3>Marca</h3>
-                            <p>{{ vehicle.brand.name }}</p>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h3>Model</h3>
-                            <p>
-                                {% for model in vehicle.brand.model %}
-                                    {{ model.name }}
-                                {% endfor %}
-                            </p>
-                        </div>-->
+                    <div class="accordion-body d-flex flex-wrap bg-secondary-lm">
                         <div class="flex-grow-1">
                             <h5>Matrícula</h5>
                             <p>{{ vehicle.plate }}</p>
@@ -113,8 +101,19 @@
                             <p>{{ vehicle.pricePerDay }} €</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Disponible</h5>
-                            <p>{#{{ vehicle.available ? 'Si' : 'No' }}#}</p>
+                            <h5>Motor</h5>
+                            <p>{{ vehicle.engine }}</p>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5>Reserva</h5>
+                            {% if vehicle.reservation|length > 0 %}
+                                {% for reservation in vehicle.reservation %}
+                                    <p>{{ reservation.status }}</p>
+                                    <p>{{ reservation.startDate|date("d/m/Y") }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p>No hay reservas</p>
+                            {% endif %}
                         </div>
                         <div class="flex-grow-1">
                             <h5>Acciones</h5>

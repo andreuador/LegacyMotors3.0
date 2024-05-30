@@ -3,31 +3,35 @@
 {% block title %}Iniciar sesión{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 my-5 d-flex justify-content-center">
-                <div class="border border-black border-opacity-25 p-3 rounded-2 d-flex flex-column align-items-center">
-                    <h2 class="font-lm-title">Iniciar sesión</h2>
-                    <form method="post" action="{{ path('app_login') }}">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Usuario"
-                                   name="_username">
-                            <label for="username">Usuario</label>
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <h1 class="font-lm-title">Bienvenido a Legacy Motors</h1>
+        <img src="{{ asset('images/logo7.png') }}" alt="Legacy Motors" class="img-fluid" width="100px">
+    </div>
+    <div class="container d-flex justify-content-center align-items-center my-5">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card p-4 shadow-sm">
+                <h2 class="card-title text-center mb-4 font-lm-title">Iniciar sesión</h2>
+                <form method="post" action="{{ path('app_login') }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuario"
+                               name="_username">
+                        <label for="floatingInput">Usuario</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"
+                               name="_password">
+                        <label for="floatingPassword">Contraseña</label>
+                    </div>
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingInput" placeholder="Contraseña"
-                                   name="_password">
-                            <label for="password">Contraseña</label>
-                        </div>
-                        {% if error %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ error.messageKey|trans(error.messageData, 'security') }}
-                            </div>
-                        {% endif %}
-                        <button class="btn btn-primary mt-3" type="submit">Iniciar sesión</button>
-                    </form>
-                    <a href="{{ path('app_register') }}" class="mt-4 text-start">Registrate aquí</a>
+                    {% endif %}
+                    <button class="btn bg-tertiary-lm btn-normal-hover w-100 py-2" type="submit">Iniciar sesión</button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="{{ path('app_register') }}" class="text-decoration-none">Registrate aquí</a>
                 </div>
             </div>
         </div>

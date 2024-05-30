@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use DateInterval;
+use DatePeriod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,23 +20,27 @@ class DetailsVehicleController extends AbstractController
         // Obtener las reservas del vehículo
         $reservations = $vehicle->getReservation();
         $reservedDates = [];
+        $currentDate = new \DateTime();
 
-        // Obtener todas las fechas reservadas
+        // Obtener todas las fechas reservadas, excluyendo las pasadas
         foreach ($reservations as $reservation) {
-            $period = new \DatePeriod(
-                $reservation->getStartDate(),
-                new DateInterval('P1D'),
-                $reservation->getEndDate()->modify('+1 day')
-            );
+            if ($reservation->getEndDate() >= $currentDate) {
+                $period = new DatePeriod(
+                    $reservation->getStartDate(),
+                    new DateInterval('P1D'),
+                    $reservation->getEndDate()->modify('+1 day')
+                );
 
-            foreach ($period as $date) {
-                $reservedDates[] = $date->format('Y-m-d');
+                foreach ($period as $date) {
+                    if ($date >= $currentDate) {
+                        $reservedDates[] = $date->format('Y-m-d');
+                    }
+                }
             }
         }
 
         // Calcular algunas fechas disponibles para reservar
         $availableDates = [];
-        $currentDate = new \DateTime();
         for ($i = 1; $i <= 30; $i++) {
             $availableDate = clone $currentDate;
             $availableDate->modify("+$i day");
@@ -62,6 +67,7 @@ class DetailsVehicleController extends AbstractController
             $this->addFlash('error', 'No se ha seleccionado ninguna fecha.');
             return $this->redirectToRoute('app_details_vehicle', ['id' => $id]);
         }
+
         // Almacenar la fecha seleccionada en la sesión
         $session->set('selected_date', $selectedDate);
 
