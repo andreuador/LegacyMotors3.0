@@ -48,16 +48,19 @@ class Reservation implements \JsonSerializable
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'reservation')]
     private Collection $review;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Vehicle $vehicle = null;
-
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Invoice $invoice = null;
+
+    /**
+     * @var Collection<int, Vehicle>
+     */
+    #[ORM\ManyToMany(targetEntity: Vehicle::class, mappedBy: 'reservations')]
+    private Collection $vehicles;
 
     public function __construct()
     {
         $this->review = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,18 +194,6 @@ class Reservation implements \JsonSerializable
         return $this;
     }
 
-    public function getVehicle(): ?Vehicle
-    {
-        return $this->vehicle;
-    }
-
-    public function setVehicle(?Vehicle $vehicle): static
-    {
-        $this->vehicle = $vehicle;
-
-        return $this;
-    }
-
     public function getInvoice(): ?Invoice
     {
         return $this->invoice;
@@ -226,5 +217,32 @@ class Reservation implements \JsonSerializable
             'status' => $this->status,
             'reservation_date' => $this->reservation_date?->format('Y-m-d'),
         ];
+    }
+
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): static
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
+            $vehicle->addReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): static
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            $vehicle->removeReservation($this);
+        }
+
+        return $this;
     }
 }

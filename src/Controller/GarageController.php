@@ -30,7 +30,7 @@ class GarageController extends AbstractController
         if (!$pendingReservation) {
             $vehicles = [];
         } else {
-            $vehicles = $pendingReservation->getVehicle();
+            $vehicles = $pendingReservation->getVehicles();
         }
 
         $closedReservations = $reservationRepository->findBy(['status' => 'Completada', 'customer' => $customer]);
@@ -114,19 +114,19 @@ class GarageController extends AbstractController
 
         if (!$pendingReservation) {
             // Manejar el caso en que no haya una reserva pendiente
-            $this->addFlash('error', 'No hay una reserva pendiente para completar.');
+            $this->addFlash('danger', 'No hay una reserva pendiente para completar.');
             return $this->redirectToRoute('app_garage');
         }
 
         $paymentDetails = $customer->getPaymentDetails();
         if (!$paymentDetails) {
-            $this->addFlash('error', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
+            $this->addFlash('danger', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
             return $this->redirectToRoute('app_garage');
         }
 
         // Calcular el precio total del carrito
         $totalPrice = 0;
-        foreach ($pendingReservation->getVehicle() as $vehicle) {
+        foreach ($pendingReservation->getVehicles() as $vehicle) {
             $totalPrice += $vehicle->getPricePerDay();
         }
 
