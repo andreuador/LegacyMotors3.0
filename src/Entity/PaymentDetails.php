@@ -29,7 +29,7 @@ class PaymentDetails implements \JsonSerializable
     #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
     private ?Reservation $reservation = null;
 
-    #[ORM\OneToOne(mappedBy: 'paymentDetails', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'payment_details')]
     private ?Customer $customer = null;
 
     public function getId(): ?int
@@ -121,16 +121,6 @@ class PaymentDetails implements \JsonSerializable
 
     public function setCustomer(?Customer $customer): static
     {
-        // unset the owning side of the relation if necessary
-        if ($customer === null && $this->customer !== null) {
-            $this->customer->setPaymentDetails(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($customer !== null && $customer->getPaymentDetails() !== $this) {
-            $customer->setPaymentDetails($this);
-        }
-
         $this->customer = $customer;
 
         return $this;

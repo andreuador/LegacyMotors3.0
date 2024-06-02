@@ -40,7 +40,12 @@ class GarageController extends AbstractController
         $selectedDate = $session->get('selected_date');
 
         // Crear el formulario de detalles de pago
-        $paymentDetails = $customer->getPaymentDetails() ?? new PaymentDetails();
+        $paymentDetails = $customer->getPaymentDetails()->first();
+        $isNewPayment = false;
+        if (!$paymentDetails) {
+            $paymentDetails = new PaymentDetails();
+            $isNewPayment = true;
+        }
         $paymentDetailsForm = $this->createForm(PaymentDetailsType::class, $paymentDetails);
         $paymentDetailsForm->handleRequest($request);
 
@@ -61,8 +66,10 @@ class GarageController extends AbstractController
             'reservations' => $closedReservations,
             'selectedDate' => $selectedDate,
             'form' => $paymentDetailsForm->createView(),
+            'isNewPayment' => $isNewPayment, // Pasa esta variable a la plantilla para mostrar u ocultar la sección de detalles de pago
         ]);
     }
+
 
     #[Route('/add-to-cart', name: 'app_garage_add_to_cart', methods: ['POST'])]
     public function addToCart(Request $request, ReservationRepository $reservationRepository, VehicleRepository $vehicleRepository, EntityManagerInterface $entityManager): Response
@@ -118,7 +125,7 @@ class GarageController extends AbstractController
             return $this->redirectToRoute('app_garage');
         }
 
-        $paymentDetails = $customer->getPaymentDetails();
+        $paymentDetails = $customer->getPaymentDetails()->first();
         if (!$paymentDetails) {
             $this->addFlash('danger', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
             return $this->redirectToRoute('app_garage');
@@ -130,22 +137,23 @@ class GarageController extends AbstractController
             $totalPrice += $vehicle->getPricePerDay();
         }
 
+        // Obtener el último número de factura
+        $lastInvoice = $invoiceRepository->findOneBy([], ['id' => 'DESC']);
+        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 0;
+
+        // Incrementar el número de factura en uno
+        $newInvoiceNumber = $lastNumber + 1;
+
         // Crear una nueva factura
         $invoice = new Invoice();
-
-        // Obtener el último número de factura y aumentarlo en uno
-        $lastInvoice = $entityManager->getRepository(Invoice::class)->findOneBy([], ['id' => 'DESC']);
-        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 0;
-        $invoice->setNumber($lastNumber + 1);
-
-        // Establecer el precio en base al total del carrito
+        $invoice->setNumber($newInvoiceNumber);
         $invoice->setPrice($totalPrice);
-
         $invoice->setDate(new DateTime());
         $invoice->setDeleted(false);
-
         $invoice->addReservation($pendingReservation);
         $invoice->setCustomer($customer);
+
+        // Persistir y flushear la nueva factura
         $entityManager->persist($invoice);
         $entityManager->flush();
 

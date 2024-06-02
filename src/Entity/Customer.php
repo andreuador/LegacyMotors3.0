@@ -61,11 +61,18 @@ class Customer implements \JsonSerializable
     #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
     private ?PaymentDetails $paymentDetails = null;
 
+    /**
+     * @var Collection<int, PaymentDetails>
+     */
+    #[ORM\OneToMany(targetEntity: PaymentDetails::class, mappedBy: 'customer')]
+    private Collection $payment_details;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->invoices = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->payment_details = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -273,14 +280,32 @@ class Customer implements \JsonSerializable
         ];
     }
 
-    public function getPaymentDetails(): ?PaymentDetails
+    /**
+     * @return Collection<int, PaymentDetails>
+     */
+    public function getPaymentDetails(): Collection
     {
-        return $this->paymentDetails;
+        return $this->payment_details;
     }
 
-    public function setPaymentDetails(?PaymentDetails $paymentDetails): static
+    public function addPaymentDetail(PaymentDetails $paymentDetail): static
     {
-        $this->paymentDetails = $paymentDetails;
+        if (!$this->payment_details->contains($paymentDetail)) {
+            $this->payment_details->add($paymentDetail);
+            $paymentDetail->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentDetail(PaymentDetails $paymentDetail): static
+    {
+        if ($this->payment_details->removeElement($paymentDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($paymentDetail->getCustomer() === $this) {
+                $paymentDetail->setCustomer(null);
+            }
+        }
 
         return $this;
     }
