@@ -54,12 +54,6 @@ class Vehicle implements \JsonSerializable
     private ?Brand $brand = null;
 
     /**
-     * @var Collection<int, Reservation>
-     */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'vehicle')]
-    private Collection $reservation;
-
-    /**
      * @var Collection<int, Image>
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'vehicle')]
@@ -68,10 +62,17 @@ class Vehicle implements \JsonSerializable
     #[ORM\Column(length: 100)]
     private ?string $transmission = null;
 
+    /**
+     * @var Collection<int, Reservation>
+     */
+    #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'vehicles')]
+    private Collection $reservations;
+
     public function __construct()
     {
-        $this->reservation = new ArrayCollection();
+        //$this->reservation = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,36 +225,6 @@ class Vehicle implements \JsonSerializable
     }
 
     /**
-     * @return Collection<int, Reservation>
-     */
-    public function getReservation(): Collection
-    {
-        return $this->reservation;
-    }
-
-    public function addReservation(Reservation $reservation): static
-    {
-        if (!$this->reservation->contains($reservation)) {
-            $this->reservation->add($reservation);
-            $reservation->setVehicle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): static
-    {
-        if ($this->reservation->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getVehicle() === $this) {
-                $reservation->setVehicle(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Image>
      */
     public function getImages(): Collection
@@ -315,6 +286,30 @@ class Vehicle implements \JsonSerializable
             'brand' => $this->getBrand(),
             'images' => $this->getImages()->getIterator()
         ];
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        $this->reservations->removeElement($reservation);
+
+        return $this;
     }
 
 }

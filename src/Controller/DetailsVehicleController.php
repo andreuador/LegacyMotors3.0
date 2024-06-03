@@ -18,7 +18,7 @@ class DetailsVehicleController extends AbstractController
     public function index(Vehicle $vehicle): Response
     {
         // Obtener las reservas del vehículo
-        $reservations = $vehicle->getReservation();
+        $reservations = $vehicle->getReservations();
         $reservedDates = [];
         $currentDate = new \DateTime();
 

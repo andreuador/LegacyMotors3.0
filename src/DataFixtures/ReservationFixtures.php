@@ -40,18 +40,18 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
             $reservation->setStartDate($this->faker->dateTimeBetween('-1 month', '+1 month'));
             $reservation->setEndDate($this->faker->dateTimeBetween($reservation->getStartDate(), '+1 month'));
             $reservation->setTotalPrice($this->faker->numberBetween(100, 1000));
-            $reservation->setStatus($this->faker->randomElement(['pending', 'confirmed', 'cancelled']));
+            $reservation->setStatus($this->faker->randomElement(['Pendiente', 'Confirmada', 'Cancelada']));
             $reservation->setReservationDate($this->faker->dateTimeBetween('-3 months', '-1 day'));
             $reservation->setCustomer($this->faker->randomElement($customers));
-            $reservation->setVehicle($this->faker->randomElement($vehicles));
+            $reservation->addVehicle($this->faker->randomElement($vehicles));
             $reservation->setInvoice($this->faker->randomElement($invoices));
 
             $paymentDetails = new PaymentDetails();
             $paymentDetails->setPaymentMethod($this->faker->randomElement(['Visa', 'MasterCard']));
             $cardNumber = $this->faker->numerify('############');
-            $paymentDetails->setCardNumber('************'.substr($cardNumber, -4)); // Mostrar solo los últimos 4 dígitos
+            $paymentDetails->setCardNumber('************'.substr($cardNumber, -4));
             $paymentDetails->setExpiryDate($this->faker->dateTimeBetween($reservation->getStartDate(), '+12 months'));
-            $paymentDetails->setCvv('***'); // Establecer CVV como oculto
+            $paymentDetails->setCvv('***');
             $reservation->setPaymentDetails($paymentDetails);
 
             $manager->persist($reservation);

@@ -16,7 +16,7 @@
                     Está disponible en color {{ vehicle.color }}.
                 </p>
                 <h2 class="font-lm-title">Reservas</h2>
-                {% if vehicle.reservation is not empty %}
+                {% if vehicle.reservations is not empty %}
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -25,7 +25,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for reservation in vehicle.reservation %}
+                        {% for reservation in vehicle.reservations %}
                             <tr>
                                 <td>{{ reservation.startDate|date('Y-m-d') }}</td>
                                 <td>{{ reservation.endDate|date('Y-m-d') }}</td>

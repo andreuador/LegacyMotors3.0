@@ -7,6 +7,7 @@ use App\Entity\Reservation;
 use App\Entity\PaymentDetails;
 use App\Form\PaymentDetailsType;
 use App\Repository\InvoiceRepository;
+use App\Repository\PaymentDetailsRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use DateTime;
@@ -30,7 +31,7 @@ class GarageController extends AbstractController
         if (!$pendingReservation) {
             $vehicles = [];
         } else {
-            $vehicles = $pendingReservation->getVehicle();
+            $vehicles = $pendingReservation->getVehicles();
         }
 
         $closedReservations = $reservationRepository->findBy(['status' => 'Completada', 'customer' => $customer]);
@@ -40,7 +41,12 @@ class GarageController extends AbstractController
         $selectedDate = $session->get('selected_date');
 
         // Crear el formulario de detalles de pago
-        $paymentDetails = $customer->getPaymentDetails() ?? new PaymentDetails();
+        $paymentDetails = $customer->getPaymentDetails()->first();
+        $isNewPayment = false;
+        if (!$paymentDetails) {
+            $paymentDetails = new PaymentDetails();
+            $isNewPayment = true;
+        }
         $paymentDetailsForm = $this->createForm(PaymentDetailsType::class, $paymentDetails);
         $paymentDetailsForm->handleRequest($request);
 
@@ -114,49 +120,56 @@ class GarageController extends AbstractController
 
         if (!$pendingReservation) {
             // Manejar el caso en que no haya una reserva pendiente
-            $this->addFlash('error', 'No hay una reserva pendiente para completar.');
+            $this->addFlash('danger', 'No hay una reserva pendiente para completar.');
             return $this->redirectToRoute('app_garage');
         }
 
-        $paymentDetails = $customer->getPaymentDetails();
-        if (!$paymentDetails) {
-            $this->addFlash('error', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
-            return $this->redirectToRoute('app_garage');
+        // Crear nuevos detalles de pago
+        $paymentDetails = new PaymentDetails();
+        $paymentDetails->setCustomer($customer);
+
+        // Copiar información necesaria del `PaymentDetails` existente
+        $existingPaymentDetails = $customer->getPaymentDetails()->first();
+        if ($existingPaymentDetails) {
+            $paymentDetails->setCardNumber($existingPaymentDetails->getCardNumber());
+            $paymentDetails->setExpiryDate($existingPaymentDetails->getExpiryDate());
+            $paymentDetails->setCvv($existingPaymentDetails->getCvv());
+            $paymentDetails->setPaymentMethod($existingPaymentDetails->getPaymentMethod());
         }
+
+        $entityManager->persist($paymentDetails);
 
         // Calcular el precio total del carrito
         $totalPrice = 0;
-        foreach ($pendingReservation->getVehicle() as $vehicle) {
+        foreach ($pendingReservation->getVehicles() as $vehicle) {
             $totalPrice += $vehicle->getPricePerDay();
         }
 
+        // Obtener el último número de factura
+        $lastInvoice = $invoiceRepository->findOneBy([], ['id' => 'DESC']);
+        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 5;
+
+        // Incrementar el número de factura en uno
+        $newInvoiceNumber = $lastNumber + 1;
+
         // Crear una nueva factura
         $invoice = new Invoice();
-
-        // Obtener el último número de factura y aumentarlo en uno
-        $lastInvoice = $entityManager->getRepository(Invoice::class)->findOneBy([], ['id' => 'DESC']);
-        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 0;
-        $invoice->setNumber($lastNumber + 1);
-
-        // Establecer el precio en base al total del carrito
+        $invoice->setNumber($newInvoiceNumber);
         $invoice->setPrice($totalPrice);
-
         $invoice->setDate(new DateTime());
         $invoice->setDeleted(false);
-
         $invoice->addReservation($pendingReservation);
         $invoice->setCustomer($customer);
-        $entityManager->persist($invoice);
-        $entityManager->flush();
 
         // Actualizar el estado de la reserva a "Completada"
         $pendingReservation->setStatus('Completada');
         $pendingReservation->setPaymentDetails($paymentDetails);
         $entityManager->persist($pendingReservation);
+        $entityManager->persist($invoice);
         $entityManager->flush();
 
         $this->addFlash('success', 'Reserva realizada con éxito.');
 
-        return $this->redirectToRoute('app_default', ['id' => $invoice->getId()]);
+        return $this->redirectToRoute('app_garage');
     }
 }
