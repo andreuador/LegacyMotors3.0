@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Brand;
-use App\Entity\Order;
 use App\Entity\Provider;
 use App\Entity\Vehicle;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,18 +26,18 @@ class VehicleType extends AbstractType
                 ]
             ])
             ->add('color')
+            ->add('engine')
+            ->add('power')
+            ->add('consumption')
+            ->add('acceleration')
+            ->add('description')
             ->add('price_per_day')
-            ->add('available')
-            ->add('doors')
             ->add('transmission', ChoiceType::class,[
                 'choices' => [
                     'Manual' => 'manual',
                     'Automatic' => 'automatic',
                 ]
             ])
-            ->add('description')
-            /*->add('category')
-            ->add('isDeleted')*/
             ->add('provider', EntityType::class, [
                 'class' => Provider::class,
                 'choice_label' => 'name',
@@ -46,12 +45,9 @@ class VehicleType extends AbstractType
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
                 'choice_label' => 'name',
+                'required' => false, // La marca no es requerida
             ])
-            ->add('vehicleOrder', EntityType::class, [
-                'class' => Order::class,
-                'choice_label' => 'id',
-            ])
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
