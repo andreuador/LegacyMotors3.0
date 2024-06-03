@@ -308,6 +308,7 @@ class Vehicle implements \JsonSerializable
     public function removeReservation(Reservation $reservation): static
     {
         $this->reservations->removeElement($reservation);
+        $reservation->removeVehicle($this);
 
         return $this;
     }

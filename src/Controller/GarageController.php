@@ -102,9 +102,12 @@ class GarageController extends AbstractController
     {
         $vehicleId = $id;
         $vehicle = $vehicleRepository->find($vehicleId);
-        $vehicle->removeReservation();
+        foreach ($vehicle->getReservations() as $reservation) {
+            // Cambiar el estado de la reserva a "Cancelado"
+            $reservation->setStatus('Cancelado');
+            $entityManager->persist($reservation);
+        }
 
-        $entityManager->persist($vehicle);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_garage', [], Response::HTTP_SEE_OTHER);
