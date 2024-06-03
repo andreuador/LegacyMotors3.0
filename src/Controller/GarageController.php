@@ -7,6 +7,7 @@ use App\Entity\Reservation;
 use App\Entity\PaymentDetails;
 use App\Form\PaymentDetailsType;
 use App\Repository\InvoiceRepository;
+use App\Repository\PaymentDetailsRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use DateTime;
@@ -66,10 +67,8 @@ class GarageController extends AbstractController
             'reservations' => $closedReservations,
             'selectedDate' => $selectedDate,
             'form' => $paymentDetailsForm->createView(),
-            'isNewPayment' => $isNewPayment, // Pasa esta variable a la plantilla para mostrar u ocultar la sección de detalles de pago
         ]);
     }
-
 
     #[Route('/add-to-cart', name: 'app_garage_add_to_cart', methods: ['POST'])]
     public function addToCart(Request $request, ReservationRepository $reservationRepository, VehicleRepository $vehicleRepository, EntityManagerInterface $entityManager): Response
@@ -125,11 +124,20 @@ class GarageController extends AbstractController
             return $this->redirectToRoute('app_garage');
         }
 
-        $paymentDetails = $customer->getPaymentDetails()->first();
-        if (!$paymentDetails) {
-            $this->addFlash('danger', 'Debe añadir los detalles de la tarjeta antes de realizar la reserva.');
-            return $this->redirectToRoute('app_garage');
+        // Crear nuevos detalles de pago
+        $paymentDetails = new PaymentDetails();
+        $paymentDetails->setCustomer($customer);
+
+        // Copiar información necesaria del `PaymentDetails` existente
+        $existingPaymentDetails = $customer->getPaymentDetails()->first();
+        if ($existingPaymentDetails) {
+            $paymentDetails->setCardNumber($existingPaymentDetails->getCardNumber());
+            $paymentDetails->setExpiryDate($existingPaymentDetails->getExpiryDate());
+            $paymentDetails->setCvv($existingPaymentDetails->getCvv());
+            $paymentDetails->setPaymentMethod($existingPaymentDetails->getPaymentMethod());
         }
+
+        $entityManager->persist($paymentDetails);
 
         // Calcular el precio total del carrito
         $totalPrice = 0;
@@ -139,7 +147,7 @@ class GarageController extends AbstractController
 
         // Obtener el último número de factura
         $lastInvoice = $invoiceRepository->findOneBy([], ['id' => 'DESC']);
-        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 0;
+        $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 5;
 
         // Incrementar el número de factura en uno
         $newInvoiceNumber = $lastNumber + 1;
@@ -153,18 +161,15 @@ class GarageController extends AbstractController
         $invoice->addReservation($pendingReservation);
         $invoice->setCustomer($customer);
 
-        // Persistir y flushear la nueva factura
-        $entityManager->persist($invoice);
-        $entityManager->flush();
-
         // Actualizar el estado de la reserva a "Completada"
         $pendingReservation->setStatus('Completada');
         $pendingReservation->setPaymentDetails($paymentDetails);
         $entityManager->persist($pendingReservation);
+        $entityManager->persist($invoice);
         $entityManager->flush();
 
         $this->addFlash('success', 'Reserva realizada con éxito.');
 
-        return $this->redirectToRoute('app_default', ['id' => $invoice->getId()]);
+        return $this->redirectToRoute('app_garage');
     }
 }

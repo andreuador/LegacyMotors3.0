@@ -26,9 +26,9 @@ class InvoiceFixtures extends Fixture implements DependentFixtureInterface
     {
         $customers = $this->customerRepository->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $invoice = new Invoice();
-            $invoice->setNumber($this->faker->numberBetween(1, 999));
+            $invoice->setNumber($this->faker->unique()->numberBetween(1, 5));
             $invoice->setDate(new DateTime());
             $invoice->setPrice($this->faker->numberBetween(100, 999));
             $invoice->setDeleted(false);
