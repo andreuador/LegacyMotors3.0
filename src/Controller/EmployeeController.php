@@ -33,13 +33,13 @@ class EmployeeController extends AbstractController
         $q = $request->query->get('q', '');
 
         if (empty($q)) {
-            $cutomerQuery = $employeeRepository->findAllQuery();
+            $employeeQuery = $employeeRepository->findAllQuery();
         } else {
-            $cutomerQuery = $employeeRepository->findByText($q);
+            $employeeQuery = $employeeRepository->findByText($q);
         }
 
         $pagination = $paginator->paginate(
-            $cutomerQuery,
+            $employeeQuery,
             $request->query->getInt('page', 1),
             5
         );

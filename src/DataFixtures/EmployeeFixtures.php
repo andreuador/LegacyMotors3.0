@@ -32,7 +32,7 @@ class EmployeeFixtures extends Fixture
             $employee->setEmail($this->faker->email());
             $employee->setPhone($this->faker->phoneNumber());
             $employee->setHireDate(new DateTime($this->faker->date()));
-            $employee->setSalary($this->faker->numberBetween(100, 1000));
+            $employee->setSalary($this->faker->numberBetween(1000, 2000));
             $employee->setDeleted(false);
 
             $login = new Login();
@@ -52,7 +52,7 @@ class EmployeeFixtures extends Fixture
         $employeeAdmin->setEmail($this->faker->email());
         $employeeAdmin->setPhone($this->faker->phoneNumber());
         $employeeAdmin->setHireDate(new DateTime($this->faker->date()));
-        $employeeAdmin->setSalary($this->faker->numberBetween(100, 1000));
+        $employeeAdmin->setSalary($this->faker->numberBetween(2000, 4000));
         $employeeAdmin->setDeleted(false);
 
         $loginAdmin = new Login();

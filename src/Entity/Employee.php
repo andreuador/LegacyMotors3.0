@@ -35,7 +35,7 @@ class Employee implements \JsonSerializable
     #[ORM\Column(nullable: true)]
     private ?bool $is_deleted = null;
 
-    #[ORM\OneToOne(inversedBy: 'emplpoyee', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Login $login = null;
 

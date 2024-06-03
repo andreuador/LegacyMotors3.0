@@ -26,6 +26,9 @@
                 <th class="d-none">Id</th>
                 <th class="bg-quaternary-lm">Nombre</th>
                 <th class="bg-quaternary-lm">Apellidos</th>
+                <th class="bg-quaternary-lm">Email</th>
+                <th class="bg-quaternary-lm">Móvil</th>
+                <th class="bg-quaternary-lm">Salario</th>
                 <th class="bg-quaternary-lm">Acciones</th>
             </tr>
             </thead>
@@ -35,6 +38,9 @@
                     <td class="d-none">{{ employee.id }}</td>
                     <td>{{ employee.name }}</td>
                     <td>{{ employee.lastname }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.phone }}</td>
+                    <td>{{ employee.salary }} €</td>
                     <td>
                         <a href="{{ path('app_employee_show', {'id': employee.id}) }}" class="btn btn-primary"><i
                                     class="bi bi-eye-fill"></i></a>
@@ -69,6 +75,18 @@
                         <div class="flex-grow-1">
                             <h5>Apellidos</h5>
                             <p>{{ employee.lastname }}</p>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5>Email</h5>
+                            <p>{{ employee.email }}</p>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5>Móvil</h5>
+                            <p>{{ employee.phone }}</p>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5>Salario</h5>
+                            <p>{{ employee.salary }} €</p>
                         </div>
                         <div class="flex-grow-1">
                             <h5>Acciones</h5>

@@ -106,8 +106,8 @@
                         </div>
                         <div class="flex-grow-1">
                             <h5>Reserva</h5>
-                            {% if vehicle.reservation|length > 0 %}
-                                {% for reservation in vehicle.reservation %}
+                            {% if vehicle.reservations|length > 0 %}
+                                {% for reservation in vehicle.reservations %}
                                     <p>{{ reservation.status }}</p>
                                     <p>{{ reservation.startDate|date("d/m/Y") }}</p>
                                 {% endfor %}

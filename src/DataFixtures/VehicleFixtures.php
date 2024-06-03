@@ -65,7 +65,7 @@ class VehicleFixtures extends Fixture implements DependentFixtureInterface
             $vehicle->setPlate($this->faker->vehicleRegistration('[0-9]{4}[A-Z]{3}'));
             $vehicle->setFuel($this->faker->randomElement(['Gasolina', 'Gasoil', 'Eléctrico']));
             $vehicle->setColor($this->faker->colorName());
-            $vehicle->setPricePerDay($this->faker->randomFloat(2, 50, 300));
+            $vehicle->setPricePerDay($this->faker->randomFloat(2, 400, 900));
             $vehicle->setTransmission($this->faker->randomElement(['Automatico', 'Manual']));
             $vehicle->setDeleted(false);
             $vehicle->setConsumption($this->faker->randomFloat(2, 3, 15)); // Liters per 100km

@@ -39,7 +39,11 @@
                 <tr>
                     <td class="d-none">{{ reservation.id }}</td>
                     <td>{{ reservation.customer.name }}</td>
-                    <td>{{ reservation.vehicle.brand.name }}</td>
+                    <td>
+                        {% for vehicle in reservation.vehicles %}
+                            {{ vehicle.brand.name }}
+                        {% endfor %}
+                    </td>
                     <td>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</td>
                     <td>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</td>
                     <td>{{ reservation.totalPrice }} €</td>
@@ -79,28 +83,32 @@
                      data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body d-flex flex-wrap bg-secondary-lm">
                         <div class="flex-grow-1">
-                            <h5>Vehículo</h5>
-                            <p>{{ reservation.vehicle.brand.name }}</p>
+                            <h5 class="font-lm-title">Vehículo</h5>
+                            <p class="font-lm-text">
+                                {% for vehicle in reservation.vehicles %}
+                                    {{ vehicle.brand.name }}
+                                {% endfor %}
+                            </p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Fecha inicio</h5>
+                            <h5 class="font-lm-title">Fecha inicio</h5>
                             <p>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Fecha fin</h5>
-                            <p>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</p>
+                            <h5 class="font-lm-title">Fecha fin</h5>
+                            <p class="font-lm-text">{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Precio</h5>
-                            <p>{{ reservation.totalPrice }}</p>
+                            <h5 class="font-lm-title">Precio</h5>
+                            <p class="font-lm-text">{{ reservation.totalPrice }} €</p>
                         </div>
                         <div class="flex-grow-1">
-                            <h5>Pago</h5>
-                            <p>{{ payment.paymentMethod }}</p>
+                            <h5 class="font-lm-title">Pago</h5>
+                            <p class="font-lm-text">{{ payment.paymentMethod }}</p>
                         </div>
 
                         <div class="flex-grow-1">
-                            <h5>Acciones</h5>
+                            <h5 class="font-lm-title">Acciones</h5>
                             <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}"
                                class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
                             <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
