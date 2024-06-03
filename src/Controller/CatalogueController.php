@@ -72,9 +72,6 @@ class CatalogueController extends AbstractController
             $reservation->setCustomer($customer);
             $reservation->setDeleted(false);
 
-            //$form = $this->createForm(ReservationType::class, $reservation);
-            //$form->handleRequest($request);
-
             $entityManager->persist($reservation);
 
             $vehicleId = $id;
