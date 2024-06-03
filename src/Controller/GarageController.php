@@ -103,7 +103,6 @@ class GarageController extends AbstractController
         $vehicleId = $id;
         $vehicle = $vehicleRepository->find($vehicleId);
         foreach ($vehicle->getReservations() as $reservation) {
-            // Cambiar el estado de la reserva a "Cancelado"
             $reservation->setStatus('Cancelado');
             $entityManager->persist($reservation);
         }
@@ -122,7 +121,6 @@ class GarageController extends AbstractController
         $pendingReservation = $reservationRepository->findOneBy(['status' => 'Pendiente', 'customer' => $customer]);
 
         if (!$pendingReservation) {
-            // Manejar el caso en que no haya una reserva pendiente
             $this->addFlash('danger', 'No hay una reserva pendiente para completar.');
             return $this->redirectToRoute('app_garage');
         }
@@ -131,7 +129,6 @@ class GarageController extends AbstractController
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setCustomer($customer);
 
-        // Copiar información necesaria del `PaymentDetails` existente
         $existingPaymentDetails = $customer->getPaymentDetails()->first();
         if ($existingPaymentDetails) {
             $paymentDetails->setCardNumber($existingPaymentDetails->getCardNumber());
@@ -151,11 +148,8 @@ class GarageController extends AbstractController
         // Obtener el último número de factura
         $lastInvoice = $invoiceRepository->findOneBy([], ['id' => 'DESC']);
         $lastNumber = $lastInvoice ? $lastInvoice->getNumber() : 5;
-
-        // Incrementar el número de factura en uno
         $newInvoiceNumber = $lastNumber + 1;
 
-        // Crear una nueva factura
         $invoice = new Invoice();
         $invoice->setNumber($newInvoiceNumber);
         $invoice->setPrice($totalPrice);
@@ -164,7 +158,6 @@ class GarageController extends AbstractController
         $invoice->addReservation($pendingReservation);
         $invoice->setCustomer($customer);
 
-        // Actualizar el estado de la reserva a "Completada"
         $pendingReservation->setStatus('Completada');
         $pendingReservation->setPaymentDetails($paymentDetails);
         $entityManager->persist($pendingReservation);
