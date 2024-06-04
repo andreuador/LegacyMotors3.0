@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }}{% endfor %}
+    {{ vehicle.brand.name }} {{ vehicle.model.name }}
 {% endblock %}
 
 {% block body %}
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }}{% endfor %}</h1>
+                <h1 class="display-4">{{ vehicle.brand.name }} {{ vehicle.model.name }}</h1>
                 <p class="lead">
-                    Este {{ vehicle.brand.name }} {% for model in vehicle.brand.model %}{{ model.name }} del año {{ model.year }}{% endfor %}
+                    Este {{ vehicle.brand.name }} {{ vehicle.model.name }} del año {{ vehicle.model.year }}
                     con la matricula {{ vehicle.plate }} tiene un motor {{ vehicle.engine }} con una potencia de {{ vehicle.power }} CV. Cuenta con una aceleración de
                     0 a 100 km/h en {{ vehicle.acceleration }} segundos y un consumo de {{ vehicle.consumption }} litros por cada 100 km.
                     Está disponible en color {{ vehicle.color }}.
@@ -53,7 +53,8 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('images/vehicles/hola/ferrariTestarossa-min.jpg') }}" class="img-fluid" alt="Imagen del Coche">
+                <img src="{{ asset('images/vehicles/hola/' ~ vehicle.brand.name ~ '_' ~ vehicle.model.name ~ '.jpg') }}"
+                     class="card-img-top img-fluid" alt="{{ vehicle.brand.name }} {{ vehicle.model.name }}">
             </div>
         </div>
         <div class="container mt-5" id="specifications">

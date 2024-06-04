@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Carrito de Compras{% endblock %}
+{% block title %}Garaje{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
-        <h1 class="font-lm-title mb-4">Garage</h1>
+        <h1 class="font-lm-title mb-4">Garaje</h1>
         {% if vehicles|length > 0 %}
             <div class="row">
                 {% set totalPrice = 0 %}
@@ -12,15 +12,15 @@
                     {% set totalPrice = totalPrice + vehicle.pricePerDay %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ asset('images/vehicles/hola/ferrari488gtb-min.jpg') }}" class="card-img-top"
-                                 alt="{{ vehicle.brand.name }}">
+                            <img src="{{ asset('images/vehicles/hola/' ~ vehicle.brand.name ~ '_' ~ vehicle.model.name ~ '.jpg') }}"
+                                 class="card-img-top img-fluid" alt="{{ vehicle.brand.name }} {{ vehicle.model.name }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ vehicle.brand.name }} {% for model in vehicle.brand.model %} {{ model.name }} {% endfor %}</h5>
-                                <p class="card-text">Matricula: {{ vehicle.plate }}</p>
-                                <p class="card-text">Precio: {{ vehicle.pricePerDay }} € / dia</p>
-                                <p>Fecha seleccionada: {{ selectedDate }}</p>
+                                <h5 class="card-title font-lm-title fs-2 text-center">{{ vehicle.brand.name }} {{ vehicle.model.name }}</h5>
+                                <p class="card-text font-lm-text fs-6 text-center">Matricula: {{ vehicle.plate }}</p>
+                                <p class="card-text font-lm-text fs-6 text-center">Precio: {{ vehicle.pricePerDay }} € / dia</p>
+                                <p class="card-text font-lm-text fs-6 text-center">Fecha seleccionada: {{ selectedDate }}</p>
                                 <a href="{{ path('app_garage_delete_vehicle', {'id': vehicle.id}) }}"
-                                   class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                                   class="btn btn-danger w-100"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </div>
@@ -30,11 +30,11 @@
                 <h3 class="my-4">
                     Total: {{ totalPrice | number_format(2, ',', '.') }}€
                 </h3>
-                <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2">Volver al catálogo</a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2 font-lm-text">Volver al catálogo</a>
+                <button type="button" class="btn btn-primary font-lm-text" data-bs-toggle="modal" data-bs-target="#paymentModal">
                     Añadir tarjeta
                 </button>
-                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary mx-2">Realizar reserva</a>
+                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary mx-2 font-lm-text">Realizar reserva</a>
             </div>
         {% else %}
             <p>No hay vehículos en tu carrito.</p>

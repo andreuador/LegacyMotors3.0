@@ -135,6 +135,7 @@ Customer "1" -- "1" Login
 Employee "1" -- "1" Login
 Provider "1" -- "N" Vehicle
 Vehicle "N" -- "1" Brand
+Vehicle "N" -- "1" Model
 Brand "1" -- "N" Model
 Reservation "N" -- "1" Customer
 Reservation "1" -- "1" Payment_Details
@@ -144,5 +145,6 @@ Image "N" -- "1" Vehicle
 Invoice "N" -- "1" Customer
 Reservation "N" -- "1" Invoice
 Review "N" -- "1" Customer
+Customer "1" -- "N" Payment_Details
 
 @enduml

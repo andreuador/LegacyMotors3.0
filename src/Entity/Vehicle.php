@@ -68,6 +68,9 @@ class Vehicle implements \JsonSerializable
     #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'vehicles')]
     private Collection $reservations;
 
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    private ?Model $model = null;
+
     public function __construct()
     {
         //$this->reservation = new ArrayCollection();
@@ -309,6 +312,18 @@ class Vehicle implements \JsonSerializable
     {
         $this->reservations->removeElement($reservation);
         $reservation->removeVehicle($this);
+
+        return $this;
+    }
+
+    public function getModel(): ?Model
+    {
+        return $this->model;
+    }
+
+    public function setModel(?Model $model): static
+    {
+        $this->model = $model;
 
         return $this;
     }
