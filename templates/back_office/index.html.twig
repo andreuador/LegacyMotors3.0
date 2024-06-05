@@ -54,9 +54,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ vehicle.brand.name }}
                             <span class="badge bg-danger rounded-pill">
-                                {% for model in vehicle.brand.model %}
-                                    {{ model.name }}
-                                {% endfor %}
+                               {{ vehicle.model.name }}
                             </span>
                         </li>
                     {% endfor %}
