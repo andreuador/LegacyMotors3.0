@@ -5,19 +5,19 @@
 {% block body %}
 
     <div class="container-fluid position-relative">
-        <!-- Texto de bienvenida -->
-        <h1 class="text-center mt-5 mb-4 position-absolute top-25 start-50 translate-middle z-1 font-lm-title color-text">
-            ¡Bienvenido a Legacy Motors!</h1>
+        <img src="{{ asset('images/image.png') }}"
+             class="img-fluid position-absolute z-1 top-50 start-50 translate-middle" alt="Legacy Motors">
         <div class="row">
             <div class="col-12 p-0 font-lm-text">
-                <div id="carouselExampleInterval" class="carousel slide mb-5 position-relative" data-bs-ride="carousel">
+                <div id="carouselExampleInterval" class="carousel slide mb-5 position-relative bg-primary-lm"
+                     data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-bs-interval="10000">
                             <img src="{{ asset('images/duotone8.png') }}"
                                  class="d-block w-100 img-fluid" alt="Porsche 911">
                         </div>
                         <div class="carousel-item" data-bs-interval="2000">
-                            <img src="{{ asset('images/duotone6.png') }}"
+                            <img src="{{ asset('images/duotone9.png') }}"
                                  class="d-block w-100 img-fluid" alt="Ferrari Testarossa">
                         </div>
                         <div class="carousel-item">
