@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Brand;
+use App\Entity\Model;
 use App\Entity\Provider;
 use App\Entity\Vehicle;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -45,7 +46,12 @@ class VehicleType extends AbstractType
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
                 'choice_label' => 'name',
-                'required' => false, // La marca no es requerida
+                'required' => false,
+            ])
+            ->add('model', EntityType::class, [
+                'class' => Model::class,
+                'choice_label' => 'name',
+                'required' => false,
             ])
             ;
     }
