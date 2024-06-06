@@ -11,6 +11,7 @@ use App\Repository\PaymentDetailsRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use DateTime;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,10 +55,13 @@ class GarageController extends AbstractController
             $paymentDetails = $paymentDetailsForm->getData();
             $paymentDetails->setCustomer($customer);
 
-            $entityManager->persist($paymentDetails);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Los detalles de pago se han guardado correctamente.');
+            if (!$paymentDetails->getPaymentMethod()) {
+                $this->addFlash('warning', 'Debes añadir la tarjeta para completar la reserva.');
+            } else {
+                $entityManager->persist($paymentDetails);
+                $entityManager->flush();
+                $this->addFlash('success', 'Los detalles de pago se han guardado correctamente.');
+            }
             return $this->redirectToRoute('app_garage');
         }
 
@@ -108,6 +112,7 @@ class GarageController extends AbstractController
         }
 
         $entityManager->flush();
+        $this->addFlash('danger', 'Has eliminado el coche del garaje.');
 
         return $this->redirectToRoute('app_garage', [], Response::HTTP_SEE_OTHER);
     }
@@ -137,6 +142,11 @@ class GarageController extends AbstractController
             $paymentDetails->setPaymentMethod($existingPaymentDetails->getPaymentMethod());
         }
 
+        if (!$paymentDetails->getPaymentMethod()) {
+            $this->addFlash('warning', 'Debes añadir algún método de pago.');
+            return $this->redirectToRoute('app_garage');
+        }
+
         $entityManager->persist($paymentDetails);
 
         // Calcular el precio total del carrito
@@ -163,7 +173,6 @@ class GarageController extends AbstractController
         $entityManager->persist($pendingReservation);
         $entityManager->persist($invoice);
         $entityManager->flush();
-
         $this->addFlash('success', 'Reserva realizada con éxito.');
 
         return $this->redirectToRoute('app_garage');
