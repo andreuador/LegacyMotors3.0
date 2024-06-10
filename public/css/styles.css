@@ -53,3 +53,12 @@
 .font-lm-text {
     font-family: 'Montserrat', sans-serif !important;
 }
+
+.card-img-top {
+    height: 400px !important;
+    object-fit: cover !important;
+}
+
+.card {
+    min-height: 500px !important;
+}

@@ -3,24 +3,22 @@
 {% block title %}Iniciar sesión{% endblock %}
 
 {% block body %}
-    <div class="container d-flex justify-content-center align-items-center mt-5">
-        <h1 class="font-lm-title">Bienvenido a Legacy Motors</h1>
-        <img src="{{ asset('images/logo7.png') }}" alt="Legacy Motors" class="img-fluid" width="100px">
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-2">
+<!--        <h1 class="font-lm-title text-center">Bienvenido a Legacy Motors</h1>-->
+        <img src="{{ asset('images/marro.png') }}" alt="Legacy Motors" class="img-fluid my-3" width="100px">
     </div>
     <div class="container d-flex justify-content-center align-items-center my-5">
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
             <div class="card p-4 shadow-sm">
                 <h2 class="card-title text-center mb-4 font-lm-title">Iniciar sesión</h2>
                 <form method="post" action="{{ path('app_login') }}">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuario"
-                               name="_username">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" name="_username" required>
                         <label for="floatingInput">Usuario</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"
-                               name="_password">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" name="_password" required>
                         <label for="floatingPassword">Contraseña</label>
                     </div>
                     {% if error %}
