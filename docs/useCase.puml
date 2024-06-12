@@ -1,30 +1,36 @@
-@startuml LegacyMotorsUseCases
-
+@startuml
 left to right direction
+actor Customer
+actor Employee
+actor Provider
 
-actor Customer as Customer
-actor Employee as Employee
+usecase "Registro" as UC1
+usecase "Login" as UC2
+usecase "View Vehicle Catalog" as UC3
+usecase "Make Reservation" as UC4
+usecase "Manage Reservations" as UC5
+usecase "Manage Vehicles" as UC6
+usecase "Manage Invoices" as UC7
+usecase "Manage Reviews" as UC8
+usecase "Manage Brands and Models" as UC9
 
-rectangle "Car Management" {
-    Customer --> (Explore Cars) /' Explorar Cotxes '/
-    Customer --> (Make Reservation) /' Realitzar Reserva '/
-    Customer --> (Manage Reservations) /' Gestionar Reserves '/
-    Customer --> (Add Comments) /' Afegir Comentaris '/
-    Customer --> (View Cart) /' Veure Carret '/
-    Employee --> (Manage Cars) /' Gestionar Cotxes '/
-}
-
-rectangle "User Management" {
-    Employee --> (Manage Users) /' Gestinar Usuaris '/
-}
-
-rectangle "Car Type Management" {
-    Employee --> (Manage Car Types) /' Gestionar Tipus de Cotxes '/
-}
-
-Customer --> (Login) /' Iniciar Sessió '/
-Customer --> (Register) /' Registrar-se '/
-Customer --> (View Profile) /' Veure Perfil '/
-Employee --> (Login) /' Iniciar Sessió '/
+Customer --> (UC1)
+Customer --> (UC2)
+Customer --> (UC3)
+Customer --> (UC4)
+Customer --> (UC5)
+Customer --> (UC8)
+Employee --> (UC1)
+Employee --> (UC2)
+Employee --> (UC3)
+Employee --> (UC4)
+Employee --> (UC5)
+Employee --> (UC6)
+Employee --> (UC7)
+Employee --> (UC8)
+Employee --> (UC9)
+Provider --> (UC6)
+Provider --> (UC7)
+Provider --> (UC9)
 
 @enduml
