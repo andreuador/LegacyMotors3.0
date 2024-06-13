@@ -1,0 +1,45 @@
+{{ form_start(form, {'attr': {'id': 'editProfileForm'}}) }}
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.name, {'label': 'Nombre', 'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.lastname, {'label': 'Apellidos', 'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.email, {'label': 'Email', 'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.phone, {'label': 'Movil', 'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.address, {'label': 'Dirección', 'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.dni, {'label': 'DNI', 'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.login.username, {'label': 'Nombre de Usuario', 'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.login.password, {'label': 'Contraseña', 'attr': {'class': 'form-control my-2'}}) }}
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </div>
+</div>
+
+{{ form_end(form) }}
