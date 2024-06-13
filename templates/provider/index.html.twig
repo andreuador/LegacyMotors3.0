@@ -47,10 +47,31 @@
                                 class="bi bi-eye-fill"></i></a>
                     <a href="{{ path('app_provider_edit', {'id': provider.id}) }}" class="btn btn-secondary"><i
                                 class="bi bi-pencil-fill"></i></a>
-                    <a href="{{ path('app_provider_delete', {'id': provider.id}) }}" class="btn btn-danger"><i
-                                class="bi bi-trash-fill"></i></a>
+                    <button class="btn btn-danger" data-bs-toggle="modal"
+                             data-bs-target="#deleteModal{{ provider.id }}">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </td>
             </tr>
+
+            <div class="modal fade" id="deleteModal{{ provider.id }}" tabindex="-1"
+                 aria-labelledby="deleteModalLabel{{ provider.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel{{ provider.id }}">Eliminar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que quieres eliminar este proveedor?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ path('app_provider_delete', {'id': provider.id}) }}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
             <tr>
                 <td colspan="8">No se encuentran resultados</td>
@@ -97,8 +118,29 @@
                                         class="bi bi-eye-fill"></i></a>
                             <a href="{{ path('app_provider_edit', {'id': provider.id}) }}" class="btn btn-secondary"><i
                                         class="bi bi-pencil-fill"></i></a>
-                            <a href="{{ path('app_provider_delete', {'id': provider.id}) }}" class="btn btn-danger"><i
-                                        class="bi bi-trash-fill"></i></a>
+                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal{{ provider.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deleteModal{{ provider.id }}" tabindex="-1"
+                 aria-labelledby="deleteModalLabel{{ provider.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel{{ provider.id }}">Eliminar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que quieres eliminar este proveedor?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ path('app_provider_delete', {'id': provider.id}) }}" class="btn btn-danger">Eliminar</a>
                         </div>
                     </div>
                 </div>

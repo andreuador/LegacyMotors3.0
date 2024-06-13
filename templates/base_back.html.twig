@@ -15,6 +15,16 @@
 </head>
 <body>
 {% include '_header_back.html.twig' %}
+{# FLASH MESAGGE #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    {% endfor %}
+{% endfor %}
 <main class="container-fluid flex-grow-1">
         <div class="row">
             {% include '_aside_back.html.twig' %}

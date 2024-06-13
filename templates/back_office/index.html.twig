@@ -5,27 +5,15 @@
 {% block body %}
 <div class="row">
     <div class="col-12">
-        <h1 class="font-lm-title m-3">Estadísticas</h1>
+        <h1 class="font-lm-title my-3">Estadísticas</h1>
     </div>
-<!--    <div class="col-12 col-md-4">
-        <div class="card h-100">
-            <div class="card-header">
-                <h2 class="fs-3">Estadístiques de ventes</h2>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Vehicles amb més reserves</h5>
-                <canvas id="myPieChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-    </div>-->
-
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 my-2">
         <div class="card h-100">
             <div class="card-header">
                 <h2 class="fs-3">Porcentage de reservas</h2>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Top 5 marcas</h5>
+                <h5 class="card-title">Top 2 marcas</h5>
                 {% for brand, percentage in topBrands %}
                 <div class="progress-bar">
                     <div class="progress-label">{{ brand }}</div>
@@ -42,7 +30,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 my-2">
         <div class="card h-100">
             <div class="card-header">
                 <h2 class="fs-3">Vehículos más populares</h2>
@@ -62,6 +50,28 @@
             </div>
         </div>
     </div>
-
+    <div class="col-12 my-2">
+        <div class="card h-100">
+            <div class="card-header">
+                <h2 class="fs-3">Vehículos más populares</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for vehicle in vehicles %}
+                        <div class="col-12 col-sm-6 mb-3">
+                            <div class="card">
+                                <img src="{{ asset('images/vehicles/hola/' ~ vehicle.brand.name ~ '_' ~ vehicle.model.name ~ '.jpg') }}"
+                                     class="card-img-top img-fluid" alt="{{ vehicle.brand.name }} {{ vehicle.model.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ vehicle.brand.name }}</h5>
+                                    <p class="card-text">{{ vehicle.model.name }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

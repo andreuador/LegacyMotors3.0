@@ -14,33 +14,38 @@ class BackOfficeController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function index(VehicleRepository $vehicleRepository): Response
     {
-
-        // Obtindre tots els vehicles
+        // Obtener todos los vehículos
         $vehicles = $vehicleRepository->findAll();
 
-        // Seleccionar 5 vehicles aleatoriament
+        // Seleccionar 5 vehículos aleatoriamente
         shuffle($vehicles);
-        $randomVehicles = array_slice($vehicles, 0, 5);
+        $randomVehicles = array_slice($vehicles, 0, 2);
 
-        // Contador de les ventes de cada marca
+        // Contador de las ventas de cada marca
         $brandSalesCount = [];
 
-        // Contar les ventes
+        // Contar las ventas
         foreach ($vehicles as $vehicle) {
             $brand = $vehicle->getBrand()->getName();
             if (!isset($brandSalesCount[$brand])) {
                 $brandSalesCount[$brand] = 0;
             }
+            $brandSalesCount[$brand]++;
         }
+
         $totalSales = count($vehicles);
 
-        // Calcular el percentatge de ventes per a cada marca
+        // Calcular el porcentaje de ventas para cada marca
         $brandSalesPercentage = [];
         foreach ($brandSalesCount as $brand => $count) {
             $brandSalesPercentage[$brand] = ($count / $totalSales) * 100;
         }
 
-        $topBrands = array_slice($brandSalesPercentage, 0, 5);
+        // Ordenar las marcas por porcentaje de ventas en orden descendente
+        arsort($brandSalesPercentage);
+
+        // Seleccionar las top 5 marcas
+        $topBrands = array_slice($brandSalesPercentage, 0, 2, true);
 
         return $this->render('back_office/index.html.twig', [
             'vehicles' => $randomVehicles,
