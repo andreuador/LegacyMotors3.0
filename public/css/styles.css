@@ -39,6 +39,11 @@
     color: var(--color-btn-text) !important;
 }
 
+.btn-hover-yellow {
+    background-color: var(--color-hover-bg-yellow) !important;
+    color: var(--color-hover-text-white) !important;
+}
+
 /* Colores de texto personalizados */
 .color-text {
     color: var(--color-btn-text-hover);

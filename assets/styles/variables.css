@@ -5,12 +5,15 @@
 :root {
     --color-bg-primary: #36363B;
     --color-bg-secondary: #FFFFFC;
-    --color-bg-tertiary: #7E8987;
+    --color-bg-tertiary: #5A9367;
     --color-bg-quaternary: #FFC600;
 
     --color-btn-normal: var(--color-bg-tertiary);
     --color-btn-text: var(--color-bg-primary);
     --color-btn-text-hover: var(--color-bg-secondary);
+
+    --color-hover-bg-yellow: var(--color-bg-quaternary); /* amarillo */
+    --color-hover-text-white: var(--color-bg-secondary); /* blanco */
 
     /* Hover */
     --color-btn-normal-hover: var(--color-bg-primary);
