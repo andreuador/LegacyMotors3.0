@@ -1,7 +1,7 @@
 {% set route = app.request.attributes.get('_route') %}
 {% set navbarClass = '' %}
 
-{% if route in ['app_catalogue_index', 'app_login', 'app_register', 'app_details_vehicle', 'app_garage', 'app_payment_details'] %}
+{% if route in ['app_catalogue_index', 'app_login', 'app_register', 'app_details_vehicle', 'app_garage', 'app_payment_details', 'app_profile', 'app_cookies'] %}
     {% set navbarClass = 'bg-primary-lm' %}
 {% else %}
     {% set navbarClass = 'position-absolute z-2' %}
@@ -13,7 +13,7 @@
             <nav class="navbar navbar-expand-lg w-100 font-lm-text bg-primary-lm {{ navbarClass }}">
                 <div class="container">
                     <a class="navbar-brand img-fluid" href="{{ path('app_default') }}"><img
-                                src="{{ asset("images/logo_taronja_sombra.png") }}" width="60px" alt="Legacy Motors"></a>
+                                src="{{ asset("images/logo_blanc.png") }}" width="60px" alt="Legacy Motors"></a>
                     <button class="navbar-toggler bg-secondary-lm" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                         <li>
-                                            <a class="dropdown-item" href="{#{{ path('app_profile') }}#}">Perfil</a>
+                                            <a class="dropdown-item" href="{{ path('app_profile') }}">Perfil</a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{# {{ path('app_reservation') }} #}">Mis

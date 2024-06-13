@@ -1,64 +1,60 @@
-/* Josefin Sans */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
-
-/* Montserrat */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
 * {
-    font-family: 'Montserrat',  sans-serif !important;
+    font-family: var(--font-family-text) !important;
 }
+
+/* Colores de fondo personalizados */
 .bg-primary-lm {
-    background-color: var(--primary-LM-color) !important;
+    background-color: var(--color-bg-primary) !important;
 }
 
 .bg-secondary-lm {
-    background-color: var(--secondary-LM-color) !important;
+    background-color: var(--color-bg-secondary) !important;
 }
 
 .bg-tertiary-lm {
-    background-color: var(--tertiary-LM-color) !important;
+    background-color: var(--color-bg-tertiary) !important;
 }
 
 .bg-quaternary-lm {
-    background-color: var(--quaternary-LM-color) !important;
+    background-color: var(--color-bg-quaternary) !important;
 }
 
+/* Estilos de botones */
 .btn-normal {
-    background-color: var(--btn-normal) !important;
-}
-
-.color-text {
-    color: var(--btn-text-hover);
+    background-color: var(--color-btn-normal) !important;
 }
 
 .btn-normal-hover:hover {
-    background-color: var(--btn-normal-hover) !important;
-    color: var(--btn-text-hover) !important;
+    background-color: var(--color-btn-normal-hover) !important;
+    color: var(--color-btn-text-hover) !important;
 }
 
 .btn-aside-hover:hover {
-    background-color: var(--btn-aside-hover) !important;
-    color: var(--btn-text) !important;
+    background-color: var(--color-btn-aside-hover) !important;
+    color: var(--color-btn-text) !important;
 }
 
 .btn-button-hover:hover {
-    background-color: var(--btn-button-hover) !important;
-    color: var(--btn-text) !important;
+    background-color: var(--color-btn-button-hover) !important;
+    color: var(--color-btn-text) !important;
 }
 
+/* Colores de texto personalizados */
+.color-text {
+    color: var(--color-btn-text-hover);
+}
+
+/* Fuentes personalizadas */
 .font-lm-title {
-    font-family: 'Josefin Sans', sans-serif !important;
+    font-family: var(--font-family-title) !important;
 }
 
 .font-lm-text {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: var(--font-family-text) !important;
 }
 
+/* Imágenes en tarjetas */
 .card-img-top {
     height: 400px !important;
     object-fit: cover !important;
-}
-
-.card {
-    min-height: 500px !important;
 }

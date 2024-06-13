@@ -59,7 +59,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
     {
         return $this->render('reservation/show.html.twig', [

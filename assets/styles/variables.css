@@ -1,24 +1,22 @@
-/* Josefin Sans */
+/* Importación de fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
-
-/* Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 :root {
-    --primary-LM-color: #36363B;
-    --secondary-LM-color: #FFFFFC;
-    --tertiary-LM-color: #E4002B;
-    --quaternary-LM-color: #BEB7A4;
+    --color-bg-primary: #36363B;
+    --color-bg-secondary: #FFFFFC;
+    --color-bg-tertiary: #7E8987;
+    --color-bg-quaternary: #FFC600;
 
-    --btn-normal: var(--tertiary-LM-color);
-    --btn-text: var(--primary-LM-color);
-    --btn-text-hover: var(--secondary-LM-color);
+    --color-btn-normal: var(--color-bg-tertiary);
+    --color-btn-text: var(--color-bg-primary);
+    --color-btn-text-hover: var(--color-bg-secondary);
 
     /* Hover */
-    --btn-normal-hover: var(--primary-LM-color);
-    --btn-aside-hover: var(--tertiary-LM-color);
-    --btn-button-hover: var(--secondary-LM-color);
+    --color-btn-normal-hover: var(--color-bg-primary);
+    --color-btn-aside-hover: var(--color-bg-tertiary);
+    --color-btn-button-hover: var(--color-bg-secondary);
 
-    --title-font-family-lm: "Josefin Sans", sans-serif;
-    --text-font-family-lm: "Montserrat", sans-serif;
+    --font-family-title: "Josefin Sans", sans-serif;
+    --font-family-text: "Montserrat", sans-serif;
 }

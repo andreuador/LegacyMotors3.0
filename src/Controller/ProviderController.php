@@ -59,7 +59,7 @@ class ProviderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_provider_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_provider_show', methods: ['GET'])]
     public function show(Provider $provider): Response
     {
         return $this->render('provider/show.html.twig', [

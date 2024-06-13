@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/details/vehicle')]
 class DetailsVehicleController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_details_vehicle')]
+    #[Route('/{id}/show', name: 'app_details_vehicle')]
     public function index(Vehicle $vehicle): Response
     {
         $reservations = $vehicle->getReservations();

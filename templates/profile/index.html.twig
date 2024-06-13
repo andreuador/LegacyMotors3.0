@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Perfil - {{ customer.name }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-tertiary-lm text-center text-white">
+                        <h2 class="mb-0">Perfil de {{ customer.name }}</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>Nombre:</strong>
+                                <p>{{ customer.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>Apellidos:</strong>
+                                <p>{{ customer.lastname }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>Email:</strong>
+                                <p>{{ customer.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>Móvil:</strong>
+                                <p>{{ customer.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>Dirección:</strong>
+                                <p>{{ customer.address }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <strong>DNI:</strong>
+                                <p>{{ customer.dni }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#editProfileModal">
+                        Editar perfil
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Editar perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% include 'profile/_form.html.twig' with {'form': form} %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

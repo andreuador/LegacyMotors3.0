@@ -1,10 +1,10 @@
 <!-- Cambiar les opcions del header al aside -->
-<header class="container-fluid">
+<header class="container-fluid d-md-block d-lg-none">
     <div class="row">
         <div class="col-12 px-0">
             <nav class="navbar navbar-expand-lg bg-primary-lm font-lm-text">
                 <div class="container-fluid">
-                    <a href="{{ path('app_default') }}" class="navbar-brand img-fluid"><img src="{{ asset("images/logo_taronja_sombra.png") }}" width="60px" alt="Logo"></a>
+                    <a href="{{ path('app_default') }}" class="navbar-brand img-fluid"><img src="{{ asset("images/logo_blanc.png") }}" width="60px" alt="Logo"></a>
                     <button class="navbar-toggler bg-secondary-lm" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -41,13 +41,13 @@
                                    href="{{ path('app_provider_index') }}"><i class="bi bi-truck"></i> Proveedores</a>
                             </li>
                         </ul>
-                        <div class="d-flex">
+<!--                        <div class="d-flex">
                             {% if app.user %}
                                 <a class="btn bg-secondary-lm btn-aside-hover mx-2" href="{{ path('app_logout') }}">Logout</a>
                             {% else %}
                                 <a class="btn bg-quaternary-lm btn-button-hover me-2" href="{{ path('app_login') }}">Login</a>
                             {% endif %}
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </nav>

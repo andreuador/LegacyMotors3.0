@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Legacy Motors{% endblock %}</title>
-    <link rel="icon" href="{{ asset('images/logo7.png') }}">
+    <link rel="icon" href="{{ asset('images/logo_blanc.png') }}">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -15,11 +15,11 @@
 </head>
 <body>
 {% include '_header_back.html.twig' %}
-<main class="container-fluid">
+<main class="container-fluid flex-grow-1">
         <div class="row">
             {% include '_aside_back.html.twig' %}
             {# <aside class="col-sm-2" {{ vue_component('AsideBack_component') }}></aside>#}
-            <section class="col-lg-10 col-md-12">
+            <section class="col-lg-10 col-md-12 my-3">
                 {% block body %}
                 {% endblock %}
             </section>

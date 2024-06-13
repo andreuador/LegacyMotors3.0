@@ -79,7 +79,7 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_customer_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_customer_show', methods: ['GET'])]
     public function show(Customer $customer): Response
     {
         return $this->render('customer/show.html.twig', [

@@ -30,11 +30,10 @@
                 <h3 class="my-4">
                     Total: {{ totalPrice | number_format(2, ',', '.') }}€
                 </h3>
-                <a href="{{ path('app_catalogue_index') }}" class="btn btn-primary mx-2 font-lm-text">Volver al catálogo</a>
                 <button type="button" class="btn btn-primary font-lm-text" data-bs-toggle="modal" data-bs-target="#paymentModal">
-                    Añadir tarjeta
+                    <i class="bi bi-credit-card"></i> Añadir tarjeta
                 </button>
-                <a href="{{ path('app_garage_checkout') }}" class="btn btn-primary mx-2 font-lm-text">Realizar reserva</a>
+                <a href="{{ path('app_garage_checkout') }}" class="btn bg-tertiary-lm btn-normal-hover mx-2 font-lm-text"><i class="bi bi-cart-check"></i> Reserva</a>
             </div>
         {% else %}
             <p>No hay vehículos en tu carrito.</p>
