@@ -7,7 +7,7 @@
 :root {
     --primary-LM-color: #36363B;
     --secondary-LM-color: #FFFFFC;
-    --tertiary-LM-color: #FF8000;
+    --tertiary-LM-color: #E4002B;
     --quaternary-LM-color: #BEB7A4;
 
     --btn-normal: var(--tertiary-LM-color);
