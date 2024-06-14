@@ -28,8 +28,8 @@
                 <th class="bg-tertiary-lm">Vehículo</th>
                 <th class="bg-tertiary-lm">Fecha inicio</th>
                 <th class="bg-tertiary-lm">Fecha fin</th>
-                <th class="bg-tertiary-lm">Precio</th>
-                <th class="bg-tertiary-lm">Pago</th>
+                <th class="bg-tertiary-lm">Estado</th>
+                <th class="bg-tertiary-lm">Precio / Pago</th>
                 <th class="bg-tertiary-lm">Acciones</th>
             </tr>
             </thead>
@@ -46,12 +46,17 @@
                     </td>
                     <td>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</td>
                     <td>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ reservation.totalPrice }} €</td>
-                    <td>{{ payment ? payment.paymentMethod : 'Cancelada' }}</td>
+                    <td>{{ reservation.status }}</td>
+                    {% if reservation.status != 'Cancelada' %}
+                        <td>{{ reservation.totalPrice }} € / {{ payment ? payment.paymentMethod : 'N/A' }}</td>
+                    {% else %}
+                        <td>Cancelado</td>
+                    {% endif %}
                     <td>
                         <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-primary"><i
                                     class="bi bi-eye-fill"></i></a>
-                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-secondary"><i
+                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
+                           class="btn btn-secondary"><i
                                     class="bi bi-pencil-fill"></i></a>
                         <button class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#deleteModal{{ reservation.id }}">
@@ -66,21 +71,24 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="deleteModalLabel{{ reservation.id }}">Eliminar</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 ¿Estás seguro de que quieres eliminar esta reserva?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}" class="btn btn-danger">Eliminar</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                                   class="btn btn-danger">Eliminar</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% else %}
                 <tr>
-                    <td colspan="5">No se han encontrado resultados</td>
+                    <td colspan="9">No se han encontrado resultados</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -119,15 +127,17 @@
                             <h5 class="font-lm-title">Fecha fin</h5>
                             <p class="font-lm-text">{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</p>
                         </div>
-                        <div class="flex-grow-1">
-                            <h5 class="font-lm-title">Precio</h5>
-                            <p class="font-lm-text">{{ reservation.totalPrice }} €</p>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="font-lm-title">Pago</h5>
-                            <p class="font-lm-text">{{ payment ? payment.paymentMethod : 'Cancelada' }}</p>
-                        </div>
-
+                        {% if reservation.status != 'Cancelada' %}
+                            <div class="flex-grow-1">
+                                <h5 class="font-lm-title">Precio / Pago</h5>
+                                <p class="font-lm-text">{{ reservation.totalPrice }} € / {{ payment ? payment.paymentMethod : 'N/A' }}</p>
+                            </div>
+                        {% else %}
+                            <div class="flex-grow-1">
+                                <h5 class="font-lm-title">Precio / Pago</h5>
+                                <p class="font-lm-text">Cancelado</p>
+                            </div>
+                        {% endif %}
                         <div class="flex-grow-1">
                             <h5 class="font-lm-title">Acciones</h5>
                             <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}"
@@ -156,7 +166,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}" class="btn btn-danger">Eliminar</a>
+                            <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                               class="btn btn-danger">Eliminar</a>
                         </div>
                     </div>
                 </div>
