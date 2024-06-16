@@ -15,6 +15,8 @@ import '@popperjs/core';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
+window.bootstrap = require('bootstrap');
+
 /*
 import { registerVueControllerComponents } from '@symfony/ux-vue';
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));*/

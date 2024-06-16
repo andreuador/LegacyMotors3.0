@@ -61,7 +61,7 @@ class DetailsVehicleController extends AbstractController
         $selectedDate = $request->request->get('date');
 
         if (!$selectedDate) {
-            $this->addFlash('error', 'No se ha seleccionado ninguna fecha.');
+            $this->addFlash('warning', 'No se ha seleccionado ninguna fecha.');
             return $this->redirectToRoute('app_details_vehicle', ['id' => $id]);
         }
 

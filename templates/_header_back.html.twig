@@ -41,13 +41,17 @@
                                    href="{{ path('app_provider_index') }}"><i class="bi bi-truck"></i> Proveedores</a>
                             </li>
                         </ul>
-<!--                        <div class="d-flex">
+                        <hr class="mt-auto text-white">
+                        <div class="dropdown d-flex justify-content-start align-items-center pb-4">
                             {% if app.user %}
-                                <a class="btn bg-secondary-lm btn-aside-hover mx-2" href="{{ path('app_logout') }}">Logout</a>
-                            {% else %}
-                                <a class="btn bg-quaternary-lm btn-button-hover me-2" href="{{ path('app_login') }}">Login</a>
+                                <button class="btn text-white dropdown-toggle" type="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-gear fs-5"></i> {{ app.user.username }}
+                                </button>
+                                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+                                </ul>
                             {% endif %}
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </nav>
