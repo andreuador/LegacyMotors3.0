@@ -3,7 +3,6 @@
 {% block title %}Inicio{% endblock %}
 
 {% block body %}
-
     <div class="container-fluid position-relative">
         <img src="{{ asset('images/image.png') }}"
              class="img-fluid position-absolute z-1 top-50 start-50 translate-middle" alt="Legacy Motors">
@@ -50,7 +49,8 @@
                     Explora la potencia del Ford Mustang. Con su diseño icónico y motor de alto rendimiento, este coche
                     te llevará a nuevas aventuras con estilo y velocidad.</p>
                 <p>
-                    <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_catalogue_index') }}" role="button">Más detalles</a>
+                    <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_catalogue_index') }}"
+                       role="button">Más detalles</a>
                 </p>
             </div>
             <div class="col-lg-4 text-center">
@@ -61,14 +61,17 @@
                     Descubre la emoción del Chevrolet Camaro. Con su impresionante aceleración y maniobrabilidad, este
                     coche deportivo es perfecto para los entusiastas de la velocidad.</p>
                 <p>
-                    <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_catalogue_index') }}" role="button">Más detalles</a>
+                    <a class="btn bg-quaternary-lm btn-normal-hover" href="{{ path('app_catalogue_index') }}"
+                       role="button">Más detalles</a>
                 </p>
             </div>
             <div class="col-lg-4 text-center">
-                <img src="{{ asset('images/vehicles/hola/dodgeChallenger-min.jpg') }}" class="rounded-5 w-75 mx-auto d-block img-fluid"
+                <img src="{{ asset('images/vehicles/hola/dodgeChallenger-min.jpg') }}"
+                     class="rounded-5 w-75 mx-auto d-block img-fluid"
                      alt="Car Image">
                 <h2 class="font-lm-title mt-4">Dodge Challenger</h2>
-                <p class="font-lm-text">Vive la potencia bruta del Dodge Challenger. Con su motor V8 y diseño robusto, este coche ofrece una
+                <p class="font-lm-text">Vive la potencia bruta del Dodge Challenger. Con su motor V8 y diseño robusto,
+                    este coche ofrece una
                     experiencia de conducción inigualable para los amantes de la adrenalina.</p>
                 <p>
                     <a class="btn bg-quaternary-lm btn-normal-hover" href="#" role="button">Más detalles</a>
@@ -125,4 +128,73 @@
             <hr class="my-3">
         </div>
     </div>
+
+    <!-- Modal HTML structure -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="welcomeModalLabel">Uso de cookies</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio
+                        web.
+                    </p>
+                    <p>Para más información, visita nuestra <a href="{{ path('app_cookies') }}">política de cookies</a>.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-tertiary-lm" data-bs-dismiss="modal" id="acceptCookies">Aceptar
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="denyCookies">Denegar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle cookies
+        document.addEventListener('DOMContentLoaded', function () {
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                let nameEQ = name + "=";
+                let ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function checkCookie() {
+                let userAccepted = getCookie("userAcceptedCookies");
+                if (!userAccepted) {
+                    let welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {});
+                    welcomeModal.show();
+                }
+            }
+
+            document.getElementById('acceptCookies').addEventListener('click', function () {
+                setCookie("userAcceptedCookies", "true", 30);
+            });
+
+            document.getElementById('denyCookies').addEventListener('click', function () {
+                setCookie('userDeniedCookies', 'false', 30);
+            });
+
+            checkCookie();
+        });
+    </script>
 {% endblock %}
