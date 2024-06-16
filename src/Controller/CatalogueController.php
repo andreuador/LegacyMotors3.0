@@ -39,7 +39,8 @@ class CatalogueController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_catalogue_add_vehicle', methods: ['GET', 'POST'])]
-    public function new($id, Request $request, EntityManagerInterface $entityManager, VehicleRepository $vehicleRepository): Response {
+    public function new($id, Request $request, EntityManagerInterface $entityManager, VehicleRepository $vehicleRepository): Response
+    {
         // Obtener el usuario logeado
         $login = $this->getUser();
 
@@ -49,6 +50,12 @@ class CatalogueController extends AbstractController
                 "Debes iniciar sesión o registrarte para poder hacer una reserva."
             );
             return $this->redirectToRoute('app_login');
+        }
+
+        // Verificar si el usuario es administrador
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('warning', 'Los administradores no pueden realizar reservas.');
+            return $this->redirectToRoute('app_details_vehicle', ['id' => $id]);
         }
 
         $customer = $login->getCustomer();
@@ -79,7 +86,6 @@ class CatalogueController extends AbstractController
             $vehicle->addReservation($reservation);
 
             $entityManager->persist($vehicle);
-            $entityManager->flush();
             $entityManager->flush();
 
             $this->addFlash(
